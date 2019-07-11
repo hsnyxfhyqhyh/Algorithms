@@ -1,5 +1,8 @@
 package com.ying.algorithm.sorting.insert01;
 
+/*
+ * Playing Ground. 
+ */
 public class InsertSortingDemoPractice {
 
 	public static void main(String[] args) {
@@ -7,19 +10,7 @@ public class InsertSortingDemoPractice {
 		
 		int length = data.length; 
 		
-		for (int k= 1; k < length; k++) {
-			char cur = data[k]; 
-			
-			int j=k; 
-			
-			while (j>0 && data[j] < data[j-1]) {
-				data[j] = data[j-1]; 
-				j--; 
-			}
-			
-			data [k] = cur; 
-			
-		}
+		//TODO: sorting logic should go below. 
 		
 		System.out.println(data);
 
