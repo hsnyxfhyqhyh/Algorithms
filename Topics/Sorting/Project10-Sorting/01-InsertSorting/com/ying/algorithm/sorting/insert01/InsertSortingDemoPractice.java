@@ -1,7 +1,11 @@
 package com.ying.algorithm.sorting.insert01;
 
 /*
+<<<<<<< Upstream, based on origin/master
  * Playing Ground. 
+=======
+ * Playing Ground. Fill the sorting logic below. 
+>>>>>>> 48f374a check in the practice template.
  */
 public class InsertSortingDemoPractice {
 
