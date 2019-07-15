@@ -4,7 +4,7 @@ public class BubbleSortDemoPractice {
 	public static void main(String args[]) {
 
 		int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
-		int length = arr.length;
+		int n = arr.length;
 		
 		//TODO 
 	
