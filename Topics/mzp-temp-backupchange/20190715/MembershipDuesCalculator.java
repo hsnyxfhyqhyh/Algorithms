@@ -139,6 +139,35 @@ public class MembershipDuesCalculator {
 		return baseDues;		
 	}
 	
+	/**
+	 * Will attempt to calculate dues for all membership coverage levels.
+	 * @param zipCode
+	 * @param associateCount
+	 * @param marketCode
+	 */
+	public BaseMembershipDues CalculateUpgradeDuesSC(String membershipNumber, int newAssociateCount, String marketCode, String source){
+		
+		BaseMembershipDues baseDues = null;
+		
+		String DEBUG_MODULE = "SOA_CalculateUpgradeDuesSC_" + Calendar.getInstance().getTimeInMillis() +"";
+		MembershipUtilBP mubp = MembershipUtilBP.getInstance();
+		
+		try {
+			
+			mubp.debug(DEBUG_MODULE, "Get upgrade dues: mbs# - " + membershipNumber
+					+ " | marketCode - " + marketCode, true);
+			
+			MembershipDuesCalculatorBP bp = (MembershipDuesCalculatorBP) BPF.get(User.getGenericUser(), MembershipDuesCalculatorBP.class);
+			baseDues = bp.CalculateUpgradeDuesSC(membershipNumber, newAssociateCount, marketCode, source); 
+//			MembershipServiceBP bp = (MembershipServiceBP) BPF.get(User.getGenericUser(), MembershipServiceBP.class);
+//			baseDues = bp.CalculateUpgradeDues(membershipNumber, marketCode, source);
+			
+		} catch (Exception e) {
+			log.error("", e);
+		}
+		
+		return baseDues;		
+	}
 	
 	/**
 	 * Will attempt to get rules/details of a specific market code

@@ -81,7 +81,7 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
 	private  	CostData[]						origCdArray				= null;
 	private 	User							user					= null;
 //	private		boolean							prorate					= false;
-	private		Collection<MemberDues>			colMdues				= new ArrayList<MemberDues>();
+	private		Collection<MemberDues>			colMdues				= null;
 	private 	String							covLvlDescr				= "";
 	private		SortedSet<CoverageLevel>		coverageLevels  		= null;
 	Collection<Discount> 						discounts 				= null;
@@ -125,27 +125,29 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
 		)
 	{
 		MembershipDues dues = null;		
-		MembershipServiceValidationBP msvBP = (MembershipServiceValidationBP)BPF.get(user, MembershipServiceValidationBP.class);
 		
 		try {
 			//validate input and initialize stuff
 			validateAndInitializeCalculateDues(zipCode, associateCount, coverageLevel, marketCode, membershipNumber); 
 			
-			int totalFutureNoncancelledAMCount = membership.getCurrentMemberList().size() - 1;	//non-primary non-cancelled members, of existing membership 
+			//non-primary non-cancelled members, of existing membership
+			int totalFutureNoncancelledAMCount = membership.getCurrentMemberList().size() - 1;	 
 			
 			if(associateCount > 0) //==> implies more associates needs to be added to the membership
 			{
 				totalFutureNoncancelledAMCount = totalFutureNoncancelledAMCount + associateCount;
 			}
 				
-			calculateMembershipDuesSC(zipCode, totalFutureNoncancelledAMCount, marketCode);
+			calculateMembershipDuesSC(zipCode, totalFutureNoncancelledAMCount, marketCode, covLevCd);
 			
 			ArrayList <DuesDiscountItem> discountItems = new ArrayList<DuesDiscountItem>();
 			
+			setDiscounts(marketCode); 
 			if (discounts != null) {
 				for (Discount d : discounts) {
 					if (d.getAppliesTo()!=null && d.getAppliesTo().equalsIgnoreCase("MBS")) {
-						discountItems.add(new DuesDiscountItem(d.getDiscountCd(), d.getName(), d.getAmount(), d.getAppliesTo(), d.getPercentFl()));
+						discountItems.add(new DuesDiscountItem(d.getDiscountCd(), d.getName(), d.getAmount(), 
+																d.getAppliesTo(), d.getPercentFl()));
 					}
 				}
 			}
@@ -169,96 +171,52 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
 	}
 	
 	
-	public BaseMembershipDues CalculateUpgradeDues (String fullMembershipID, String marketCode, String source) {
-		/*
-		 String zipCode, 
-			int associateCount,		//brand new associate requested. 
-			String coverageLevel, 
-			String marketCode, 
-			String[] requestDiscounts, 
-			String membershipNumber
-		 */
-		//validation of fullMembershipID
+	public BaseMembershipDues CalculateUpgradeDuesSC (
+				String fullMembershipID, int newAssociateCount,	
+				String marketCode, String source) 
+	{
 		BaseMembershipDues baseDues = null;
-		Membership membership = null;
-		
-		//validate membership id 
-		if ( fullMembershipID.length() != 16)
-		{						
-			return new BaseMembershipDues("membership ID needs to be 16 digits long", "1" );	
-		}
-		else
-		{
-			String mbrID = fullMembershipID.substring(6,13);
-			try
-			{
-				membership = new Membership(user, mbrID);
-			}
-			catch (Exception ex)
-			{
-				return new BaseMembershipDues("invalid membership ID ", "1" );	
-			}					
-		}
+		String s = ""; //Membership membership = null;
 		
 		try {
-			//validate marketCode
-//			if(StringUtils.blanknull(marketCode).equals("")){
-//				marketCode = getSetting("defaultMarketCode");
-//			}			
-
-			MaintenanceBP bpMaint = (MaintenanceBP) BPF.get(user, MaintenanceBP.class);
-			if (bpMaint.getDoNotRenew(membership)){
-				return new BaseMembershipDues("Future cancel membership can't be upgraded.", "1");	
-			}
+			//validation
+			validateAndInitializeCalculateUpgradeDues(marketCode, fullMembershipID); 
 			
-			String billingCategoryCd = membershipUtilBP.getBillingCdByMarketCd(marketCode);
 			String zipCode = membership.getZip();
 			
-			BigDecimal branchKy = membershipUtilBP.getBranchKy(zipCode);
-			String regionCd = membershipUtilBP.getRegionCd(zipCode);
-			BigDecimal divisionKy = membershipUtilBP.getDivisionKy(zipCode);
-			//Prakash - 07/20/2018 - Dues By State - Start
-			String state = membershipUtilBP.getDuesState(zipCode);
-			//Prakash - 07/20/2018 - Dues By State - End
+			int existingAssociateCount = membership.getNonCancelledMemberList().size() - 1;
+			int totalFutureNoncancelledAMCount = newAssociateCount + existingAssociateCount; 
 			
-			ArrayList<String> coverages = getUpgradeableCoverages(membership.getCoverageLevelCd(), source);
-			
-			int activeAssocCount = membership.getNonCancelledMemberList().size();
-			if(activeAssocCount ==0)
-			{
-				return new BaseMembershipDues("There are no active members on this membership", "1");
-			}
-			int existingAssociateCount = activeAssocCount-1;
-			
-			Collection<Discount> mkDiscounts = null;
+			//Collection<Discount> mkDiscounts = null;
 			ArrayList <DuesDiscountItem> discountItems = new ArrayList<DuesDiscountItem>();
-			boolean isDiscountInitialized = false; 
 			
-			MembershipDuesCalculatorUtil mcu = new MembershipDuesCalculatorUtil(user);
-			Collection<MembershipDues> dues = new ArrayList<MembershipDues>();	
-			for(int i=0; i<coverages.size(); i++){			
-				String cov = coverages.get(i);
-				String covText = membershipUtilBP.getCoverageByMZPType(cov);		
-				//Prakash - 07/20/2018 - Dues By State - Start
-				mkDiscounts = mcu.CalculateMembershipDues(zipCode, existingAssociateCount, cov, marketCode, billingCategoryCd, branchKy, divisionKy, regionCd, membership, state);
-				//Prakash - 07/20/2018 - Dues By State - End
-				
-				//since discounts are tied to market code, it should be initialzed once no matter coverage levels.
-				if (!isDiscountInitialized) {
-					isDiscountInitialized = true;
-					if (mkDiscounts != null) {
-						for (Discount d : mkDiscounts) {
-							if (d.getAppliesTo()!=null && d.getAppliesTo().equalsIgnoreCase("MBS")) {
-								discountItems.add(new DuesDiscountItem(d.getDiscountCd(), d.getName(), d.getAmount(), d.getAppliesTo(), d.getPercentFl()));
-							}
-						}
+			setDiscounts(marketCode);
+			if (discounts != null) {
+				for (Discount d : discounts) {
+					if (d.getAppliesTo()!=null && d.getAppliesTo().equalsIgnoreCase("MBS")) {
+						discountItems.add(new DuesDiscountItem(d.getDiscountCd(), d.getName(), d.getAmount(), 
+																d.getAppliesTo(), d.getPercentFl()));
 					}
 				}
+			}
+			
+			ArrayList<Donation> donations = getDonations();
+			
+//			MembershipDuesCalculatorUtil mcu1 = new MembershipDuesCalculatorUtil(user);
+			
+			Collection<MembershipDues> dues = new ArrayList<MembershipDues>();
+			
+			//get each possible upgradeable coverages, do calculate 
+			for(String cov: getUpgradeableCoverages(membership.getCoverageLevelCd(), source)){			
+				String covText = membershipUtilBP.getCoverageByMZPType(cov);		
 				
-				int newAssociateCount = 0;
-				ArrayList<Donation> donations = mcu.getDonations();
+				//reset memberDues
+				colMdues = new ArrayList<MemberDues>();
 				
-				dues.add(new MembershipDues(zipCode, newAssociateCount, covText, marketCode, mcu.getMemberDues(), "0.00", membership.getPaymentAt().toString(), discountItems, donations, false));			
+				calculateMembershipDuesSC(zipCode, totalFutureNoncancelledAMCount, marketCode, cov);
+				
+				dues.add(new MembershipDues(zipCode, newAssociateCount, covText, marketCode, colMdues, "0.00", 
+								membership.getPaymentAt().toString(), discountItems, donations, false));			
 			}
 			
 			baseDues = new BaseMembershipDues(dues);
@@ -313,15 +271,39 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
     }
     
     
-    private boolean validateAndInitializeCalculateUpgradeDues(String zipCode, int addNewAssociateCount, String coverageLevel, 
-			String marketCode, String membershipNumber) throws WebServiceException{
+    private boolean validateAndInitializeCalculateUpgradeDues(String marketCode, String fullMembershipID) throws WebServiceException{
+    	
     	boolean result = false;
     	String 	errMsg 	= ""; 
     	
     	try {
     		
-    	//} catch (Exception e) {
-    	//	throw new WebServiceException(e.getMessage()) ; 
+    		if ( fullMembershipID.length() != 16) {
+    			throw new WebServiceException("membership ID needs to be 16 digits long");
+    		} else {
+    			errMsg = "invalid membership ID";
+    			String mbrID = fullMembershipID.substring(6,13);
+   				membership = new Membership(user, mbrID);
+   				
+   				String zipCode = membership.getZip();
+   				
+   				billingCategoryCd = membershipUtilBP.getBillingCdByMarketCd(marketCode);
+   				branchKy = membershipUtilBP.getBranchKy(zipCode);
+   				regionCd = membershipUtilBP.getRegionCd(zipCode);
+   				divisionKy = membershipUtilBP.getDivisionKy(zipCode);
+    		}
+    		
+    		MaintenanceBP bpMaint = (MaintenanceBP) BPF.get(user, MaintenanceBP.class);
+			if (bpMaint.getDoNotRenew(membership)){
+				throw new WebServiceException("Future cancel membership can't be upgraded");
+			}
+			
+			if(membership.getNonCancelledMemberList().size() == 0) {
+				throw new WebServiceException("There are no active members on this membership");
+			}
+			
+    	} catch (WebServiceException e) {
+    		throw new WebServiceException(e.getMessage()) ; 
     	} catch (Exception e) {
     		if (nvl(errMsg).equals("")) {
     			errMsg = e.getMessage(); 
@@ -459,7 +441,7 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
     	}
     }
 	
-	public void calculateMembershipDuesSC(String zip, int totalFutureNoncancelledAMCount, String marketCode)
+	public void calculateMembershipDuesSC(String zip, int totalFutureNoncancelledAMCount, String marketCode, String coverageLeverCd)
 	{
 		String commissionCd = "N";
 		ValueHashMap _origHashMap = new ValueHashMap();
@@ -468,7 +450,7 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
 		String primBSRdrStatus = "P";
 		boolean isExisting  = true;
 		Timestamp passExpiration = null;
-		String covLevCdUpperCase = covLevCd.toUpperCase(); 
+		String covLevCdUpperCase = coverageLeverCd.toUpperCase(); 
 		
 		String state = membership.getDuesState();
 		
@@ -484,7 +466,6 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
 					Member curMember = iter.next();
 					curMember.setSolicitationCd(marketCode);
 				}
-				discounts = getDiscount(marketCode, null);
 			}
 						
 			SortedSet<Rider> mbsRiders = membership.getPrimaryMember().getRiderList();
@@ -532,6 +513,17 @@ public class MembershipDuesCalculatorBP extends BusinessProcess {
 			
 		} catch (Exception e) {
 			log.error("Error initializing membership in CalculateMembershipDues", e);
+		}
+	}
+	
+	private void setDiscounts(String marketCode) { 
+		try {
+			//set market code to the members in memory for dues calculation
+			if (!nvl(marketCode).equals("")){ 
+				discounts = getDiscount(marketCode, null);
+			}
+		} catch (Exception e) {
+			
 		}
 	}
 	
