@@ -5,5 +5,6 @@
 	<classpathentry kind="src" path="01-InsertSorting"/>
 	<classpathentry kind="src" path="02-selectionSort"/>
 	<classpathentry kind="src" path="03-bubbleSort"/>
+	<classpathentry kind="src" path="04-quickSort"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
