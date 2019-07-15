@@ -1,0 +1,412 @@
+<deployment xmlns="http://xml.apache.org/axis/wsdd/"
+            xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+	
+	 <service name="MembershipUtility" provider="java:RPC" style="wrapped" use="literal">
+	 	<namespace>http://aaa.midatlantic.membership.services.utility</namespace>
+		<parameter name="className" value="com.aaa.soa.services.MembershipUtility"/>
+		<parameter name="allowedMethods" value="*"/>
+		
+		<beanMapping qname="ns:Password" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.Password"/>
+		<beanMapping qname="ns:CustomerID" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.CustomerID"/>
+		<beanMapping qname="ns:SimpleDropDown" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleDropDown"/>				  	
+		<beanMapping qname="ns:WebServiceResponseBase" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.WebServiceResponseBase"/>	 
+
+		<beanMapping qname="ns:UserGroup" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.UserGroup"/>
+
+		<beanMapping qname="ns:MzpAuthenticateRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MzpAuthenticateRequest"/>
+		<beanMapping qname="ns:MzpAuthenticateResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MzpAuthenticateResponse"/>	
+		 	
+		<beanMapping qname="ns:MzpResetPasswordRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MzpResetPasswordRequest"/>
+		<beanMapping qname="ns:MzpResetPasswordResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MzpResetPasswordResponse"/>	
+			
+		<beanMapping qname="ns:GetBlowFishEncryptedCookieValuesRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetBlowFishEncryptedCookieValuesRequest"/>    
+        <beanMapping qname="ns:GetBlowFishEncryptedCookieValuesResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetBlowFishEncryptedCookieValuesResponse"/>
+            
+        <beanMapping qname="ns:EncryptValueByBlowFishRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EncryptValueByBlowFishRequest"/>            
+        <beanMapping qname="ns:EncryptValueByBlowFishResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EncryptValueByBlowFishResponse"/>
+            
+        <beanMapping qname="ns:DecryptValueByPosRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.DecryptValueByPosRequest"/>            
+        <beanMapping qname="ns:DecryptValueByPosResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.DecryptValueByPosResponse"/>    	 	
+            
+		<beanMapping qname="ns:IsDuplicateEmailResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateEmailResponse"/>            
+		 <beanMapping qname="ns:IsDuplicateEmailRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateEmailRequest"/>
+
+		<beanMapping qname="ns:DropDownListRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DropDownListRequest"/>	
+		<beanMapping qname="ns:DropDownListResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DropDownListResponse"/>            
+	</service> 
+  
+	 <service name="MembershipDuesCalculator" provider="java:RPC" style="wrapped" use="literal">
+	 	<namespace>http://aaa.midatlantic.membership.services</namespace>
+		<parameter name="className" value="com.aaa.soa.services.MembershipDuesCalculator"/>
+		<parameter name="allowedMethods" value="*"/>
+		<beanMapping qname="ns:MembershipDues" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.MembershipDues"/>
+		<beanMapping qname="ns:BaseMembershipDues" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.BaseMembershipDues"/>		 	
+		<beanMapping qname="ns:DuesCostItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DuesCostItem"/>
+		<beanMapping qname="ns:DuesDiscountItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DuesDiscountItem"/>			
+		<beanMapping qname="ns:MemberDues" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MemberDues"/>
+		<beanMapping qname="ns:MarketCode" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MarketCode"/>			
+		<beanMapping qname="ns:WebServiceResponseBase" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.WebServiceResponseBase"/>
+		<beanMapping qname="ns:InstallmentPaymentPlanDuesResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.InstallmentPaymentPlanDuesResponse"/>			
+		<beanMapping qname="ns:InstallmentPaymentPlanDuesRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.InstallmentPaymentPlanDuesRequest"/>
+		<beanMapping qname="ns:MembershipInstallmentPaymentPlanRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipInstallmentPaymentPlanRequest"/>			
+		<beanMapping qname="ns:MembershipInstallmentPaymentPlanResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.MembershipInstallmentPaymentPlanResponse"/>
+		<beanMapping qname="ns:InstallmentPayItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.InstallmentPayItem"/>									  	
+		<beanMapping qname="ns:InstallmentPayPlanItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.InstallmentPayPlanItem"/>
+	</service>
+	
+	<service name="MembershipServiceLSM" provider="java:RPC" style="wrapped" use="literal">
+	 	<namespace>http://aaa.midatlantic.membership.services</namespace>
+		<parameter name="className" value="com.aaa.soa.services.MembershipServiceLSM"/>
+		<parameter name="allowedMethods" value="*"/>
+		<beanMapping qname="ns:MembershipSimpleOperationRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipSimpleOperationRequest"/>	
+		<beanMapping qname="ns:MembershipSimpleOperationResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipSimpleOperationResponse"/>	 	
+			
+		<beanMapping qname="ns:Address" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.Address"/>
+		<beanMapping qname="ns:SimpleMembershipNumber" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleMembershipNumber"/>
+		<beanMapping qname="ns:Name" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.Name"/>
+		<beanMapping qname="ns:Phone" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.Phone"/>
+		<beanMapping qname="ns:SimpleAssociateMember" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleAssociateMember"/>
+		<beanMapping qname="ns:SimplePrimaryMember" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimplePrimaryMember"/>
+		<beanMapping qname="ns:SimpleDonor" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleDonor"/>
+		<beanMapping qname="ns:SimpleMember" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleMember"/>
+		<beanMapping qname="ns:SimpleMembership" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleMembership"/>						
+		<beanMapping qname="ns:PaymentParameters" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.PaymentParameters"/>
+		<beanMapping qname="ns:CreditCard" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.CreditCard"/>
+		<beanMapping qname="ns:ElectronicCheck" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.ElectronicCheck"/>
+		<beanMapping qname="ns:ValidationError" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.ValidationError"/>
+		<beanMapping qname="ns:PaymentSummary" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipPaymentSummary"/>
+	    <beanMapping qname="ns:PayableComponent" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.PayableComponent"/>
+        <beanMapping qname="ns:Rider" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Rider"/>
+	    <beanMapping qname="ns:Donation" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Donation"/>
+        <beanMapping qname="ns:Fee" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Fee"/>
+        <beanMapping qname="ns:Code" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Code"/>
+        <beanMapping qname="ns:MemberComponentDues" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.MemberComponentDues"/> 
+        <beanMapping qname="ns:MembershipComponentDues" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.MembershipComponentDues"/> 						
+													
+		<beanMapping qname="ns:WebServiceResponseBase" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.WebServiceResponseBase"/>		
+	</service>
+
+	 <service name="MembershipManagement" provider="java:RPC" style="wrapped" use="literal">
+	 	<namespace>http://aaa.midatlantic.membership.services.membershipmanagement</namespace>
+		<parameter name="className" value="com.aaa.soa.services.MembershipService"/>
+		<parameter name="allowedMethods" value="*"/>
+		
+		
+		<beanMapping qname="ns:IsDuplicateDonorRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateDonorRequest"/>
+        <beanMapping qname="ns:IsDuplicateDonorResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateDonorResponse"/>
+            
+        <beanMapping qname="ns:GetDonorDetailRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetDonorDetailRequest"/>
+        <beanMapping qname="ns:GetDonorDetailResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetDonorDetailResponse"/>
+            
+        <beanMapping qname="ns:Donor" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.Donor"/>
+        
+        <beanMapping qname="ns:ApplyDonorPaymentRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.ApplyDonorPaymentRequest"/>
+        <beanMapping qname="ns:ApplyDonorPaymentResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.ApplyDonorPaymentResponse"/>
+            
+            
+        <beanMapping qname="ns:EnrollDonorMembershipInARRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EnrollDonorMembershipInARRequest"/>
+        <beanMapping qname="ns:EnrollDonorMembershipInARResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EnrollDonorMembershipInARResponse"/>
+            
+        <beanMapping qname="ns:RemoveDonorRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RemoveDonorRequest"/>
+        <beanMapping qname="ns:RemoveDonorResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RemoveDonorResponse"/>
+            
+        <beanMapping qname="ns:DonorPaymentItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.DonorPaymentItem"/>
+		 	    
+		<beanMapping qname="ns:UpdateMembershipPrimaryPhoneRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMembershipPrimaryPhoneRequest"/>
+        <beanMapping qname="ns:UpdateMembershipPrimaryPhoneResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMembershipPrimaryPhoneResponse"/>
+            
+		<beanMapping qname="ns:UpdateMemberEmailRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMemberEmailRequest"/>
+        <beanMapping qname="ns:UpdateMemberEmailResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMemberEmailResponse"/>
+        
+        <beanMapping qname="ns:IsDuplicateEmailRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateEmailRequest"/>
+            
+        <beanMapping qname="ns:IsDuplicateEmailExcludeMembershipRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateEmailExcludeMembershipRequest"/>
+            
+        <beanMapping qname="ns:GetBlowFishEncryptedCookieValuesRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetBlowFishEncryptedCookieValuesRequest"/>    
+        
+        <beanMapping qname="ns:GetBlowFishEncryptedCookieValuesResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetBlowFishEncryptedCookieValuesResponse"/>
+            
+        <beanMapping qname="ns:EncryptValueByBlowFishRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EncryptValueByBlowFishRequest"/>    
+        
+        <beanMapping qname="ns:EncryptValueByBlowFishResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EncryptValueByBlowFishResponse"/>
+            
+        <beanMapping qname="ns:IsDuplicateEmailResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateEmailResponse"/>
+        
+        <beanMapping qname="ns:UpdateMemberNameRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMemberNameRequest"/>
+        <beanMapping qname="ns:UpdateMemberNameResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMemberNameResponse"/>
+        
+        <beanMapping qname="ns:UpdateMembershipHomeAddressRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMembershipHomeAddressRequest"/>
+        <beanMapping qname="ns:UpdateMembershipHomeAddressResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.UpdateMembershipHomeAddressResponse"/>
+            
+		<beanMapping qname="ns:MembershipEnrollRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipEnrollRequest"/>
+		<beanMapping qname="ns:MembershipEnrollResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipEnrollResponse"/>
+			
+		<beanMapping qname="ns:MembershipSaveMembershipRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipSaveMembershipRequest"/>
+		<beanMapping qname="ns:MembershipSaveMembershipResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipSaveMembershipResponse"/>
+			
+		<beanMapping qname="ns:MembershipUpdateMemberRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipUpdateMemberRequest"/>
+		<beanMapping qname="ns:MembershipUpdateMemberByMRMIdRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipUpdateMemberByMRMIdRequest"/>
+			
+		<beanMapping qname="ns:MembershipUpdateMemberResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipUpdateMemberResponse"/>
+		
+		<beanMapping qname="ns:AddDuplicateCardRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.AddDuplicateCardRequest"/>
+		<beanMapping qname="ns:AddDuplicateCardResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.AddDuplicateCardResponse"/>
+		
+		<beanMapping qname="ns:DuplicateCardItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.DuplicateCardItem"/>
+		 	
+		<beanMapping qname="ns:DuplicateCardListRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DuplicateCardListRequest"/>
+		<beanMapping qname="ns:DuplicateCardListResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DuplicateCardListResponse"/>
+			
+		<beanMapping qname="ns:BrandCardItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.BrandCardItem"/>
+		 	
+		
+		 	
+		<beanMapping qname="ns:BrandCardListRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.BrandCardListRequest"/>
+		<beanMapping qname="ns:BrandCardListResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.BrandCardListResponse"/>
+			
+		<beanMapping qname="ns:BillSummaryItem" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.BillSummaryItem"/>
+		 	
+		<beanMapping qname="ns:GetBillSummaryRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetBillSummaryRequest"/>
+		<beanMapping qname="ns:GetBillSummaryResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetBillSummaryResponse"/>
+			
+		<beanMapping qname="ns:GetRegionInfoRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetRegionInfoRequest"/>
+		<beanMapping qname="ns:GetRegionInfoResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetRegionInfoResponse"/>
+		
+		<beanMapping qname="ns:PaymentSummaryInfo" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.PaymentSummaryInfo"/>
+		<beanMapping qname="ns:PaymentDetail" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.PaymentDetail"/>
+		 		
+		<beanMapping qname="ns:GetPaymentDetailsRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetPaymentDetailsRequest"/>
+		<beanMapping qname="ns:GetPaymentDetailsResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetPaymentDetailsResponse"/>
+		
+		
+		<beanMapping qname="ns:GetSolicitationCDARDiscountRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetSolicitationCDARDiscountRequest"/>
+		<beanMapping qname="ns:GetSolicitationCDARDiscountResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetSolicitationCDARDiscountResponse"/>
+			
+		<beanMapping qname="ns:GetEmailPaymentConfirmationRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetEmailPaymentConfirmationRequest"/>
+		<beanMapping qname="ns:GetEmailPaymentConfirmationResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.GetEmailPaymentConfirmationResponse"/>
+						
+		<beanMapping qname="ns:AddCancelAssociateMemberRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.AddCancelAssociateMemberRequest"/>				
+		<beanMapping qname="ns:AddCancelAssociateMemberResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.AddCancelAssociateMemberResponse"/>
+		
+		 <beanMapping qname="ns:MembershipCoverageUpdateRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipCoverageUpdateRequest"/>
+		<beanMapping qname="ns:MembershipCoverageUpdateResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipCoverageUpdateResponse"/>
+			
+		<beanMapping qname="ns:MembershipSimpleOperationRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipSimpleOperationRequest"/>	
+		<beanMapping qname="ns:MembershipSimpleOperationResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipSimpleOperationResponse"/>
+						
+		<beanMapping qname="ns:DropDownListRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DropDownListRequest"/>	
+		<beanMapping qname="ns:DropDownListResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.DropDownListResponse"/>
+		<beanMapping qname="ns:SimpleDropDown" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleDropDown"/>
+		<beanMapping qname="ns:RegisterPosSaleRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RegisterPosSaleRequest"/>
+        <beanMapping qname="ns:RegisterPosSaleResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RegisterPosSaleResponse"/>
+        <beanMapping qname="ns:ApplyPaymentRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.ApplyPaymentRequest"/>
+        <beanMapping qname="ns:ApplyPaymentResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.ApplyPaymentResponse"/>
+        <beanMapping qname="ns:GetMembershipComponentDuesRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetMembershipComponentDuesRequest"/>
+        <beanMapping qname="ns:GetMembershipComponentDuesResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.GetMembershipComponentDuesResponse"/>
+        <beanMapping qname="ns:ResetMemberWebPasswordRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.ResetMemberWebPasswordRequest"/>
+        <beanMapping qname="ns:ResetMemberWebPasswordResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.ResetMemberWebPasswordResponse"/>
+        <beanMapping qname="ns:EnrollMembershipInEBillingRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EnrollMembershipInEBillingRequest"/>
+        <beanMapping qname="ns:EnrollMembershipInEBillingResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.EnrollMembershipInEBillingResponse"/>
+        <beanMapping qname="ns:RemoveMembershipFromEBillingRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RemoveMembershipFromEBillingRequest"/>
+        <beanMapping qname="ns:RemoveMembershipFromEBillingResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RemoveMembershipFromEBillingResponse"/>
+        <beanMapping qname="ns:IsMembershipEnrolledInEBillingRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsMembershipEnrolledInEBillingRequest"/>
+        <beanMapping qname="ns:IsMembershipEnrolledInEBillingResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsMembershipEnrolledInEBillingResponse"/>
+            
+        <beanMapping qname="ns:IsDuplicateMembershipRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateMembershipRequest"/>
+        <beanMapping qname="ns:IsDuplicateMembershipRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.IsDuplicateMembershipResponse"/>
+            
+        <beanMapping qname="ns:RequestTempCardRequest" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RequestTempCardRequest"/>
+        <beanMapping qname="ns:RequestTempCardResponse" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.RequestTempCardResponse"/>    
+
+
+        
+									
+		<beanMapping qname="ns:Address" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.Address"/>
+		<beanMapping qname="ns:SimpleMembershipNumber" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleMembershipNumber"/>
+		<beanMapping qname="ns:Name" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.Name"/>
+		<beanMapping qname="ns:Phone" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.Phone"/>
+		<beanMapping qname="ns:SimpleAssociateMember" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleAssociateMember"/>
+		<beanMapping qname="ns:SimplePrimaryMember" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimplePrimaryMember"/>
+		<beanMapping qname="ns:SimpleDonor" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleDonor"/>
+		<beanMapping qname="ns:SimpleMember" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleMember"/>
+		<beanMapping qname="ns:SimpleMembership" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.SimpleMembership"/>						
+		<beanMapping qname="ns:PaymentParameters" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.PaymentParameters"/>
+		<beanMapping qname="ns:CreditCard" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.CreditCard"/>
+		<beanMapping qname="ns:ElectronicCheck" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.ElectronicCheck"/>
+		<beanMapping qname="ns:ValidationError" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.ValidationError"/>
+		<beanMapping qname="ns:PaymentSummary" xmlns:ns="http://aaa.midatlantic.membership.services"
+			languageSpecificType="java:com.aaa.soa.object.models.MembershipPaymentSummary"/>
+	    <beanMapping qname="ns:PayableComponent" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.PayableComponent"/>
+        <beanMapping qname="ns:Rider" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Rider"/>
+	    <beanMapping qname="ns:Donation" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Donation"/>
+        <beanMapping qname="ns:Fee" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Fee"/>
+        <beanMapping qname="ns:Code" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.Code"/>
+        <beanMapping qname="ns:MemberComponentDues" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.MemberComponentDues"/> 
+        <beanMapping qname="ns:MembershipComponentDues" xmlns:ns="http://aaa.midatlantic.membership.services"
+            languageSpecificType="java:com.aaa.soa.object.models.MembershipComponentDues"/> 						
+													
+		<beanMapping qname="ns:WebServiceResponseBase" xmlns:ns="http://aaa.midatlantic.membership.services"
+		 	languageSpecificType="java:com.aaa.soa.object.models.WebServiceResponseBase"/>				  	
+	</service>
+	
+	 
+
+
+</deployment>
