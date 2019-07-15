@@ -4,7 +4,8 @@ public class BubbleSortDemoPractice {
 	public static void main(String args[]) {
 
 		int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
-
+		int length = arr.length;
+		
 		//TODO 
 	
 		System.out.println("Sorted array");
@@ -18,4 +19,11 @@ public class BubbleSortDemoPractice {
 			System.out.print(arr[i] + " ");
 		System.out.println();
 	}
+	
+	private static void swapElement (int[] arr, int i, int j) {
+		int temp = arr[i]; 
+		arr[i] =arr [ j];
+		arr[j] =temp; 
+	}
+
 }
