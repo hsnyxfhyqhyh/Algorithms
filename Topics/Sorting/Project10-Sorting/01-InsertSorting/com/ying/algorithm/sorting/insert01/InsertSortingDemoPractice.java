@@ -16,10 +16,6 @@ public class InsertSortingDemoPractice {
 
 	}
 
-	private static void swapElement (int[] arr, int i, int j) {
-		int temp = arr[i]; 
-		arr[i] =arr [ j];
-		arr[j] =temp; 
-	}
+	
 
 }
