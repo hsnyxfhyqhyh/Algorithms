@@ -1,0 +1,67 @@
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="DuesCalculatorProxyInSequence">
+         <property name="OriginalAction" expression="get-property('Action')" />
+         <filter source="get-property('OriginalAction')" regex="CalculateBaseDues">
+            <then>
+			   <header name="Action" value="CalculateBaseDues"/>
+               <xslt key="Membership_DuesCalculator_CalculateBaseDues_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+         <filter source="get-property('OriginalAction')" regex="CalculateUpgradeDues">
+            <then>
+			   <header name="Action" value="CalculateUpgradeDues"/>
+               <xslt key="Membership_DuesCalculator_CalculateUpgradeDues_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+         
+         <filter source="get-property('OriginalAction')" regex="CalculateDues">
+            <then>
+			   <header name="Action" value="CalculateDues"/>
+               <xslt key="Membership_DuesCalculator_CalculateDues_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+         <filter source="get-property('OriginalAction')" regex="GetMarketCodeDetails">
+            <then>
+			   <header name="Action" value="GetMarketCode"/>
+               <xslt key="Membership_DuesCalculator_MarketCodeDetails_RQ.xslt" />               
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+		  <filter source="get-property('OriginalAction')" regex="GetPaymentPlans">
+            <then>
+			   <header name="Action" value="GetPaymentPlans"/>
+               <xslt key="Membership_DuesCalculator_GetPaymentPlans_RQ.xslt" />               
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>   
+         <filter source="get-property('OriginalAction')" regex="GetMarketCodes">
+            <then>
+               <xslt key="Membership_DuesCalculator_MarketCodes_RQ.xslt" />
+               <send>
+                  <endpoint key="GetMarketCodesEPR" />
+               </send>
+            </then>
+         </filter>
+
+		 <filter source="get-property('OriginalAction')" regex="GetMembershipBalanceByMarketCodes">
+            <then>
+	     	   <header name="Action" value="GetMembershipBalanceWithMarketCode"/>
+               <xslt key="Membership_DuesCalculator_GetMembershipBalanceByMarketCodes_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+</sequence>
