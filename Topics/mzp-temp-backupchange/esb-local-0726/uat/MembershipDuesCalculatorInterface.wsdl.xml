@@ -150,6 +150,7 @@
 					<xs:element name="MarketCode" type="xs:string"/>
 					<xs:element name="MemberId" type="AAA_FullMembershipIdType"/>
 					<xs:element name="Source" type="xs:string"/>
+					<xs:element name="AssociateCount" type="xs:integer" minOccurs="0" />
 				</xs:sequence>
 			</xs:complexType>
 			<xs:complexType name="AAA_MarketCodeDetailsRequestInfo">
@@ -455,11 +456,19 @@
 			<wsdl:input message="CalculateDuesRequestMessage"/>
 			<wsdl:output message="CalculateDuesResponseMessage"/>
 		</wsdl:operation>
+		<wsdl:operation name="CalculateDuesSC">
+			<wsdl:input message="CalculateDuesRequestMessage"/>
+			<wsdl:output message="CalculateDuesResponseMessage"/>
+		</wsdl:operation>
 		<wsdl:operation name="CalculateBaseDues">
 			<wsdl:input message="CalculateBaseDuesRequestMessage"/>
 			<wsdl:output message="CalculateBaseDuesResponseMessage"/>
 		</wsdl:operation>
 		<wsdl:operation name="CalculateUpgradeDues">
+			<wsdl:input message="CalculateUpgradeDuesRequestMessage"/>
+			<wsdl:output message="CalculateUpgradeDuesResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="CalculateUpgradeDuesSC">
 			<wsdl:input message="CalculateUpgradeDuesRequestMessage"/>
 			<wsdl:output message="CalculateUpgradeDuesResponseMessage"/>
 		</wsdl:operation>
@@ -491,6 +500,15 @@
 				<soap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
+		<wsdl:operation name="CalculateDuesSC">
+			<soap:operation soapAction="CalculateDuesSC"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
 		<wsdl:operation name="CalculateBaseDues">
 			<soap:operation soapAction="CalculateBaseDues"/>
 			<wsdl:input>
@@ -502,6 +520,15 @@
 		</wsdl:operation>
 		<wsdl:operation name="CalculateUpgradeDues">
 			<soap:operation soapAction="CalculateUpgradeDues"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+				<wsdl:operation name="CalculateUpgradeDuesSC">
+			<soap:operation soapAction="CalculateUpgradeDuesSC"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>

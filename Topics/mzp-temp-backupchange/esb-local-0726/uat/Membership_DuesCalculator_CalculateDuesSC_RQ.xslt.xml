@@ -1,0 +1,31 @@
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="Membership_DuesCalculator_CalculateDuesSC_RQ.xslt">
+	<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09" xmlns:aaa="http://aaa.midatlantic.membership.services" exclude-result-prefixes="fn">
+		<xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
+		<xsl:template match="/">
+			<aaa:CalculateDuesSC>
+				<aaa:zipCode>
+					<xsl:value-of select="string(//ns:AAA_Membership_CalculateDues_RQ/ns:DuesRequest/ns:ZipCode)"/>
+				</aaa:zipCode>
+				<aaa:associateCount>
+					<xsl:value-of select="string(//ns:AAA_Membership_CalculateDues_RQ/ns:DuesRequest/ns:AssociateCount)"/>
+				</aaa:associateCount>
+				<aaa:coverageLevel>
+					<xsl:value-of select="string(//ns:AAA_Membership_CalculateDues_RQ/ns:DuesRequest/ns:CoverageLevel)"/>					
+				</aaa:coverageLevel>
+				<aaa:marketCode>
+					<xsl:value-of select="string(//ns:AAA_Membership_CalculateDues_RQ/ns:DuesRequest/ns:MarketCode)"/>
+				</aaa:marketCode>
+				<xsl:if test="count(//ns:AAA_Membership_CalculateDues_RQ/ns:DuesRequest/ns:Discounts/ns:Discount) > 0">
+					<xsl:for-each select="//ns:AAA_Membership_CalculateDues_RQ/ns:DuesRequest/ns:Discounts/ns:Discount">
+						<aaa:discounts>
+							<xsl:value-of select="."/>
+						</aaa:discounts>
+					</xsl:for-each>
+				</xsl:if>
+				<aaa:membershipNumber>
+					<xsl:value-of select="string(//ns:AAA_Membership_CalculateDues_RQ/ns:DuesRequest/ns:MemberId)"/>
+				</aaa:membershipNumber>
+			</aaa:CalculateDuesSC>
+		</xsl:template>
+	</xsl:stylesheet>
+</localEntry>

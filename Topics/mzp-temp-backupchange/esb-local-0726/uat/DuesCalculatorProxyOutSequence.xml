@@ -40,6 +40,14 @@
          </xslt>
       </then>
    </filter>
+   <filter source="get-property('OriginalAction')" regex="CalculateUpgradeDuesSC">
+		<then>
+			<xslt key="Membership_DuesCalculator_CalculateUpgradeDuesSC_RS.xslt" source="soapenv:Body" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09">
+				<property expression="get-property('returnCode')" name="ReturnCode"/>
+				<property expression="get-property('returnMessage')" name="ReturnMessage"/>
+			</xslt>
+		</then>
+	</filter>
    <filter source="get-property('OriginalAction')" regex="CalculateDues">
       <then>
          <xslt xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09"
@@ -51,6 +59,14 @@
          </xslt>
       </then>
    </filter>
+   <filter source="get-property('OriginalAction')" regex="CalculateDuesSC">
+		<then>
+			<xslt key="Membership_DuesCalculator_CalculateDuesSC_RS.xslt" source="soapenv:Body" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09">
+				<property expression="get-property('returnCode')" name="ReturnCode"/>
+				<property expression="get-property('returnMessage')" name="ReturnMessage"/>
+			</xslt>
+		</then>
+	</filter>
    <filter source="get-property('OriginalAction')" regex="GetPaymentPlans">
       <then>
          <xslt xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09"

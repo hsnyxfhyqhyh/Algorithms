@@ -1,0 +1,131 @@
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="Membership_DuesCalculator_CalculateDuesSC_RS.xslt">
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dc="http://aaa.midatlantic.membership.services" xmlns:model="http://aaa.midatlantic.membership.services">
+		<xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+		<xsl:param name="ReturnCode"/>
+		<xsl:param name="ReturnMessage"/>
+		<xsl:template match="/">
+			<temp-workaround>
+				<!--Here because ESB truncates the top-level parent tag-->
+				<AAA_Membership_CalculateDues_RS xmlns="http://aaa/midatlantic/membership/duescalculator/2011/08/09">
+					<Response>
+						<xsl:choose>
+							<xsl:when test="//dc:CalculateDuesSCReturn/model:result != '' ">
+								<ReturnCode>
+									<xsl:value-of select="//dc:CalculateDuesSCReturn/model:result"/>
+								</ReturnCode>
+								<ReturnMessage>
+									<xsl:value-of select="//dc:CalculateDuesSCReturn/model:message"/>
+								</ReturnMessage>
+								<MessageID/>
+							</xsl:when>
+							<xsl:otherwise>
+								<ReturnCode>
+									<xsl:value-of select="$ReturnCode"/>
+								</ReturnCode>
+								<ReturnMessage>
+									<xsl:value-of select="$ReturnMessage"/>
+								</ReturnMessage>
+								<MessageID/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</Response>
+					<!--if zip code not present, we encountered error-->
+					<xsl:if test="//dc:CalculateDuesSCReturn/dc:zipCode != ''">
+						<MembershipDues>
+							<ZipCode>
+								<xsl:value-of select="//dc:CalculateDuesSCReturn/dc:zipCode"/>
+							</ZipCode>
+							<AssociateCount>
+								<xsl:value-of select="//dc:CalculateDuesSCReturn/dc:associateCount"/>
+							</AssociateCount>
+							<CoverageLevel>
+								<xsl:value-of select="//dc:CalculateDuesSCReturn/dc:coverageLevel"/>
+							</CoverageLevel>
+							<xsl:if test="//dc:CalculateDuesSCReturn/dc:marketCode != ''">
+								<MarketCode>
+									<xsl:value-of select="string(//dc:CalculateDuesSCReturn//dc:marketCode)"/>
+								</MarketCode>
+							</xsl:if>
+							<Total>
+								<xsl:value-of select="//dc:CalculateDuesSCReturn/dc:total"/>
+							</Total>
+							<Members>
+								<xsl:for-each select="//dc:memberDues/dc:memberDues">
+									<Member>
+										<AssociateId>
+											<xsl:value-of select="dc:associateId"/>
+										</AssociateId>
+										<MemberType>
+											<xsl:value-of select="dc:memberType"/>
+										</MemberType>
+										<Total>
+											<xsl:value-of select="dc:total"/>
+										</Total>
+										<xsl:if test="count(dc:duesCostItems/dc:duesCostItems) > 0">
+											<Dues>
+												<xsl:for-each select="dc:duesCostItems/dc:duesCostItems">
+													<CostItem>
+														<Dues>
+															<xsl:value-of select="dc:dues"/>
+														</Dues>
+														<Fees>
+															<xsl:value-of select="dc:fees"/>
+														</Fees>
+														<Total>
+															<xsl:value-of select="dc:total"/>
+														</Total>
+														<RiderTypeCode>
+															<xsl:value-of select="dc:riderType"/>
+														</RiderTypeCode>
+														<RiderTypeDescription>
+															<xsl:value-of select="dc:riderTypeDescription"/>															
+														</RiderTypeDescription>
+													</CostItem>
+												</xsl:for-each>
+											</Dues>
+										</xsl:if>
+									</Member>
+								</xsl:for-each>
+							</Members>
+							<xsl:if test="count(//dc:CalculateDuesSCReturn/dc:duesDiscountItem/dc:duesDiscountItem) > 0">
+								<Discounts>
+									<xsl:for-each select="//dc:CalculateDuesSCReturn/dc:duesDiscountItem/dc:duesDiscountItem">
+										<Discount>
+											<Amount>
+												<xsl:value-of select="dc:amount"/>
+											</Amount>
+											<Code>
+												<xsl:value-of select="dc:discountType"/>
+											</Code>
+											<Description>
+												<xsl:value-of select="dc:discountDescription"/>
+											</Description>
+										</Discount>
+									</xsl:for-each>
+								</Discounts>
+							</xsl:if>
+							<xsl:if test="count(//dc:CalculateDuesSCReturn/dc:donationItem/dc:donationItem) > 0">
+								<Donations>
+									<xsl:for-each select="//dc:CalculateDuesSCReturn/dc:donationItem/dc:donationItem">
+										<Donation>
+											<Description><xsl:value-of select="dc:Description"/></Description>
+											<AmountDue><xsl:value-of select="dc:AmountDue"/></AmountDue>
+											<OriginalCostAmount><xsl:value-of select="dc:OriginalCostAmount"/></OriginalCostAmount>
+											<DuesCostAmount><xsl:value-of select="dc:DuesCostAmount"/></DuesCostAmount>
+											<DuesAdjustmentAmount><xsl:value-of select="dc:DuesAdjustmentAmount"/></DuesAdjustmentAmount>
+											<FutureCancelCreditAmount><xsl:value-of select="dc:DuesAdjustmentAmount"/></FutureCancelCreditAmount>
+											<PaymentAmount><xsl:value-of select="dc:PaymentAmount"/></PaymentAmount>
+											<Status><xsl:value-of select="dc:Status"/></Status>
+											<CostEffectiveDate><xsl:value-of select="dc:CostEffectiveDate"/></CostEffectiveDate>
+										</Donation>
+									</xsl:for-each>
+								</Donations>
+							</xsl:if>
+						</MembershipDues>
+					</xsl:if>
+				</AAA_Membership_CalculateDues_RS>
+			</temp-workaround>
+			<!--Here because ESB truncates the top-level parent tag-->
+		</xsl:template>
+	</xsl:stylesheet>
+</localEntry>

@@ -1,0 +1,16 @@
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="Membership_DuesCalculator_CalculateUpgradeDuesSC_RQ.xslt">
+	<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+		xmlns:fn="http://www.w3.org/2005/02/xpath-functions"  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+		xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09" xmlns:aaa="http://aaa.midatlantic.membership.services" 
+		exclude-result-prefixes="fn">
+		<xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
+		<xsl:template match="/">
+			<aaa:CalculateUpgradeDuesSC>
+				<aaa:membershipNumber><xsl:value-of select="string(//ns:AAA_Membership_UpgradeDuesCalculator_RQ/ns:DuesRequest/ns:MemberId)"/></aaa:membershipNumber>
+				<aaa:AssociateCount><xsl:value-of select="string(//ns:AAA_Membership_UpgradeDuesCalculator_RQ/ns:DuesRequest/ns:AssociateCount)"/></aaa:AssociateCount>
+				<aaa:marketCode><xsl:value-of select="string(//ns:AAA_Membership_UpgradeDuesCalculator_RQ/ns:DuesRequest/ns:MarketCode)"/></aaa:marketCode>
+				<aaa:source><xsl:value-of select="string(//ns:AAA_Membership_UpgradeDuesCalculator_RQ/ns:DuesRequest/ns:Source)"/></aaa:source>
+			</aaa:CalculateUpgradeDuesSC>
+		</xsl:template>
+	</xsl:stylesheet>
+</localEntry>

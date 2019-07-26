@@ -65,11 +65,28 @@
                </send>
             </then>
          </filter>
-         
+         <filter source="get-property('OriginalAction')" regex="CalculateUpgradeDuesSC">
+            <then>
+				<header name="Action" value="CalculateUpgradeDuesSC"/>
+				<xslt key="Membership_DuesCalculator_CalculateUpgradeDuesSC_RQ.xslt" />
+				<send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
          <filter source="get-property('OriginalAction')" regex="CalculateDues">
             <then>
 			   <header name="Action" value="CalculateDues"/>
                <xslt key="Membership_DuesCalculator_CalculateDues_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+		 <filter source="get-property('OriginalAction')" regex="CalculateDuesSC">
+            <then>
+			   <header name="Action" value="CalculateDuesSC"/>
+			   <xslt key="Membership_DuesCalculator_CalculateDuesSC_RQ.xslt" />
                <send>
                   <endpoint key="DuesCalculatorEPR" />
                </send>
