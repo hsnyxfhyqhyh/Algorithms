@@ -1,0 +1,552 @@
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="Membership_DuesCalculator_Interface.wsdl">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://aaa/midatlantic/membership/duescalculator/2011/08/09" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" name="MembershipDuesCalculator" targetNamespace="http://aaa/midatlantic/membership/duescalculator/2011/08/09">
+	<wsdl:types>
+		<xs:schema targetNamespace="http://aaa/midatlantic/membership/duescalculator/2011/08/09" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" id="AAA20110809">
+			<!--Begin Generic Types-->
+			<xs:simpleType name="AAA_ZipCodeType">
+				<xs:annotation>
+					<xs:documentation>This is a generic Zip Code Type schema which can be reused by other schemas to compose a message payload.</xs:documentation>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="\d{5}(-\d{4})?"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<!--End Generic Types-->
+			<!--Begin Dues Calculator Types-->
+			<xs:simpleType name="AAA_FullMembershipIdType">
+				<xs:restriction base="xs:string">
+					<xs:pattern value="\d{16}"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="AAA_Membership_MemberType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Primary"/>
+					<xs:enumeration value="Associate"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="AAA_CoverageLevelType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Basic"/>
+					<xs:enumeration value="Plus"/>
+					<xs:enumeration value="PlusRV"/>
+					<xs:enumeration value="Premier"/>
+					<xs:enumeration value="PremierRV"/>
+					<xs:enumeration value="PremierBattery"/>
+					<xs:enumeration value="PremierRVBattery"/>
+					<xs:enumeration value="Motorcycle"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="AAA_CoverageLevelCodeType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="BS"/>
+					<xs:enumeration value="PL"/>
+					<xs:enumeration value="RV"/>
+					<xs:enumeration value="PM"/>
+					<xs:enumeration value="PR"/>
+					<xs:enumeration value="BP"/>
+					<xs:enumeration value="BR"/>
+					<xs:enumeration value="MC"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:complexType name="AAA_MarketCodeType">
+				<xs:sequence>
+					<xs:element name="Comment" type="xs:string"/>
+					<xs:element name="OfferText" type="xs:string"/>
+					<xs:element name="AutoRenewText" type="xs:string"/>
+					<xs:element name="AutoRenewalRequired" type="xs:boolean"/>
+					<xs:element name="FreeAssociateWithAutoRenewal" type="xs:boolean"/>
+					<xs:element name="FreeMonth" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_DuesCostItemType">
+				<xs:sequence>
+					<xs:element name="Dues" type="xs:decimal"/>
+					<xs:element name="Fees" type="xs:decimal"/>
+					<xs:element name="Total" type="xs:decimal"/>
+					<xs:element name="RiderTypeCode" type="AAA_CoverageLevelCodeType"/>
+					<xs:element name="RiderTypeDescription" type="AAA_CoverageLevelType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_DuesDiscountItemType">
+				<xs:sequence>
+					<xs:element name="Amount" type="xs:decimal"/>
+					<xs:element name="Code" type="xs:string"/>
+					<xs:element name="Description" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_MemberDuesType">
+				<xs:sequence>
+					<xs:element name="AssociateId" type="xs:integer"/>
+					<xs:element name="MemberType" type="AAA_Membership_MemberType"/>
+					<xs:element name="Total" type="xs:decimal"/>
+					<xs:element name="Dues" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="CostItem" type="AAA_DuesCostItemType" minOccurs="1" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_MembershipDues">
+				<xs:sequence>
+					<xs:element name="ZipCode" type="AAA_ZipCodeType"/>
+					<xs:element name="AssociateCount" type="xs:integer"/>
+					<xs:element name="CoverageLevel" type="AAA_CoverageLevelType"/>
+					<xs:element name="MarketCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="Total" type="xs:decimal"/>
+					<xs:element name="Members" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Member" type="AAA_MemberDuesType" minOccurs="1" maxOccurs="100"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Discounts" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Discount" type="AAA_DuesDiscountItemType" minOccurs="1" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element minOccurs="0" name="Donations">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element maxOccurs="unbounded" name="Donation" type="AAA_Membership_DonationType"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_DuesCalculationRequestInfo">
+				<xs:sequence>
+					<xs:element name="ZipCode" type="AAA_ZipCodeType"/>
+					<xs:element name="AssociateCount" type="xs:integer"/>
+					<xs:element name="CoverageLevel" type="AAA_CoverageLevelType"/>
+					<xs:element name="MarketCode" type="xs:string"/>
+					<xs:element name="Discounts" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Discount" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MemberId" minOccurs="0" type="AAA_FullMembershipIdType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_BaseDuesCalculationRequestInfo">
+				<xs:sequence>
+					<xs:element name="ZipCode" type="AAA_ZipCodeType"/>
+					<xs:element name="AssociateCount" type="xs:integer"/>
+					<xs:element name="MarketCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_UpgradeDuesCalculationRequestInfo">
+				<xs:sequence>
+					<xs:element name="MarketCode" type="xs:string"/>
+					<xs:element name="MemberId" type="AAA_FullMembershipIdType"/>
+					<xs:element name="Source" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_MarketCodeDetailsRequestInfo">
+				<xs:sequence>
+					<xs:element name="MarketCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<!--End Dues Calculator Types-->
+			<!--Begin Installment Plan Types -->
+			<xs:complexType name="AAA_InstallPayType">
+				<xs:sequence>
+					<xs:element name="PaymentNumber" type="xs:integer"/>
+					<xs:element name="PaymentAmount" type="xs:decimal"/>
+					<xs:element name="ChargeDt" type="xs:string"/>
+					<xs:element name="ConvenienceFee" type="xs:decimal"/>
+					<xs:element name="Status" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_InstallPlanType">
+				<xs:sequence>
+					<xs:element name="PlanID" type="xs:integer"/>
+					<xs:element name="PlanName" type="xs:string"/>
+					<xs:element name="NumberOfPayments" type="xs:integer"/>
+					<xs:element name="ConvenienceFlag" type="xs:boolean"/>
+					<xs:element name="ConvenienceAmount" type="xs:decimal"/>
+					<xs:element name="MinimumAmount" type="xs:decimal"/>
+					<xs:element name="Pay" type="AAA_InstallPayType"  minOccurs="1" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:complexType>
+			<!--End Installment Plan Types -->
+			<!--Begin Donation Types-->
+			<xs:complexType name="AAA_Membership_DonationType">
+				<xs:annotation><xs:documentation>Donation on a membership member</xs:documentation></xs:annotation>
+				<xs:complexContent>
+					<xs:extension base="AAA_Membership_PayableComponentType"/>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="AAA_Membership_PayableComponentType">
+				<xs:annotation><xs:documentation>Payable Memebrship Component such as a rider, fee, or donation history</xs:documentation></xs:annotation>
+				<xs:sequence>
+					<xs:element name="Description" type="xs:string"/>
+					<xs:element name="AmountDue" type="xs:decimal"/>
+					<xs:element name="OriginalCostAmount" type="xs:decimal"/>
+					<xs:element name="DuesCostAmount" type="xs:decimal"/>
+					<xs:element name="DuesAdjustmentAmount" type="xs:decimal"/>
+					<xs:element name="FutureCancelCreditAmount" type="xs:decimal"/>
+					<xs:element name="PaymentAmount" type="xs:decimal"/>
+					<xs:element name="Status" type="xs:string"/>
+					<xs:element minOccurs="0" name="EffectiveDate" type="xs:string"/>
+					<xs:element name="CostEffectiveDate" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<!--End Donation Types-->
+			<!--Begin Market Codes Types-->
+			<xs:complexType name="AAA_CodeType">
+				<xs:annotation>
+					<xs:documentation>This is the Generic Code Type schema which can be reused by other schemas to compose a message payload.</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="Code" type="xs:string" minOccurs="0"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+			<!--End Market Codes Types-->
+			<!--Begin Common Types-->
+			<xs:complexType name="AAA_RequestorType">
+				<xs:sequence>
+					<xs:element name="ConsumerID" type="xs:string"/>
+					<xs:element name="ConsumerToken" type="xs:string"/>
+					<xs:element name="UserID" type="xs:string"/>
+					<xs:element name="TransactionID" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_CommonResponseInfoType">
+				<xs:annotation>
+					<xs:documentation>These response elements will be present in all the response messages returned by the provider of the service. Message ID is used to correlate the request and the response messages. </xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="ReturnCode" type="xs:string"/>
+					<xs:element name="ReturnMessage" type="xs:string" minOccurs="0"/>
+					<xs:element name="MessageID" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+			<!--End Common Types-->
+			<!--Begin Dues Calculator Request/Response-->
+			<xs:element name="AAA_Membership_CalculateDues_RQ">
+				<xs:annotation>
+					<xs:documentation>This schema is used to define membership dues calculation parameters</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Requestor" type="AAA_RequestorType"/>
+						<xs:element name="DuesRequest" type="AAA_DuesCalculationRequestInfo"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AAA_Membership_CalculateDues_RS">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+						<xs:element name="MembershipDues" type="AAA_MembershipDues" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--End Dues Calculator Request/Response-->
+			<!--Begin Base Dues Calculator Request/Response-->
+			<xs:element name="AAA_Membership_CalculateBaseDues_RQ">
+				<xs:annotation>
+					<xs:documentation>This schema is used to define base membership dues calculation parameters, dues for all membership levels</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Requestor" type="AAA_RequestorType"/>
+						<xs:element name="DuesRequest" type="AAA_BaseDuesCalculationRequestInfo"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AAA_Membership_CalculateBaseDues_RS">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+						<xs:element name="BaseDues" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MembershipDues" type="AAA_MembershipDues" minOccurs="1" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--End Base Dues Calculator Request/Response-->
+			<!--Begin Upgrade Dues Calculator Request/Response-->
+			<xs:element name="AAA_Membership_UpgradeDuesCalculator_RQ">
+				<xs:annotation>
+					<xs:documentation>This schema is used to define upgrade membership dues calculation parameters, dues for all membership levels</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Requestor" type="AAA_RequestorType"/>
+						<xs:element name="DuesRequest" type="AAA_UpgradeDuesCalculationRequestInfo"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AAA_Membership_UpgradeDuesCalculator_RS">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+						<xs:element name="UpgradeDues" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MembershipDues" type="AAA_MembershipDues" minOccurs="1" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--End Upgrade Dues Calculator Request/Response-->			
+			<!--Begin Market Codes Request/Response-->
+			<xs:element name="AAA_Membership_GetMarketCodes_RQ">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Requestor" type="AAA_RequestorType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AAA_Membership_GetMarketCodes_RS">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+						<xs:element name="MarketCodes">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MarketCode" type="AAA_CodeType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--End Market Codes Request/Response-->
+			<!--Begin Market Code Details Request/Response-->
+			<xs:element name="AAA_Membership_MarketCodeDetails_RQ">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Requestor" type="AAA_RequestorType"/>
+						<xs:element name="MarketCodeDetailsRequest" type="AAA_MarketCodeDetailsRequestInfo"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AAA_Membership_MarketCodeDetails_RS">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+						<xs:element name="MarketCodeDetails" type="AAA_MarketCodeType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--End Market Code Details Request/Response-->
+
+			<!--Begin Get Payment Plan Request/Response-->
+			<xs:element name="AAA_Membership_PaymentPlanDetails_RQ">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Requestor" type="AAA_RequestorType"/>
+						<xs:element name="TotalDues" type="xs:decimal"/>
+						<xs:element name="Source" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AAA_Membership_PaymentPlanDetails_RS">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+						<xs:element name="InstallmentPlan" type="AAA_InstallPlanType" minOccurs="0" maxOccurs="unbounded"  />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--End Get Payment Plan Request/Response-->
+			
+			<!--Begin GetMembershipBalanceByMarketCodes Request/Response-->
+			<xs:element name="AAA_Membership_GetMembershipBalanceByMarketCodes_RQ">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Requestor" type="AAA_RequestorType"/>
+						<xs:element name="ZipCode" type="AAA_ZipCodeType"/>
+						<xs:element name="MarketCode" type="xs:string"/>
+						<xs:element name="MemberId" type="AAA_FullMembershipIdType"/>
+						<xs:element name="SalesAgentID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AAA_Membership_GetMembershipBalanceByMarketCodes_RS">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+						<xs:element name="MembershipDues" type="AAA_MembershipDues" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<!--End GetMembershipBalanceByMarketCodes Request/Response-->
+			
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="MarketCodesRequestMessage">
+		<wsdl:part name="AAA_Membership_MarketCode_RQ" element="AAA_Membership_GetMarketCodes_RQ"/>
+	</wsdl:message>
+	<wsdl:message name="MarketCodeDetailsRequestMessage">
+		<wsdl:part name="AAA_Membership_MarketCodeDetails_RQ" element="AAA_Membership_MarketCodeDetails_RQ"/>
+	</wsdl:message>
+	<wsdl:message name="CalculateDuesRequestMessage">
+		<wsdl:part name="AAA_Membership_DuesCalculator_RQ" element="AAA_Membership_CalculateDues_RQ"/>
+	</wsdl:message>
+	<wsdl:message name="CalculateBaseDuesRequestMessage">
+		<wsdl:part name="AAA_Membership_BaseDuesCalculator_RQ" element="AAA_Membership_CalculateBaseDues_RQ"/>
+	</wsdl:message>
+	<wsdl:message name="MarketCodesResponseMessage">
+		<wsdl:part name="AAA_Membership_MarketCode_RS" element="AAA_Membership_GetMarketCodes_RS"/>
+	</wsdl:message>
+	<wsdl:message name="MarketCodeDetailsResponseMessage">
+		<wsdl:part name="AAA_Membership_MarketCodeDetails_RS" element="AAA_Membership_MarketCodeDetails_RS"/>
+	</wsdl:message>
+	<wsdl:message name="CalculateDuesResponseMessage">
+		<wsdl:part name="AAA_Membership_DuesCalculator_RS" element="AAA_Membership_CalculateDues_RS"/>
+	</wsdl:message>
+	<wsdl:message name="CalculateBaseDuesResponseMessage">
+		<wsdl:part name="AAA_Membership_BaseDuesCalculator_RS" element="AAA_Membership_CalculateBaseDues_RS"/>
+	</wsdl:message>
+
+	<wsdl:message name="CalculateUpgradeDuesRequestMessage">
+		<wsdl:part name="AAA_Membership_UpgradeDuesCalculator_RQ" element="AAA_Membership_UpgradeDuesCalculator_RQ"/>
+	</wsdl:message>
+	<wsdl:message name="CalculateUpgradeDuesResponseMessage">
+		<wsdl:part name="AAA_Membership_UpgradeDuesCalculator_RS" element="AAA_Membership_UpgradeDuesCalculator_RS"/>
+	</wsdl:message>
+
+	<wsdl:message name="GetPaymentPlansRequestMessage">
+		<wsdl:part name="AAA_Membership_PaymentPlanDetails_RQ" element="AAA_Membership_PaymentPlanDetails_RQ"/>
+	</wsdl:message>
+	<wsdl:message name="GetPaymentPlansResponseMessage">
+		<wsdl:part name="AAA_Membership_PaymentPlanDetails_RS" element="AAA_Membership_PaymentPlanDetails_RS"/>
+	</wsdl:message>
+	
+	<wsdl:message name="GetMembershipBalanceByMarketCodesRequestMessage">
+		<wsdl:part name="AAA_Membership_GetMembershipBalanceByMarketCodes_RQ" element="AAA_Membership_GetMembershipBalanceByMarketCodes_RQ"/>
+	</wsdl:message>
+	<wsdl:message name="GetMembershipBalanceByMarketCodesResponseMessage">
+		<wsdl:part name="AAA_Membership_GetMembershipBalanceByMarketCodes_RS" element="AAA_Membership_GetMembershipBalanceByMarketCodes_RS"/>
+	</wsdl:message>
+	
+	<wsdl:portType name="DuesCalculatorPortType">
+		<wsdl:operation name="CalculateDues">
+			<wsdl:input message="CalculateDuesRequestMessage"/>
+			<wsdl:output message="CalculateDuesResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="CalculateBaseDues">
+			<wsdl:input message="CalculateBaseDuesRequestMessage"/>
+			<wsdl:output message="CalculateBaseDuesResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="CalculateUpgradeDues">
+			<wsdl:input message="CalculateUpgradeDuesRequestMessage"/>
+			<wsdl:output message="CalculateUpgradeDuesResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetMarketCodes">
+			<wsdl:input message="MarketCodesRequestMessage"/>
+			<wsdl:output message="MarketCodesResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetMarketCodeDetails">
+			<wsdl:input message="MarketCodeDetailsRequestMessage"/>
+			<wsdl:output message="MarketCodeDetailsResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetPaymentPlans">
+			<wsdl:input message="GetPaymentPlansRequestMessage"/>
+			<wsdl:output message="GetPaymentPlansResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetMembershipBalanceByMarketCodes">
+			<wsdl:input message="GetMembershipBalanceByMarketCodesRequestMessage"/>
+			<wsdl:output message="GetMembershipBalanceByMarketCodesResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DuesCalculatorSOAPBinding" type="DuesCalculatorPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="CalculateDues">
+			<soap:operation soapAction="CalculateDues"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CalculateBaseDues">
+			<soap:operation soapAction="CalculateBaseDues"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CalculateUpgradeDues">
+			<soap:operation soapAction="CalculateUpgradeDues"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMarketCodes">
+			<soap:operation soapAction="GetMarketCodes"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMarketCodeDetails">
+			<soap:operation soapAction="GetMarketCodeDetails"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPaymentPlans">
+			<soap:operation soapAction="GetPaymentPlans"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMembershipBalanceByMarketCodes">
+			<soap:operation soapAction="GetMembershipBalanceByMarketCodes"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+	<wsdl:service name="MembershipDuesCalculatorInterface">
+		<wsdl:port name="DuesCalculatorPort" binding="DuesCalculatorSOAPBinding">
+			<soap:address location="http://localhost:8280/services/DuesCalculatorProxy"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
+</localEntry>
