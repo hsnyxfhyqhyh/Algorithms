@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence xmlns="http://ws.apache.org/ns/synapse"
+          name="DuesCalculatorProxyOutSequence">
+   <filter xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+           xpath="//soapenv:Fault">
+      <then>
+         <property name="returnCode" value="1" scope="default" type="STRING"/>
+         <property name="returnMessage"
+                   value="Error in backend service."
+                   scope="default"
+                   type="STRING"/>
+      </then>
+      <else>
+         <property name="returnCode" value="0" scope="default" type="STRING"/>
+         <property name="returnMessage"
+                   value="Success"
+                   scope="default"
+                   type="STRING"/>
+      </else>
+   </filter>
+   <filter source="get-property('OriginalAction')" regex="CalculateBaseDues">
+      <then>
+         <xslt xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09"
+               xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               key="Membership_DuesCalculator_CalculateBaseDues_RS.xslt"
+               source="soapenv:Body">
+            <property name="ReturnCode" expression="get-property('returnCode')"/>
+            <property name="ReturnMessage" expression="get-property('returnMessage')"/>
+         </xslt>
+      </then>
+   </filter>
+   <filter source="get-property('OriginalAction')" regex="CalculateUpgradeDues">
+      <then>
+         <xslt xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09"
+               xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               key="Membership_DuesCalculator_CalculateUpgradeDues_RS.xslt"
+               source="soapenv:Body">
+            <property name="ReturnCode" expression="get-property('returnCode')"/>
+            <property name="ReturnMessage" expression="get-property('returnMessage')"/>
+         </xslt>
+      </then>
+   </filter>
+   <filter source="get-property('OriginalAction')" regex="CalculateDues">
+      <then>
+         <xslt xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09"
+               xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               key="Membership_DuesCalculator_CalculateDues_RS.xslt"
+               source="soapenv:Body">
+            <property name="ReturnCode" expression="get-property('returnCode')"/>
+            <property name="ReturnMessage" expression="get-property('returnMessage')"/>
+         </xslt>
+      </then>
+   </filter>
+   <filter source="get-property('OriginalAction')" regex="GetPaymentPlans">
+      <then>
+         <xslt xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09"
+               xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               key="Membership_DuesCalculator_GetPaymentPlans_RS.xslt"
+               source="soapenv:Body">
+            <property name="ReturnCode" expression="get-property('returnCode')"/>
+            <property name="ReturnMessage" expression="get-property('returnMessage')"/>
+         </xslt>
+      </then>
+   </filter>
+   <filter source="get-property('OriginalAction')" regex="GetMarketCodeDetails">
+      <then>
+         <xslt xmlns:ns="http://aaa/midatlantic/membership/duescalculator/2011/08/09"
+               xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               key="Membership_DuesCalculator_MarketCodeDetails_RS.xslt"
+               source="soapenv:Body">
+            <property name="ReturnCode" expression="get-property('returnCode')"/>
+            <property name="ReturnMessage" expression="get-property('returnMessage')"/>
+         </xslt>
+      </then>
+   </filter>
+   <filter source="get-property('OriginalAction')" regex="GetMarketCodes">
+      <then>
+         <xslt xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               key="Membership_DuesCalculator_MarketCodes_RS.xslt"
+               source="soapenv:Body">
+            <property name="ReturnCode" expression="get-property('returnCode')"/>
+            <property name="ReturnMessage" expression="get-property('returnMessage')"/>
+         </xslt>
+      </then>
+   </filter>
+   <filter source="get-property('OriginalAction')"
+           regex="GetMembershipBalanceByMarketCodes">
+      <then>
+         <xslt xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+               key="Membership_DuesCalculator_GetMembershipBalanceByMarketCodes_RS.xslt"
+               source="soapenv:Body">
+            <property name="ReturnCode" expression="get-property('returnCode')"/>
+            <property name="ReturnMessage" expression="get-property('returnMessage')"/>
+         </xslt>
+      </then>
+   </filter>
+   <send/>
+</sequence>

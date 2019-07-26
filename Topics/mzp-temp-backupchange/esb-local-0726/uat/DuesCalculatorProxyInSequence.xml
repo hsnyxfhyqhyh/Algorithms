@@ -1,0 +1,114 @@
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="DuesCalculatorProxyInSequence">
+         <property name="OriginalAction" expression="get-property('Action')" />
+		 
+<log level="DEBUG">
+    <property name="Content-Type" expression="$trp:Content-Type" />
+</log>		 
+		 
+<dbreport xmlns="http://ws.apache.org/ns/synapse"> 
+
+              <connection> 
+
+                    <pool> 
+
+                        <driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver> 
+
+                      <!--  <url>jdbc:sqlserver://NJSQLMISCC.aaacorp.com\INSTC;databaseName=AAALoggingDB</url> -->
+
+                        <url>jdbc:sqlserver://NJSQLMISCCUAT.aaacorp.com\INSTC;databaseName=AAALoggingDB</url> 
+
+                        <user>log_user</user> 
+
+                        <password>$log212$</password> 
+
+                    </pool> 
+
+              </connection> 
+
+              <statement> 
+
+                   <sql>INSERT INTO ESBProxyTracking (ServiceName, OperationName, FORWARDED_FOR, FORWARDED_HOST, REMOTE_ADDR, REMOTE_HOST, Header) VALUES ('DuesCalculatorProxy', ?, ?, ?, ?, ?, ?)</sql> 
+
+                   <parameter expression="get-property('Action')" xmlns:ns="http://org.apache.synapse/xsd"  type="VARCHAR"/> 
+
+                   <parameter expression="$trp:X-Forwarded-For" xmlns:ns="http://org.apache.synapse/xsd"  type="VARCHAR"/> 
+
+                   <parameter expression="$trp:X-Forwarded-Host" xmlns:ns="http://org.apache.synapse/xsd"  type="VARCHAR"/> 
+
+                   <parameter expression="$axis2:REMOTE_ADDR" xmlns:ns="http://org.apache.synapse/xsd"  type="VARCHAR"/> 
+
+                   <parameter expression="$axis2:REMOTE_HOST" xmlns:ns="http://org.apache.synapse/xsd"  type="VARCHAR"/> 
+
+				   <parameter expression="$trp:ACA-Ident" xmlns:ns="http://org.apache.synapse/xsd"  type="VARCHAR"/>    
+
+
+              </statement> 
+
+    </dbreport> 
+
+		 
+         <filter source="get-property('OriginalAction')" regex="CalculateBaseDues">
+            <then>
+			   <header name="Action" value="CalculateBaseDues"/>
+               <xslt key="Membership_DuesCalculator_CalculateBaseDues_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+         <filter source="get-property('OriginalAction')" regex="CalculateUpgradeDues">
+            <then>
+			   <header name="Action" value="CalculateUpgradeDues"/>
+               <xslt key="Membership_DuesCalculator_CalculateUpgradeDues_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+         
+         <filter source="get-property('OriginalAction')" regex="CalculateDues">
+            <then>
+			   <header name="Action" value="CalculateDues"/>
+               <xslt key="Membership_DuesCalculator_CalculateDues_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+         <filter source="get-property('OriginalAction')" regex="GetMarketCodeDetails">
+            <then>
+			   <header name="Action" value="GetMarketCode"/>
+               <xslt key="Membership_DuesCalculator_MarketCodeDetails_RQ.xslt" />               
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+		  <filter source="get-property('OriginalAction')" regex="GetPaymentPlans">
+            <then>
+			   <header name="Action" value="GetPaymentPlans"/>
+               <xslt key="Membership_DuesCalculator_GetPaymentPlans_RQ.xslt" />               
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>   
+         <filter source="get-property('OriginalAction')" regex="GetMarketCodes">
+            <then>
+               <xslt key="Membership_DuesCalculator_MarketCodes_RQ.xslt" />
+               <send>
+                  <endpoint key="GetMarketCodesEPR" />
+               </send>
+            </then>
+         </filter>
+
+		 <filter source="get-property('OriginalAction')" regex="GetMembershipBalanceByMarketCodes">
+            <then>
+	     	   <header name="Action" value="GetMembershipBalanceWithMarketCode"/>
+               <xslt key="Membership_DuesCalculator_GetMembershipBalanceByMarketCodes_RQ.xslt" />
+               <send>
+                  <endpoint key="DuesCalculatorEPR" />
+               </send>
+            </then>
+         </filter>
+</sequence>
