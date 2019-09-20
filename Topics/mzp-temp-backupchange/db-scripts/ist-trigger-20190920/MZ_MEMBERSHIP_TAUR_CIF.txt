@@ -1,0 +1,73 @@
+create or replace trigger "MZ_MEMBERSHIP_TAUR_CIF"
+  after update of status, coverage_level_cd, billing_category_cd, bad_address_fl, salvage_fl,
+        address_change_dt, address_line1, address_line2, city, state, country, zip, delivery_route,
+        unlisted_fl, phone
+  on mz_membership
+  referencing new as new old as old
+  for each row
+
+declare
+  v_c1_fl char(1) := 'N';   -- identify misc changes
+  v_c2_fl char(1) := 'N';   -- identify address changes
+  v_c3_fl char(1) := 'N';   -- identify phone changes
+  v_full_membership_id varchar2(16 ) :='';
+  v_message varchar2 (255 ):= 'UpdateMembership';
+begin
+  -- init
+  v_c1_fl := 'N';
+  v_c2_fl := 'N';
+  v_c3_fl := 'N';
+
+  v_full_membership_id := '438212' || :new.membership_id || '00' ||gen_chk_digit_aaa_ma(:new.membership_id || '00');
+
+  if nvl(:new.status,'x') <> nvl(:old.status,'x') then
+     v_message := v_message || ';' ||  'Status';
+  end if;
+  if nvl(:new.coverage_level_cd,'x') <> nvl(:old.coverage_level_cd,'x') then
+     v_message := v_message || ';' ||  'Coverage';
+  end if;
+  if nvl(:new.billing_category_cd,'x') <> nvl(:old.billing_category_cd,'x') then
+     v_message := v_message || ';' ||  'BillingCategory';
+  end if;
+  if nvl(:new.bad_address_fl,'x') <> nvl(:old.bad_address_fl,'x')  then
+     v_message := v_message || ';' ||  'BadAddress';
+  end if;
+  if nvl(:new.salvage_fl,'x') <> nvl(:old.salvage_fl,'x')   then
+     v_message := v_message || ';' ||  'Salvage';
+  end if;
+
+  -- identify misc changes
+  if nvl(:new.status,'x') <> nvl(:old.status,'x') or
+      nvl(:new.coverage_level_cd,'x') <> nvl(:old.coverage_level_cd,'x') or
+      nvl(:new.billing_category_cd,'x') <> nvl(:old.billing_category_cd,'x') or
+      nvl(:new.bad_address_fl,'x') <> nvl(:old.bad_address_fl,'x') or
+      nvl(:new.salvage_fl,'x') <> nvl(:old.salvage_fl,'x') then
+    v_c1_fl := 'Y';
+  end if;
+
+  -- identify change in home address
+  if nvl(:new.address_change_dt,to_date('01/01/1900','MM/DD/YYYY')) <> nvl(:old.address_change_dt,to_date('01/01/1900','MM/DD/YYYY')) or
+     nvl(:new.address_line1,'x') <> nvl(:old.address_line1,'x') or
+     nvl(:new.address_line2,'x') <> nvl(:old.address_line2,'x') or
+     nvl(:new.city,'x') <> nvl(:old.city,'x') or
+     nvl(:new.state,'x') <> nvl(:old.state,'x') or
+     nvl(:new.country,'x') <> nvl(:old.country,'x') or
+     nvl(:new.zip,'x') <> nvl(:old.zip,'x') or
+     nvl(:new.delivery_route,'x') <> nvl(:old.delivery_route,'x') then
+    v_c2_fl := 'Y';
+    v_message := v_message || ';' ||  'Address';
+  end if;
+
+  -- identify change in home phone
+  if nvl(:new.unlisted_fl,'x') <> nvl(:old.unlisted_fl,'x') or
+      nvl(:new.phone,'x') <> nvl(:old.phone,'x') then
+    v_c3_fl := 'Y';
+    v_message := v_message || ';' ||  'HomePhone';
+  end if;
+
+  if(v_c1_fl ='Y' or  v_c2_fl ='Y' or v_c3_fl ='Y') then
+     insert into MZ_CIF_ACTION (action_cd, table_name, table_ky, full_membership_id, create_dt,  c1_fl, c2_fl, c3_fl,message)
+         values ('U', 'MZ_MEMBERSHIP', :new.membership_ky, v_full_membership_id, sysdate, v_c1_fl, v_c2_fl, v_c3_fl,v_message);
+  end if;
+
+end  MZ_MEMBERSHIP_TAUR_CIF;
