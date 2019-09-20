@@ -1,5 +1,5 @@
 create or replace trigger "MZ_MEMBERSHIP_TAUR_CIF"
-  after update of status, coverage_level_cd, billing_category_cd, bad_address_fl, salvage_fl,
+  after update of status, coverage_level_cd, bad_address_fl, 
         address_change_dt, address_line1, address_line2, city, state, country, zip, delivery_route,
         unlisted_fl, phone
   on mz_membership
