@@ -257,9 +257,7 @@ BEGIN
  
   left join (select b1.member_ky, b1.membership_ky, b1.membership_id, b1.member_type_cd
             from mz_member b1, mz_membership_fees f1
-            Where  b1.status = 'A'
-            and b1.commission_cd = 'N'
-            and f1.fee_type in ('ESF', '2DW')
+            Where  f1.fee_type in ('ESF', '2DW')
             and f1.status = 'A'
             and b1.member_ky = f1.member_ky) f on  b.membership_ky = f.membership_ky
   
