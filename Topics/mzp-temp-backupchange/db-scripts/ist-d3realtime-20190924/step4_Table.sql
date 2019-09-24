@@ -1,5 +1,5 @@
 -- Create table
-create table MZ_PLUS_212.MZ_D3K_NEWJOIN
+create table MZ_PLUS_212.MZ_D3K_UPDATE
 (
   membership_ky NUMBER,
   member_ky     NUMBER,
@@ -20,8 +20,8 @@ tablespace MZP_DATA
     maxextents unlimited
   );
 
-alter table MZ_D3K_NEWJOIN
-  add constraint MZ_D3K_NEWJOIN_PK primary key (process_ky)
+alter table MZ_D3K_UPDATE
+  add constraint MZ_D3K_UPDATE_PK primary key (process_ky)
   using index 
   tablespace MZ_PLUS_007_INDEX_LARGE
   pctfree 10
@@ -36,7 +36,7 @@ alter table MZ_D3K_NEWJOIN
   );
   
 
-create index MZ_D3K_NEWJOIN_IDX on MZ_D3K_NEWJOIN (MEMBER_KY)
+create index MZ_D3K_UPDATE_IDX on MZ_D3K_UPDATE (MEMBER_KY)
   tablespace MZ_PLUS_007_INDEX_LARGE
   pctfree 10
   initrans 2
@@ -49,7 +49,7 @@ create index MZ_D3K_NEWJOIN_IDX on MZ_D3K_NEWJOIN (MEMBER_KY)
     maxextents unlimited
   );
   
-create index MZ_D3K_NEWJOIN_MS_IDX on MZ_D3K_NEWJOIN (MEMBERSHIP_KY)
+create index MZ_D3K_UPDATE_MS_IDX on MZ_D3K_UPDATE (MEMBERSHIP_KY)
   tablespace MZ_PLUS_007_INDEX_LARGE
   pctfree 10
   initrans 2
@@ -62,7 +62,7 @@ create index MZ_D3K_NEWJOIN_MS_IDX on MZ_D3K_NEWJOIN (MEMBERSHIP_KY)
     maxextents unlimited
   );
   
-create index MZ_D3K_NEWJOIN_PD_IDX on MZ_D3K_NEWJOIN (process_dt)
+create index MZ_D3K_UPDATE_PD_IDX on MZ_D3K_UPDATE (process_dt)
   tablespace MZ_PLUS_007_INDEX_LARGE
   pctfree 10
   initrans 2
@@ -75,7 +75,7 @@ create index MZ_D3K_NEWJOIN_PD_IDX on MZ_D3K_NEWJOIN (process_dt)
     maxextents unlimited
   );
       
-create sequence MZ_D3PROCESS_KY_SEQ
+create sequence MZ_D3PROCESS_KY_SEQ   --> need to modify? 
 minvalue 1
 maxvalue 9999999999999999999999999999
 start with 1
