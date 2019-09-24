@@ -75,7 +75,7 @@ create index MZ_D3K_UPDATE_PD_IDX on MZ_D3K_UPDATE (process_dt)
     maxextents unlimited
   );
       
-create sequence MZ_D3PROCESS_KY_SEQ   --> need to modify? 
+create sequence MZ_D3PROCESSUPD_KY_SEQ   
 minvalue 1
 maxvalue 9999999999999999999999999999
 start with 1
