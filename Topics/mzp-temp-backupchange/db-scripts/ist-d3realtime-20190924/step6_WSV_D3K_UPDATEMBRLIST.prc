@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE "WSV_D3K_NEWMBRLIST" 
+CREATE OR REPLACE PROCEDURE "WSV_D3K_UPDATEMBRLIST" 
 (  --v_membership_ky in number,
    v_member_ky in number,
    out_refcursor  out SYS_REFCURSOR )
@@ -248,7 +248,7 @@ BEGIN
        '' as plus_ind
  
   from mz_member b
-  inner join mz_membership a on b.membership_ky = a.membership_ky and b.status = 'A' and b.commission_cd = 'N'
+  inner join mz_membership a on b.membership_ky = a.membership_ky 
   left join mz_branch c on c.branch_ky = a.branch_ky
   left outer join mz_rider d on d.member_ky = b.member_ky and d.rider_comp_cd = 'BS'
   left outer join mz_rider p on p.member_ky = b.member_ky and p.rider_comp_cd = 'PL'
@@ -269,5 +269,5 @@ BEGIN
   
   
 
-END wsv_D3K_NEWMBRLIST;
+END WSV_D3K_UPDATEMBRLIST;
 /
