@@ -1,0 +1,570 @@
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="MM_MA_SaveMembership_RQ.xslt">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://aaa/midatlantic/membership/services/membershipmanagement/2013/02/25" xmlns:aaa="http://aaa.midatlantic.membership.services.membershipmanagement" xmlns:aaa1="http://aaa.midatlantic.membership.services" exclude-result-prefixes="fn ns">
+	<xsl:output method="xml" omit-xml-declaration="yes" indent="yes"/>
+	<xsl:param name="ReturnAddressLine1"/>
+	<xsl:param name="ReturnAddressLine2"/>
+	<xsl:param name="ReturnCity"/>
+	<xsl:param name="ReturnState"/>
+	<xsl:param name="ReturnZipCode"/>
+	<xsl:template match="/ns:AAA_SaveMembership_RQ">
+			<aaa:SaveMembership>
+			<aaa:Request>
+				<aaa1:agentId>
+					<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:AgentID"/>
+				</aaa1:agentId>
+
+				<xsl:choose>
+					<xsl:when test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:IsEnrolledInEBilling ='true' ">
+						<aaa1:enrollInEbillingFlag>yes</aaa1:enrollInEbillingFlag>
+						
+						<xsl:choose>
+							<xsl:when test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:EBillingEmailNotificationFlag ='true' ">
+								<aaa1:ebillingEmailNotificationFlag>yes</aaa1:ebillingEmailNotificationFlag>
+							</xsl:when>
+							<xsl:otherwise>
+								<aaa1:ebillingEmailNotificationFlag>no</aaa1:ebillingEmailNotificationFlag>
+							</xsl:otherwise>
+						</xsl:choose>		
+					</xsl:when>
+					<xsl:otherwise>
+						<aaa1:enrollInEbillingFlag>no</aaa1:enrollInEbillingFlag>
+						<aaa1:ebillingEmailNotificationFlag>no</aaa1:ebillingEmailNotificationFlag>
+					</xsl:otherwise>
+				</xsl:choose>
+				
+				<xsl:choose>
+						<xsl:when test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:ARDiscountFlag ='true' ">
+							<aaa1:ARDiscountFlag>yes</aaa1:ARDiscountFlag>
+						</xsl:when>
+						<xsl:otherwise>
+							<aaa1:ARDiscountFlag>no</aaa1:ARDiscountFlag>
+						</xsl:otherwise>
+					</xsl:choose>	
+						
+				<aaa1:marketTrackingCd>
+					<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:marketTrackingCd)"/>
+				</aaa1:marketTrackingCd>
+				
+				<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card != '' ">
+					<aaa1:paymentParams>
+								<aaa1:card>
+									<aaa1:tokenNumber>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:TokenNumber)"/>
+									</aaa1:tokenNumber>
+									<aaa1:CVV>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CVV)"/>
+									</aaa1:CVV>
+									<aaa1:accountNumber>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:AccountNumber)"/>
+									</aaa1:accountNumber>
+									<aaa1:cardHolderFullName>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CardHolder/ns:FullName)"/>
+									</aaa1:cardHolderFullName>
+									<!--<aaa1:cardHolderId></aaa1:cardHolderId>-->
+									<aaa1:cardHolderStreetAddress>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CardHolder/ns:StreetAddress)"/>
+									</aaa1:cardHolderStreetAddress>
+									<aaa1:cardHolderZipCode>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CardHolder/ns:Zipcode)"/>
+									</aaa1:cardHolderZipCode>
+									<aaa1:cardTypeCode>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CardTypeCode)"/>
+									</aaa1:cardTypeCode>
+									<aaa1:expirationDate>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:Expiration)"/>
+									</aaa1:expirationDate>
+									<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CreditDebitCode and /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CreditDebitCode != '' "> 
+			                         <aaa1:creditDebitCode><xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:Card/ns:CreditDebitCode)"/></aaa1:creditDebitCode> 
+									</xsl:if> 
+									<aaa1:saveAsAutoRenewalCard>
+										<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Card/ns:SaveAsAutoRenewalCard)"/>
+									</aaa1:saveAsAutoRenewalCard>
+								</aaa1:card>
+						<aaa1:amount>
+							<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Amount)"/>
+						</aaa1:amount>
+					</aaa1:paymentParams>
+				</xsl:if>
+				<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Check != '' ">
+					<aaa1:paymentParams>
+								 <aaa1:check>
+									  <aaa1:checkABANumber><xsl:value-of select="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Check/ns:Check/ns:CheckABANumber))" /></aaa1:checkABANumber>
+									  <aaa1:checkBankAccountNumber><xsl:value-of select="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Check/ns:Check/ns:CheckBankAccountNumber))" /></aaa1:checkBankAccountNumber>
+									  <aaa1:checkCheckNumber><xsl:value-of select="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Check/ns:Check/ns:CheckNumber))" /></aaa1:checkCheckNumber>
+									  <aaa1:checkCheckTypeCode>FAKE</aaa1:checkCheckTypeCode>
+									  <aaa1:checkCompanyName>FAKE</aaa1:checkCompanyName>
+									  <aaa1:checkTokenNumber><xsl:value-of select="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Check/ns:Check/ns:CheckTokenNumber))" /></aaa1:checkTokenNumber>
+									  <aaa1:drawerAddress>
+										 <aaa1:addressLine1>FAKE</aaa1:addressLine1>
+										 <aaa1:addressLine2>FAKE</aaa1:addressLine2>
+										 <aaa1:city>FAKE</aaa1:city>
+										 <aaa1:state>MA</aaa1:state>
+										 <aaa1:zipCode>11111</aaa1:zipCode>
+									  </aaa1:drawerAddress>
+									  <aaa1:drawerDLN></aaa1:drawerDLN>
+									  <aaa1:drawerDLState>MA</aaa1:drawerDLState>
+									  <aaa1:drawerDateOfBirth>01/01/1900</aaa1:drawerDateOfBirth>
+									  <aaa1:drawerFirstName><xsl:value-of select="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:FirstName))" /></aaa1:drawerFirstName>
+									  <aaa1:drawerGender><xsl:value-of select="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Gender))" /></aaa1:drawerGender>
+									  <aaa1:drawerId>1111111</aaa1:drawerId>
+									  <aaa1:drawerLastName><xsl:value-of select="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:LastName))" /></aaa1:drawerLastName>
+									  <aaa1:drawerSSN>111221111</aaa1:drawerSSN>
+									  <aaa1:drawerSuffix></aaa1:drawerSuffix>
+									  <aaa1:drawerAccountName><xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:FirstName)" /> <xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:LastName)" /></aaa1:drawerAccountName>
+								   </aaa1:check>
+						<aaa1:amount>
+							<xsl:value-of select="string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Payment/ns:Amount)"/>
+						</aaa1:amount>
+					</aaa1:paymentParams>
+				</xsl:if>
+				<aaa1:simpleMembership>
+					<aaa1:associates>
+						<xsl:for-each select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:AssociateMembers/ns:Associate">
+							<aaa:associate>
+								<aaa1:associateType>
+									<xsl:value-of select="ns:Member/ns:AssociateType"/>
+								</aaa1:associateType>
+								 <aaa1:credentialKy><xsl:value-of select="ns:Member/ns:CredentialKy"/></aaa1:credentialKy>
+								<aaa1:dateOfBirth>
+									<xsl:value-of select="ns:Member/ns:DateOfBirth"/>
+								</aaa1:dateOfBirth>
+								<aaa1:email>
+									<xsl:value-of select="ns:Member/ns:Email"/>
+								</aaa1:email>
+								<aaa1:gender>
+									<xsl:value-of select="ns:Member/ns:Gender"/>
+								</aaa1:gender>
+								<xsl:if test="ns:Member/ns:GraduationYear != ''">
+									<aaa1:graduationYear>
+										<xsl:value-of select="ns:Member/ns:GraduationYear"/>
+									</aaa1:graduationYear>
+								</xsl:if>
+								<xsl:if test="ns:Member/ns:Action != ''">
+									<aaa1:action>
+										<xsl:value-of select="ns:Member/ns:Action"/>
+									</aaa1:action>
+								</xsl:if>
+								<aaa1:name>
+									<aaa1:firstName>
+										<xsl:value-of select="ns:Member/ns:Name/ns:FirstName"/>
+									</aaa1:firstName>
+									<aaa1:lastName>
+										<xsl:value-of select="ns:Member/ns:Name/ns:LastName"/>
+									</aaa1:lastName>
+									<aaa1:middleName>
+										<xsl:value-of select="ns:Member/ns:Name/ns:MiddleName"/>
+									</aaa1:middleName>
+									<aaa1:suffix>
+										<xsl:value-of select="ns:Member/ns:Name/ns:Suffix"/>
+									</aaa1:suffix>
+									<aaa1:title>
+										<xsl:value-of select="ns:Member/ns:Name/ns:Title"/>
+									</aaa1:title>
+								</aaa1:name>
+								<aaa1:number>
+									<aaa1:associateId><xsl:value-of select="ns:Member/ns:MembershipNumber/ns:AssociateId"/></aaa1:associateId>
+									<aaa1:checkDigit><xsl:value-of select="ns:Member/ns:MembershipNumber/ns:CheckDigit"/></aaa1:checkDigit>
+									<aaa1:clubCode><xsl:value-of select="ns:Member/ns:MembershipNumber/ns:ClubCode"/></aaa1:clubCode>
+									<aaa1:fullNumber><xsl:value-of select="ns:Member/ns:MembershipNumber/ns:FullNumber"/></aaa1:fullNumber>
+									<aaa1:isoCode><xsl:value-of select="ns:Member/ns:MembershipNumber/ns:ISOCode"/></aaa1:isoCode>
+									<aaa1:number><xsl:value-of select="ns:Member/ns:MembershipNumber/ns:Number"/></aaa1:number>
+								 </aaa1:number>
+
+								<aaa1:relation>
+									<xsl:value-of select="ns:Member/ns:Relation"/>
+								</aaa1:relation>
+								<aaa1:customerId>
+									<xsl:value-of select="ns:Member/ns:CustomerID"/>
+								</aaa1:customerId>
+								<xsl:if test="count(ns:Member/ns:MemberOptions/ns:Option) > 0">
+									<xsl:for-each select="ns:Member/ns:MemberOptions">
+										<xsl:if test="ns:Option = 'Do Not Ask for E-Mail' ">
+											<aaa1:doNotAskForEmail>true</aaa1:doNotAskForEmail>
+										</xsl:if>
+										<xsl:if test="ns:Option = 'Do Not Call' ">
+											<aaa1:doNotCall>true</aaa1:doNotCall>
+										</xsl:if>
+										<xsl:if test="ns:Option = 'Do Not Email' ">
+											<aaa1:doNotEmail>true</aaa1:doNotEmail>
+										</xsl:if>
+										<xsl:if test="ns:Option = 'Do Not Mail' ">
+											<aaa1:doNotMail>true</aaa1:doNotMail>
+										</xsl:if>
+									</xsl:for-each>
+								</xsl:if>
+							</aaa:associate>
+						</xsl:for-each>
+					</aaa1:associates>
+					<aaa1:coverageLevel>
+						<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:CoverageLevel"/>
+					</aaa1:coverageLevel>
+					<xsl:if test="count(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:MembershipOptions/ns:Option) > 0">
+						<xsl:for-each select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:MembershipOptions">
+							<xsl:if test="ns:Option = 'Do Not Direct Mail Solicit' ">
+								<aaa1:doNotDirectMailSolicit>true</aaa1:doNotDirectMailSolicit>
+							</xsl:if>
+							<xsl:if test="ns:Option = 'Do Not Email' ">
+								<aaa1:doNotEmail>true</aaa1:doNotEmail>
+							</xsl:if>
+							<xsl:if test="ns:Option = 'Do Not Telemarket' ">
+								<aaa1:doNotTelemarket>true</aaa1:doNotTelemarket>
+							</xsl:if>
+							<xsl:if test="ns:Option = 'Do Not Send Publication' ">
+								<aaa1:doNotSendPublication>true</aaa1:doNotSendPublication>
+							</xsl:if>
+						</xsl:for-each>
+					</xsl:if>
+					<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Membership/ns:Donor != '' ">
+						<aaa1:donor>
+							<aaa1:address>
+								<aaa1:addressLine1>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Address/ns:AddressLine"/>
+								</aaa1:addressLine1>
+								<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Address/ns:AddressLine[2] and /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Address/ns:AddressLine[2] != '' ">
+									<aaa1:addressLine2>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Address/ns:AddressLine[2]"/>
+									</aaa1:addressLine2>
+								</xsl:if>
+								<aaa1:city>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Address/ns:City"/>
+								</aaa1:city>
+								<aaa1:state>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Address/ns:State"/>
+								</aaa1:state>
+								<aaa1:zipCode>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Address/ns:ZipCode"/>
+								</aaa1:zipCode>
+							</aaa1:address>
+							<aaa1:dateOfBirth>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:DateOfBirth"/>
+							</aaa1:dateOfBirth>
+							<aaa1:email>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership//ns:Donor/ns:Email"/>
+							</aaa1:email>
+							<aaa1:gender>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Gender"/>
+							</aaa1:gender>
+							<aaa1:giftMessage>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:GiftOptions/ns:GiftMessage"/>
+							</aaa1:giftMessage>
+							<aaa1:giftType>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:GiftOptions/ns:GiftType"/>
+							</aaa1:giftType>
+							<aaa1:name>
+								<aaa1:firstName>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Name/ns:FirstName"/>
+								</aaa1:firstName>
+								<aaa1:lastName>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Name/ns:LastName"/>
+								</aaa1:lastName>
+								<aaa1:middleName>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Name/ns:MiddleName"/>
+								</aaa1:middleName>
+								<aaa1:suffix>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Name/ns:Suffix"/>
+								</aaa1:suffix>
+								<aaa1:title>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Name/ns:Title"/>
+								</aaa1:title>
+							</aaa1:name>
+							<!--<aaa1:number></aaa1:number>-->
+							<aaa1:phones>
+								<aaa:phone>
+									<aaa:phoneNumber>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Phone/ns:PhoneNumber"/>
+									</aaa:phoneNumber>
+									<aaa:phoneTypeCode>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Phone/ns:PhoneTypeCode"/>
+									</aaa:phoneTypeCode>
+									<aaa:description>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Phone/ns:Description"/>
+									</aaa:description>
+									<aaa:extension>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:Phone/ns:Extension"/>
+									</aaa:extension>
+								</aaa:phone>
+							</aaa1:phones>
+							<aaa1:sendCardTo>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:GiftOptions/ns:SendCardTo"/>
+							</aaa1:sendCardTo>
+							<aaa1:dateOfBirthToValidate>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:Donor/ns:dateOfBirthToValidate"/>
+							</aaa1:dateOfBirthToValidate>
+						</aaa1:donor>
+					</xsl:if>
+					<aaa1:marketCode>
+						<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:MarketCode"/>
+					</aaa1:marketCode>
+					<aaa1:primaryMember>
+						<aaa1:associateType>
+							<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:AssociateType"/>
+						</aaa1:associateType>
+						 <aaa1:credentialKy><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:CredentialKy"/></aaa1:credentialKy>
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:DateOfBirth and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:DateOfBirth != '' ">
+							<aaa1:dateOfBirth>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:DateOfBirth"/>
+							</aaa1:dateOfBirth>
+						</xsl:if>
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Email and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Email != '' ">
+							<aaa1:email>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Email"/>
+							</aaa1:email>
+						</xsl:if>
+						
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Action and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Action != '' ">
+							<aaa1:action>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Action"/>
+							</aaa1:action>
+						</xsl:if>
+
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Gender and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Gender != '' ">
+							 <aaa1:gender>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Gender"/>
+							 </aaa1:gender>
+						</xsl:if>
+
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:GraduationYear and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:GraduationYear != '' ">
+							<aaa1:graduationYear>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:GraduationYear"/>
+							</aaa1:graduationYear>
+						</xsl:if>
+						<aaa1:name>
+							<aaa1:firstName>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:FirstName"/>
+							</aaa1:firstName>
+							<aaa1:lastName>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:LastName"/>
+							</aaa1:lastName>
+							<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:MiddleName and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:MiddleName != '' ">
+								<aaa1:middleName>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:MiddleName"/>
+								</aaa1:middleName>
+							</xsl:if>
+							<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:Suffix and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:Suffix != '' ">
+								<aaa1:suffix>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:Suffix"/>
+								</aaa1:suffix>
+							</xsl:if>
+							<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:Title and
+						 /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:Title != '' ">
+								<aaa1:title>
+									<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Name/ns:Title"/>
+								</aaa1:title>
+							</xsl:if>
+						</aaa1:name>
+						<aaa1:relation>
+							<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:Relation"/>
+						</aaa1:relation>
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:CustomerID and /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:CustomerID != '' ">
+							<aaa1:customerId>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:CustomerID"/>
+							</aaa1:customerId>
+						</xsl:if>
+						<xsl:if test="count(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MemberOptions/ns:Option) > 0">
+							<xsl:for-each select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MemberOptions">
+								<xsl:if test="ns:Option = 'Do Not Ask for E-Mail' ">
+									<aaa1:doNotAskForEmail>true</aaa1:doNotAskForEmail>
+								</xsl:if>
+								<xsl:if test="ns:Option = 'Do Not Call' ">
+									<aaa1:doNotCall>true</aaa1:doNotCall>
+								</xsl:if>
+								<xsl:if test="ns:Option = 'Do Not Email' ">
+									<aaa1:doNotEmail>true</aaa1:doNotEmail>
+								</xsl:if>
+								<xsl:if test="ns:Option = 'Do Not Mail' ">
+									<aaa1:doNotMail>true</aaa1:doNotMail>
+								</xsl:if>
+							</xsl:for-each>
+						</xsl:if>
+						<aaa1:address>
+							<aaa1:addressLine1>
+								<xsl:choose>
+									<xsl:when test="$ReturnAddressLine1 != '' and not(contains(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:AddressLine,$ReturnAddressLine1))">
+										<xsl:value-of select="$ReturnAddressLine1"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:AddressLine"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</aaa1:addressLine1>
+							<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:AddressLine[2] and /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:AddressLine[2] != '' ">
+								<aaa1:addressLine2>
+									<xsl:choose>
+										<xsl:when test="$ReturnAddressLine2 != '' and not(contains(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:AddressLine[2],$ReturnAddressLine2))">
+											<xsl:value-of select="$ReturnAddressLine2"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:AddressLine[2]"/>
+										</xsl:otherwise>
+									</xsl:choose>
+								</aaa1:addressLine2>
+							</xsl:if>
+							<aaa1:city>
+								<xsl:choose>
+									<xsl:when test="$ReturnCity != '' and not(contains(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:City,$ReturnCity))">
+										<xsl:value-of select="$ReturnCity"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:City"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</aaa1:city>
+							<aaa1:state>
+								<xsl:choose>
+									<xsl:when test="$ReturnState != '' and not(contains(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:State,$ReturnState))">
+										<xsl:value-of select="$ReturnState"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:State"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</aaa1:state>
+							<aaa1:zipCode>
+								<xsl:choose>
+									<xsl:when test="$ReturnZipCode != '' and not(contains(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:ZipCode,$ReturnZipCode))">
+										<xsl:value-of select="$ReturnZipCode"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Address/ns:ZipCode"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</aaa1:zipCode>
+						</aaa1:address>
+						 <aaa1:number>
+							 <aaa1:associateId><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MembershipNumber/ns:AssociateId"/></aaa1:associateId>
+							 <aaa1:checkDigit><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MembershipNumber/ns:CheckDigit"/></aaa1:checkDigit>
+							 <aaa1:clubCode><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MembershipNumber/ns:ClubCode"/></aaa1:clubCode>
+							 <aaa1:fullNumber><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MembershipNumber/ns:FullNumber"/></aaa1:fullNumber>
+							 <aaa1:isoCode><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MembershipNumber/ns:ISOCode"/></aaa1:isoCode>
+							 <aaa1:number><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Member/ns:MembershipNumber/ns:Number"/></aaa1:number>
+					  </aaa1:number>
+
+
+						<aaa1:phones>
+							<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Phones and /ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Phones != '' and 
+								count(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Phones/ns:Phone) > 0">
+								<xsl:for-each select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:Phones/ns:Phone">
+									<aaa:phone>
+										<aaa1:phoneNumber>
+											<xsl:value-of select="ns:PhoneNumber"/>
+										</aaa1:phoneNumber>
+										<aaa1:phoneTypeCode>
+											<xsl:value-of select="ns:PhoneTypeCode"/>
+										</aaa1:phoneTypeCode>
+										<xsl:if test="ns:Description and ns:Description != '' ">
+											<aaa1:description>
+												<xsl:value-of select="ns:Description"/>
+											</aaa1:description>
+										</xsl:if>
+										<xsl:choose>
+											<xsl:when test="ns:IsPrimary and ns:IsPrimary = 'true' ">
+												<aaa1:isPrimary>true</aaa1:isPrimary>
+											</xsl:when>
+											<xsl:otherwise>
+												<aaa1:isPrimary>false</aaa1:isPrimary>
+											</xsl:otherwise>
+										</xsl:choose>
+										<xsl:if test="ns:Extension and ns:Extension != '' ">
+											<aaa1:extension>
+												<xsl:value-of select="ns:Extension"/>
+											</aaa1:extension>
+										</xsl:if>
+									</aaa:phone>
+								</xsl:for-each>
+							</xsl:if>
+						</aaa1:phones>
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:NoEmail != '' ">
+							<aaa1:isNoEmail>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:NoEmail"/>
+							</aaa1:isNoEmail>
+						</xsl:if>
+						<xsl:if test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:EmailRefused != '' ">
+							<aaa1:isEmailRefused>
+								<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:PrimaryMember/ns:EmailRefused"/>
+							</aaa1:isEmailRefused>
+						</xsl:if>
+					</aaa1:primaryMember>
+					<aaa1:renewalMethod>
+						<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:RenewalMethod"/>
+					</aaa1:renewalMethod>
+				</aaa1:simpleMembership>
+				<xsl:apply-templates select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership"/>
+				<xsl:apply-templates select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Donor"/>
+				<xsl:choose>
+					<xsl:when test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:DoNotCheckDuplicateMembershps != ''">
+						<aaa1:doNotCheckDuplicateMemberships>
+							<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:DoNotCheckDuplicateMembershps"/>
+						</aaa1:doNotCheckDuplicateMemberships>
+					</xsl:when>
+				</xsl:choose>
+				<xsl:if test="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:PaymentPlanKy)) != ''">
+						<aaa1:paymentPlanKy><xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:PaymentPlanKy"/></aaa1:paymentPlanKy>
+				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:IsDonorMembership)) = 'true'">
+						<aaa1:donorMembership>true</aaa1:donorMembership>
+					</xsl:when>
+					<xsl:otherwise><aaa1:donorMembership>false</aaa1:donorMembership></xsl:otherwise>
+				</xsl:choose>
+				<xsl:choose>
+					<xsl:when test="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Source != ''">
+						<aaa1:Source>
+							<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Source"/>
+						</aaa1:Source>
+					</xsl:when>
+				</xsl:choose>
+			</aaa:Request>
+			</aaa:SaveMembership>
+		
+	</xsl:template>
+	<xsl:template match="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership" >
+		<xsl:if test="ns:MembershipFoundationDonation != ''">
+			<xsl:if test="normalize-space(string(ns:MembershipFoundationDonation/ns:SafetyFundFlag)) != '' and normalize-space(string(ns:MembershipFoundationDonation/ns:SafetyFundFlag)) = 'true' ">
+				<aaa1:membershipFoundationDonation>
+					<aaa1:RecurringFlag>
+						<xsl:value-of select="ns:MembershipFoundationDonation/ns:RecurringFlag"/>
+					</aaa1:RecurringFlag>
+					<xsl:choose>
+						<xsl:when test="string(number(ns:MembershipFoundationDonation/ns:RecurringAmount)) != 'NaN'">
+							<aaa1:RecurringAmount>
+								<xsl:value-of select="format-number(ns:MembershipFoundationDonation/ns:RecurringAmount, '#.00')"/>
+							</aaa1:RecurringAmount>
+						</xsl:when>
+						<xsl:otherwise>
+							<aaa1:RecurringAmount>0.00</aaa1:RecurringAmount>
+						</xsl:otherwise>
+					</xsl:choose>
+					<aaa1:SafetyFundFlag>true</aaa1:SafetyFundFlag>
+				</aaa1:membershipFoundationDonation>
+			 </xsl:if>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template match="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Donor" >
+		<xsl:if test="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:IsDonorMembership)) = 'true' ">
+			 <aaa1:donor>
+               <aaa1:lastName><xsl:value-of select="normalize-space(string(ns:LastName))"/></aaa1:lastName>
+               <aaa1:firstName><xsl:value-of select="normalize-space(string(ns:FirstName))"/></aaa1:firstName>
+               <aaa1:address1><xsl:value-of select="normalize-space(string(ns:Address1))"/></aaa1:address1>
+               <aaa1:address2><xsl:value-of select="normalize-space(string(ns:Address2))"/></aaa1:address2>
+               <aaa1:city><xsl:value-of select="normalize-space(string(ns:City))"/></aaa1:city>
+               <aaa1:state><xsl:value-of select="normalize-space(string(ns:State))"/></aaa1:state>
+               <aaa1:zip><xsl:value-of select="normalize-space(string(ns:Zip))"/></aaa1:zip>
+			   <aaa1:phone><xsl:value-of select="normalize-space(string(ns:Phone))"/></aaa1:phone>
+               <aaa1:donorNumber><xsl:value-of select="normalize-space(string(ns:DonorNumber))"/></aaa1:donorNumber>
+               <aaa1:allowAutoRenewalFlag>Y</aaa1:allowAutoRenewalFlag>
+               <aaa1:donorTypeCd>I</aaa1:donorTypeCd>
+               <aaa1:email><xsl:value-of select="normalize-space(string(ns:Email))"/></aaa1:email>
+               <aaa1:sendBillTo>D</aaa1:sendBillTo>
+               <aaa1:sendCardTo>D</aaa1:sendCardTo>
+            </aaa1:donor>
+		</xsl:if>
+	</xsl:template>
+</xsl:stylesheet>
+</localEntry>
