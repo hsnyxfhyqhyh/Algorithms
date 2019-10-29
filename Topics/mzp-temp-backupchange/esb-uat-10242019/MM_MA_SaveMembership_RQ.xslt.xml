@@ -494,6 +494,16 @@
 					<aaa1:renewalMethod>
 						<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:RenewalMethod"/>
 					</aaa1:renewalMethod>
+					<xsl:choose>
+					<xsl:when test="normalize-space(string(/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:IsMilitary)) != '' ">
+						<aaa1:militaryFlag>
+							<xsl:value-of select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership/ns:IsMilitary"/>
+						</aaa1:militaryFlag>
+					</xsl:when>
+					<xsl:otherwise>
+						<aaa1:militaryFlag>false</aaa1:militaryFlag>
+					</xsl:otherwise>
+					</xsl:choose>
 				</aaa1:simpleMembership>
 				<xsl:apply-templates select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Membership"/>
 				<xsl:apply-templates select="/ns:AAA_SaveMembership_RQ/ns:SaveMembershipRequest/ns:Donor"/>

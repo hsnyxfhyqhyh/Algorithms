@@ -618,6 +618,7 @@
 						<xs:element minOccurs="0" name="Salvage" type="xs:boolean"/>
 						<xs:element minOccurs="0" name="FutureCancel" type="xs:boolean"/>
 						<xs:element minOccurs="0" name="DoNotRenew" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="IsMilitary" type="xs:boolean" />
 						<xs:element minOccurs="0" name="BadAddressFlag" type="xs:boolean"/>
 						<xs:element minOccurs="0" name="DoNotOfferPlus" type="xs:boolean"/>
 						<xs:element minOccurs="0" name="Type" type="xs:string"/>

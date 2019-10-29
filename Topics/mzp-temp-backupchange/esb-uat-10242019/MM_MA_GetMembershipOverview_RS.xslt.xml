@@ -520,6 +520,11 @@
                         <xsl:value-of select="/aaa:GetMembershipResponse/aaa:GetMembershipReturn/aaa1:simpleMembership/aaa1:doNotRenew"/>
                      </ns:DoNotRenew>
                   </xsl:if>
+                  <xsl:if test="/aaa:GetMembershipResponse/aaa:GetMembershipReturn/aaa1:simpleMembership/aaa1:militaryFlag != '' ">
+					<ns:IsMilitary>
+						<xsl:value-of select="/aaa:GetMembershipResponse/aaa:GetMembershipReturn/aaa1:simpleMembership/aaa1:militaryFlag"/>
+					</ns:IsMilitary>
+				 </xsl:if>
                   <xsl:if test="/aaa:GetMembershipResponse/aaa:GetMembershipReturn/aaa1:simpleMembership/aaa1:badAddressFlag != '' ">
                      <ns:BadAddressFlag>
                         <xsl:value-of select="/aaa:GetMembershipResponse/aaa:GetMembershipReturn/aaa1:simpleMembership/aaa1:badAddressFlag"/>
