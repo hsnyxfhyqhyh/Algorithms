@@ -1,0 +1,4072 @@
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="MA_MembershipManagementInterfaceMAv2.wsdl">
+	<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://aaa/midatlantic/membership/services/membershipmanagement/2013/02/25" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" name="MembershipManagement" targetNamespace="http://aaa/midatlantic/membership/services/membershipmanagement/2013/02/25">
+		<wsdl:types>
+			<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://aaa/midatlantic/membership/services/membershipmanagement/2013/02/25" version="2.30" xmlns="http://aaa/midatlantic/membership/services/membershipmanagement/2013/02/25" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+				<xs:simpleType name="AAA_CreditCardNumber_LastFour">
+					<xs:annotation>
+						<xs:documentation>last 4 digit</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{4}?"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<!--Begin Generic Types-->
+				<xs:simpleType name="AAA_ZipCodeType">
+					<xs:annotation>
+						<xs:documentation>Generic zip code schema</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{5}(-\d{4})?"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_StateType">
+					<xs:annotation>
+						<xs:documentation>Generic states schema</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="AK"/>
+						<xs:enumeration value="AL"/>
+						<xs:enumeration value="AR"/>
+						<xs:enumeration value="AZ"/>
+						<xs:enumeration value="CA"/>
+						<xs:enumeration value="CO"/>
+						<xs:enumeration value="CT"/>
+						<xs:enumeration value="DC"/>
+						<xs:enumeration value="DE"/>
+						<xs:enumeration value="FL"/>
+						<xs:enumeration value="GA"/>
+						<xs:enumeration value="HI"/>
+						<xs:enumeration value="IA"/>
+						<xs:enumeration value="ID"/>
+						<xs:enumeration value="IL"/>
+						<xs:enumeration value="IN"/>
+						<xs:enumeration value="KS"/>
+						<xs:enumeration value="KY"/>
+						<xs:enumeration value="LA"/>
+						<xs:enumeration value="MA"/>
+						<xs:enumeration value="MD"/>
+						<xs:enumeration value="ME"/>
+						<xs:enumeration value="MI"/>
+						<xs:enumeration value="MN"/>
+						<xs:enumeration value="MO"/>
+						<xs:enumeration value="MS"/>
+						<xs:enumeration value="MT"/>
+						<xs:enumeration value="NC"/>
+						<xs:enumeration value="ND"/>
+						<xs:enumeration value="NE"/>
+						<xs:enumeration value="NH"/>
+						<xs:enumeration value="NJ"/>
+						<xs:enumeration value="NM"/>
+						<xs:enumeration value="NV"/>
+						<xs:enumeration value="NY"/>
+						<xs:enumeration value="OH"/>
+						<xs:enumeration value="OK"/>
+						<xs:enumeration value="OR"/>
+						<xs:enumeration value="PA"/>
+						<xs:enumeration value="PR"/>
+						<xs:enumeration value="RI"/>
+						<xs:enumeration value="SC"/>
+						<xs:enumeration value="SD"/>
+						<xs:enumeration value="TN"/>
+						<xs:enumeration value="TX"/>
+						<xs:enumeration value="UT"/>
+						<xs:enumeration value="VA"/>
+						<xs:enumeration value="VT"/>
+						<xs:enumeration value="WA"/>
+						<xs:enumeration value="WI"/>
+						<xs:enumeration value="WV"/>
+						<xs:enumeration value="WY"/>
+						<xs:enumeration value="AA"/>
+						<xs:enumeration value="AE"/>
+						<xs:enumeration value="AP"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:complexType name="AAA_NameType">
+					<xs:annotation>
+						<xs:documentation>Generic type for name</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="0" name="Title" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="FirstName" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="MiddleName" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="LastName" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="Suffix" type="xs:string"/>
+						<xs:element minOccurs="0" name="TitleMZPValue" type="xs:string"/>
+						<xs:element minOccurs="0" name="SuffixMZPValue" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_DonorType">
+					<xs:annotation>
+						<xs:documentation>Generic type for Donor</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="LastName" type="xs:string" />
+						<xs:element name="FirstName" type="xs:string"/>
+						<xs:element name="Address1" type="xs:string"/>
+						<xs:element name="Address2" type="xs:string"  minOccurs="0" />
+						<xs:element name="City" type="xs:string"/>
+						<xs:element name="State" type="xs:string"/>
+						<xs:element name="Zip" type="xs:string"/>
+						<xs:element name="DonorNumber" type="xs:string"  minOccurs="0" />
+						<xs:element name="AllowAutoRenewalFlag" type="xs:string"  minOccurs="0" />
+						<xs:element name="PaidByCd" type="xs:string"  minOccurs="0" />
+						<xs:element name="Email" type="xs:string"  minOccurs="0" />
+						<xs:element name="SendBillTo" type="xs:string"  minOccurs="0" />
+						<xs:element name="SendCardTo" type="xs:string"  minOccurs="0" />
+						<xs:element name="Phone" type="xs:string"  minOccurs="0" />
+						<xs:element name="MembershipKy" type="xs:string"  minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_FoundationDonationType">
+				<xs:annotation>
+					<xs:documentation>Generic type for foundation donation</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="Code" type="xs:string" />
+					<xs:element name="Name" type="xs:string" />
+					<xs:element name="DonationKy" type="xs:string" />
+					<xs:element name="DefaultAmount" type="xs:decimal"/>
+					<xs:element name="MaxAmount" type="xs:decimal"/>
+					<xs:element name="MinAmount" type="xs:decimal"/>
+					<xs:element name="DeletedFlag" type="xs:boolean" minOccurs="0" />
+					<xs:element name="AvailableOnWebFlag" type="xs:boolean" minOccurs="0" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_Donor_PaymentItemType">
+				<xs:annotation>
+					<xs:documentation>Donor Payment Item Type</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="Amount" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="AAA_Membership_FoundationDonationType">
+				<xs:annotation>
+					<xs:documentation>Membership foundation donation info</xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="Code" type="xs:string" minOccurs="0" />
+					<xs:element name="DonationKy" type="xs:string" minOccurs="0" />
+					<xs:element name="RecurringAmount" type="xs:decimal"/>
+					<xs:element name="RecurringFlag" type="xs:boolean"  />
+					<xs:element name="SafetyFundFlag" type="xs:boolean"  />
+				</xs:sequence>
+			</xs:complexType>
+				<xs:simpleType name="AAA_PhoneType">
+					<xs:annotation>
+						<xs:documentation>Generic type for phone number</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{10}(-\d{1,5})?"/>
+						<xs:pattern value="\(\d{3}\)\d{3}(-\d{4})(-\d{1,5})?"/>
+						<xs:pattern value="\d{3}(-\d{3})(-\d{4})(-\d{1,5})?"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:complexType name="AAA_AddressType">
+					<xs:annotation>
+						<xs:documentation>
+							<xs:documentation>This is a generic Address type schema</xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element maxOccurs="2" name="AddressLine" type="xs:string"/>
+						<xs:element minOccurs="0" name="City" type="xs:string"/>
+						<xs:element minOccurs="0" name="State" type="AAA_StateType"/>
+						<xs:element minOccurs="0" name="ZipCode" type="AAA_ZipCodeType"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:simpleType name="AAA_EmailType">
+					<xs:annotation>
+						<xs:documentation>
+							<xs:documentation>This is a generic Email type schema</xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[^@]+@[^\.]+\..+"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_BooleanType">
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="true"/>
+						<xs:enumeration value="false"/>
+						<xs:enumeration value="yes"/>
+						<xs:enumeration value="no"/>
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_DateType">
+					<xs:annotation>
+						<xs:documentation>Date string</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1}(\d{1})?/\d{1}(\d{1})?/\d{4}"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_AmountType">
+					<xs:annotation>
+						<xs:documentation>Amount string</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+				<!--End Generic Types-->
+				<!--Start Electronic Payment Types-->
+				<xs:simpleType name="TransactionCodeType">
+					<xs:annotation>
+						<xs:documentation>Transaction code type - Electronic Payment</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+				<xs:simpleType name="TokenNumberType">
+					<xs:annotation>
+						<xs:documentation>Credit card token type for stored cards - Electronic Payment</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+				<xs:complexType name="SecurityType">
+					<xs:annotation>
+						<xs:documentation>Securuty type - Electronic Payment</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="ClientID" type="xs:string"/>
+						<xs:element name="ClientToken" type="xs:string"/>
+						<xs:element name="ClientUserID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<!--Start Credit Card-->
+				<xs:complexType name="CardHolderType">
+					<xs:annotation>
+						<xs:documentation>Credit card account holder type - Electronic Payment (credit card specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="Id" type="xs:string"/>
+						<xs:element minOccurs="0" name="FullName" type="xs:string"/>
+						<xs:element minOccurs="0" name="StreetAddress" type="xs:string"/>
+						<xs:element minOccurs="0" name="Zipcode" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="CardType">
+					<xs:annotation>
+						<xs:documentation>Credit card type - Electronic Payment (credit card specific)</xs:documentation>
+					</xs:annotation>
+					<!-- modification for epayment -->
+					<xs:sequence>
+						<xs:element name="TokenNumber" type="TokenNumberType"/>
+						<xs:element name="CardTypeCode" type="xs:string"/>
+						<xs:element name="AccountNumber" type="AAA_CreditCardNumber_LastFour"/>
+						<xs:element name="Expiration" type="xs:string"/>
+						<xs:element name="CVV" type="xs:string"/>
+						<xs:element name="CreditDebitCode" type="xs:string" minOccurs="0"  />
+						<xs:element minOccurs="0" name="CardHolder" type="CardHolderType"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="CheckType">
+					<xs:annotation>
+						<xs:documentation>E Check type - Electronic Payment (ECheck specific)</xs:documentation>
+					</xs:annotation>
+					<!-- modification for epayment -->
+					<xs:sequence>
+						<xs:element name="CheckNumber" minOccurs="0"  type="xs:string" /> 
+						<xs:element name="CheckTokenNumber" minOccurs="0" type="xs:string" /> 
+						<xs:element name="CheckABANumber" minOccurs="0"  type="xs:string" /> 
+						<!-- Account number last four -->
+						<xs:element name="CheckBankAccountNumber" minOccurs="0"  type="xs:string" />   
+						<xs:element name="DrawerFirstName" minOccurs="0"   type="xs:string" /> 
+						<xs:element name="DrawerLastName" minOccurs="0"   type="xs:string" /> 
+						<xs:element name="DrawerAccountName" minOccurs="0"  type="xs:string" /> 
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="CreditCardTransactionType">
+					<xs:annotation>
+						<xs:documentation>Credit card transaction - Electronic Payment (credit card specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="Amount" type="AAA_AmountType"/>
+						<xs:element minOccurs="0" name="SequenceNumber" type="xs:string"/>
+						<xs:element minOccurs="0" name="OrderId" type="xs:string"/>
+						<xs:element minOccurs="0" name="ProductDescription" type="xs:string"/>
+						<xs:element minOccurs="0" name="SaveCreditCard" type="AAA_BooleanType"/>
+						<xs:element minOccurs="0" name="TerminalSetupGroup" type="TerminalSetupGroupType"/>
+						<xs:element minOccurs="0" name="MagneticTrackGroup" type="MagneticTrackGroupType"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AuthorizationCaptureReplyType">
+					<xs:annotation>
+						<xs:documentation>Authorization and Capture type - Electronic Payment (credit card specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="AuthorizationResponseCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="AuthorizationResponseMessage" type="xs:string"/>
+						<xs:element minOccurs="0" name="ApprovalCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="AddressMatchResponseCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="ZipcodeMatchResponseCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="CVV_MatchResponseCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="AuthorizationSequenceNumber" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_InstallPayType">
+					<xs:sequence>
+						<xs:element name="PaymentNumber" type="xs:integer"/>
+						<xs:element name="PaymentAmount" type="xs:decimal"/>
+						<xs:element name="ChargeDt" type="xs:string"/>
+						<xs:element name="ConvenienceFee" type="xs:decimal"/>
+						<xs:element name="Status" type="xs:string"/>
+						<xs:element name="PaymentSummaryKy" minOccurs="0" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_InstallPaysType">
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="1" name="Pay" type="AAA_InstallPayType"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_InstallPlanType">
+					<xs:sequence>
+						<xs:element name="PlanID" type="xs:integer"/>
+						<xs:element name="PlanName" type="xs:string"/>
+						<xs:element name="NumberOfPayments" type="xs:integer"/>
+						<xs:element name="ConvenienceFlag"  minOccurs="0" type="xs:boolean"/>
+						<xs:element name="ConvenienceAmount" minOccurs="0" type="xs:decimal"/>
+						<xs:element name="MinimumAmount"  minOccurs="0" type="xs:decimal"/>
+						<xs:element name="Pays" type="AAA_InstallPaysType"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="TerminalSetupGroupType">
+					<xs:annotation>
+						<xs:documentation>Credit card terminal setup for accepting payment -  Electronic Payment (credit card specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="CardPresentFlag" type="xs:string"/>
+						<xs:element minOccurs="0" name="TerminalCapability" type="xs:string"/>
+						<xs:element minOccurs="0" name="TerminalType" type="xs:string"/>
+						<xs:element minOccurs="0" name="POSEntryMode" type="xs:string"/>
+						<xs:element minOccurs="0" name="CustomerPresentFlag" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="MagneticTrackGroupType">
+					<xs:annotation>
+						<xs:documentation>Magnetic stripe data - Electronic Payment (credit card specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="Track1Data" type="xs:string"/>
+						<xs:element minOccurs="0" name="Track2Data" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<!--End Credit Card-->
+				<!--End Electronic Payment Types-->
+				<!--Begin Membership Types-->
+				<xs:simpleType name="AAA_Membership_MembershipNumber_ISOCodeType">
+					<xs:annotation>
+						<xs:documentation>ISO code, usually &quot;438&quot; - Membership (membership number specific)</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_Membership_MembershipNumber_ClubCodeType">
+					<xs:annotation>
+						<xs:documentation>AAA club code - Membership (membership number specific)</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_Membership_MembershipNumber_NumberType">
+					<xs:annotation>
+						<xs:documentation>Membership number - Membership (membership number specific)</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{7}"/>
+						<xs:pattern value="\d{8}"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_Membership_MembershipNumber_AssociateIdType">
+					<xs:annotation>
+						<xs:documentation>Associate id - Membership (membership number specific)</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{1}"/>
+						<xs:pattern value="\d{2}"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_Membership_MembershipNumber_CheckDigitType">
+					<xs:annotation>
+						<xs:documentation>Check Digit, randomly generated value  - Membership (membership number specific)</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(\d{1})?"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:simpleType name="AAA_Membership_MembershipNumber_FullNumberType">
+					<xs:annotation>
+						<xs:documentation>Full membership number as printed on the membership card - Membership (membership number specific)</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d{16}"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<xs:complexType name="AAA_Membership_MembershipNumber">
+					<xs:annotation>
+						<xs:documentation>Membership number type (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="ISOCode" type="AAA_Membership_MembershipNumber_ISOCodeType"/>
+						<xs:element minOccurs="0" name="ClubCode" type="AAA_Membership_MembershipNumber_ClubCodeType"/>
+						<xs:element name="Number" type="AAA_Membership_MembershipNumber_NumberType"/>
+						<xs:element minOccurs="0" name="AssociateId" type="AAA_Membership_MembershipNumber_AssociateIdType"/>
+						<xs:element minOccurs="0" name="CheckDigit" type="AAA_Membership_MembershipNumber_CheckDigitType"/>
+						<xs:element minOccurs="0" name="FullNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_PhoneType">
+					<xs:annotation>
+						<xs:documentation>Membership phone, attribute of the primary member  (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="PhoneNumber" type="AAA_PhoneType"/>
+						<xs:element name="PhoneTypeCode" type="xs:string"/>
+						<xs:element name="IsPrimary" type="xs:boolean" minOccurs="0" />
+						<xs:element minOccurs="0" name="Description" type="xs:string"/>
+						<xs:element minOccurs="0" name="Extension" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_UpdateMemberRequestInfo">
+					<xs:sequence>
+						<xs:element name="Name" type="AAA_NameType"/>
+						<xs:element minOccurs="1" name="Address" type="AAA_AddressType"/>
+						<xs:element minOccurs="0" name="Phones">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Phone" type="AAA_Membership_PhoneType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="Email" type="AAA_EmailType"/>
+						<xs:element minOccurs="0" name="DateOfBirth" type="AAA_DateType"/>
+						<xs:element minOccurs="0" name="JoinAAADate" type="AAA_DateType"/>
+						<xs:element name="MembershipNumber" type="AAA_Membership_MembershipNumber_NumberType"/>
+						<xs:element name="AssociateID" type="AAA_Membership_MembershipNumber_AssociateIdType"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Codes">
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="Code" type="AAA_Code"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Code">
+					<xs:annotation>
+						<xs:documentation>CX_Code</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="Description" type="xs:string"/>
+						<xs:element name="Value" type="xs:string"/>
+						<xs:element name="Type" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_CredentialHistory_Type">
+					<xs:annotation>
+						<xs:documentation>credential history (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="AssociateID" type="AAA_Membership_MembershipNumber_AssociateIdType"/>
+						<xs:element minOccurs="0" name="Name" type="AAA_NameType"/>
+						<xs:element minOccurs="0" name="RequestDate" type="xs:date"/>
+						<xs:element minOccurs="0" name="SendToFile" type="xs:date"/>
+						<xs:element minOccurs="0" name="MailedDate" type="xs:date"/>
+						<xs:element name="Type" type="xs:string"/>
+						<xs:element name="Reason" type="xs:string"/>
+						<xs:element minOccurs="0" name="Cancelled" type="AAA_BooleanType"/>
+						<xs:element minOccurs="0" name="File" type="xs:string"/>
+						<xs:element name="WaivedFeeFlag" type="AAA_BooleanType"/>
+						<xs:element name="SendCardTo" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_CredentialHistorys">
+					<xs:annotation>
+						<xs:documentation>credential historys (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="CredentialHistory" type="AAA_CredentialHistory_Type"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_MemberType">
+					<xs:annotation>
+						<xs:documentation>
+						Generic member type (membership specific)
+					</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="CustomerID" type="xs:int"/>
+						<xs:element minOccurs="0" name="MembershipNumber" type="AAA_Membership_MembershipNumber"/>
+						<xs:element name="AssociateType" type="xs:string"/>
+						<xs:element name="Name" type="AAA_NameType"/>
+						<xs:element minOccurs="0" name="DateOfBirth" type="AAA_DateType"/>
+						<xs:element minOccurs="0" name="JoinAAADate" type="AAA_DateType"/>
+						<xs:element name="Gender" type="xs:string"/>
+						<xs:element minOccurs="0" name="GraduationYear" type="xs:integer"/>
+						<xs:element minOccurs="0" name="Email" type="AAA_EmailType"/>
+						<xs:element name="Relation" type="xs:string"/>
+						<xs:element minOccurs="0" name="Status" type="xs:string"/>
+						<xs:element minOccurs="0" name="MemberOptions">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Option" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="AssociateTypeMZPValue" type="xs:string"/>
+						<xs:element minOccurs="0" name="ExpirationDate" type="AAA_DateType"/>
+						<xs:element minOccurs="0" name="StatusMZPValue" type="xs:string"/>
+						<xs:element minOccurs="0" name="RenewalMethod" type="xs:string"/>
+						<xs:element minOccurs="0" name="CredentialKy" type="xs:int"/>
+						<xs:element minOccurs="0" name="Action" type="xs:string"/>
+						<xs:element minOccurs="0" name="DoNotRenewalFlag" type="xs:boolean"/>
+					</xs:sequence>
+					<xs:attribute default="" name="identifier" type="xs:string"/>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_PrimaryMemberType">
+					<xs:annotation>
+						<xs:documentation>Primary member attributes  (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="Member" type="AAA_Membership_MemberType"/>
+						<xs:element minOccurs="1" name="Address" type="AAA_AddressType"/>
+						<xs:element minOccurs="0" name="Phones">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Phone" type="AAA_Membership_PhoneType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="NoEmail" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="EmailRefused" type="xs:boolean"/>
+					</xs:sequence>
+					<xs:attribute default="" name="identifier" type="xs:string"/>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_AssociateMemberType">
+					<xs:annotation>
+						<xs:documentation>Associate member attributes  (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="Member" type="AAA_Membership_MemberType"/>
+					</xs:sequence>
+					<xs:attribute default="" name="identifier" type="xs:string"/>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_CardType">
+					<xs:annotation>
+						<xs:documentation>Credit card payment schema  (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="Card" type="CardType"/>
+						<xs:element name="Authorization" type="AuthorizationCaptureReplyType"/>
+						<xs:element name="SaveAsAutoRenewalCard" type="AAA_BooleanType"/>
+					</xs:sequence>
+				</xs:complexType>
+				
+				<xs:complexType name="AAA_Membership_CheckType">
+					<xs:annotation>
+						<xs:documentation>ECheck payment schema  (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="Check" type="CheckType"/>
+					</xs:sequence>
+				</xs:complexType>
+				
+				<xs:complexType name="AAA_Membership_PaymentType">
+					<xs:annotation>
+						<xs:documentation>Membership Payment schema. Only credit card is available in this version.</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="Card" type="AAA_Membership_CardType"/>
+							<xs:element name="Check" type="AAA_Membership_CheckType"/>
+							<!--Add eCheck Payment schema here-->
+						</xs:choice>
+						<xs:element name="Amount" type="xs:decimal"/>
+					</xs:sequence>
+					<xs:attribute default="" name="identifier" type="xs:string"/>
+				</xs:complexType>
+				<xs:complexType name="AAA_MembershipType">
+					<xs:annotation>
+						<xs:documentation>Membership schema (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="CoverageLevel" type="xs:string"/>
+						<xs:element minOccurs="0" name="MarketCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="Status" type="xs:string"/>
+						<xs:element minOccurs="0" name="ExpirationDate" type="AAA_DateType"/>
+						<xs:element minOccurs="0" name="BillingCategory" type="xs:string"/>
+						<xs:element name="PrimaryMember" type="AAA_Membership_PrimaryMemberType"/>
+						<xs:element minOccurs="0" name="AssociateMembers">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Associate" type="AAA_Membership_AssociateMemberType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="MembershipOptions">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Option" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="RenewalMethod" type="xs:string"/>
+						<xs:element minOccurs="0" name="OutOfTerritoryAction" type="xs:string"/>
+						<xs:element minOccurs="0" name="InRenewal" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="HeavyERSUser" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="Salvage" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="FutureCancel" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="DoNotRenew" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="IsMilitary" type="xs:boolean" />
+						<xs:element minOccurs="0" name="IsOnTier" type="xs:boolean" />
+						<xs:element minOccurs="0" name="IsFirstResponder" type="xs:boolean" />
+						<xs:element minOccurs="0" name="BadAddressFlag" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="DoNotOfferPlus" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="Type" type="xs:string"/>
+						<xs:element minOccurs="0" name="DonorType" type="xs:string"/>
+						<xs:element minOccurs="0" name="PaidBy" type="xs:string"/>
+						<xs:element minOccurs="0" name="CommissionCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="IsEnrolledInEBilling" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="EBillingEmailNotificationFlag" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="marketTrackingCd" type="xs:string"/>
+						<xs:element minOccurs="0" name="OtherPhoneFLag" type="xs:string"/>
+						<xs:element minOccurs="0" name="Division" type="xs:string"/>
+						<xs:element minOccurs="0" name="DivisionCd" type="xs:string"/>
+						<xs:element minOccurs="0" name="DivisionKy" type="xs:string"/>
+						<xs:element minOccurs="0" name="RegionCd" type="xs:string"/>
+						<xs:element minOccurs="0" name="ClubRegionCd" type="xs:string"/>
+						<xs:element minOccurs="0" name="CoverageLevelMZPValue" type="xs:string"/>
+						<xs:element minOccurs="0" name="StatusMZPValue" type="xs:string"/>
+						<xs:element minOccurs="0" name="MembershipFoundationDonation" type="AAA_Membership_FoundationDonationType"/>
+						<xs:element minOccurs="0" name="IsEmployee" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="MembershipBalance" type="xs:string"/>
+					</xs:sequence>
+					<xs:attribute default="" name="identifier" type="xs:string"/>
+				</xs:complexType>
+				<xs:complexType name="AAA_MembershipEnrollmentRequestInfo">
+					<xs:sequence>
+						<xs:element name="AgentID" type="xs:string"/>
+						<xs:element name="Membership" type="AAA_MembershipType"/>
+						<xs:element name="Donor" type="AAA_DonorType" minOccurs="0" />
+						<xs:element maxOccurs="1" minOccurs="0" name="Payment" type="AAA_Membership_PaymentType"/>
+						<xs:element minOccurs="0" name="DoNotCheckDuplicateMembershps" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="PaymentPlanKy" type="xs:string"/>
+						<xs:element minOccurs="0" name="IsDonorMembership" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						<xs:element minOccurs="0" name="ARDiscountFlag" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_MembershipEnrollmentRequestInfo_AR">
+					<xs:sequence>
+						<xs:element name="AgentID" type="xs:string"/>
+						<xs:element name="Membership" type="AAA_MembershipType"/>
+						<xs:element name="TokenNumber" type="TokenNumberType"/>
+						<xs:element minOccurs="0" name="DoNotCheckDuplicateMembershps" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="Source" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_SaveMembershipmentRequestInfo">
+					<xs:sequence>
+						<xs:element name="AgentID" type="xs:string"/>
+						<xs:element name="Membership" type="AAA_MembershipType"/>
+						<xs:element name="Donor" type="AAA_DonorType" minOccurs="0" />
+						<xs:element maxOccurs="1" minOccurs="0" name="Payment" type="AAA_Membership_PaymentType"/>
+						<xs:element minOccurs="0" name="DoNotCheckDuplicateMembershps" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="PaymentPlanKy" type="xs:string"/>
+						<xs:element minOccurs="0" name="IsDonorMembership" type="xs:boolean"/>
+						<xs:element minOccurs="0" name="Source" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_MembershipAddAssociateRequestInfo">
+					<xs:sequence>
+						<xs:element name="AgentID" type="xs:string"/>
+						<xs:element name="MarketCode" type="xs:string"/>
+						<xs:element name="Associates">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Associate" type="AAA_Membership_AssociateMemberType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="Source" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_MembershipCancelAssociateRequestInfo">
+					<xs:annotation>
+						<xs:documentation>Cancel Associate member request message (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="AgentID" type="xs:string"/>
+						<xs:element name="MarketCode" type="xs:string"/>
+						<xs:element name="Associates">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Associate" type="AAA_Membership_AssociateMemberType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="Source" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_ErrorType">
+					<xs:annotation>
+						<xs:documentation>Error: element &quot;ReferenceIdentifier&quot; corresponds to the &quot;identifier&quot; attribute of Membership, Member, etc. (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="ReferenceIdentifier" type="xs:string"/>
+						<xs:element name="Entity" type="xs:string"/>
+						<xs:element name="OriginalValue" type="xs:string"/>
+						<xs:element name="Message" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_BillSummaryType">
+					<xs:annotation>
+						<xs:documentation>Bill Summary schema (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="BillAt" type="xs:string" />
+						<xs:element name="BillType" type="xs:string" />
+						<xs:element name="EbillFlag" type="xs:boolean" />
+						<xs:element name="NoticeNumber" type="xs:string" />
+						<xs:element name="ProcessDate" type="AAA_DateType" />
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_InfoType">
+					<xs:annotation>
+						<xs:documentation>Informational message, provides additional informaiton at the end of a transaction (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="Text" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_PaymentSummary">
+					<xs:annotation>
+						<xs:documentation>Membership payment line, historic payment record (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="PaymentDate" type="xs:string"/>
+						<xs:element name="Amount" type="xs:string"/>
+						<xs:element name="BatchName" type="xs:string"/>
+						<xs:element name="PaymentMethod" type="xs:string"/>
+						<xs:element name="TransactionType" type="xs:string"/>
+						<xs:element name="AdjustmentDescription" type="xs:string"/>
+						<xs:element name="CreateDate" type="xs:string"/>
+						<xs:element name="PaidBy" type="xs:string"/>
+						<xs:element name="DonorNumber" type="xs:string"/>
+						<xs:element name="UnappliedAmount" type="xs:string"/>
+						<xs:element name="PaymentSummaryKy" minOccurs="0" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+
+				<xs:complexType name="AAA_Membership_PaymentDetail">
+					<xs:annotation>
+						<xs:documentation>Membership payment detail, historic payment record (membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="associateID" type="xs:string"/>
+						<xs:element name="memberName" type="xs:string"/>
+						<xs:element name="description" type="xs:string"/>
+						<xs:element name="amount" type="xs:string"/>
+						<xs:element name="unAppliedAmt" type="xs:string"/>
+						<xs:element name="component" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_PaymentSummaryDetail">
+					<xs:annotation>
+						<xs:documentation>Membership payment line, historic payment record detail(membership specific)</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="PaymentSummaryKy" type="xs:string"/>
+						<xs:element name="Source" type="xs:string"/>
+						<xs:element name="BatchName" type="xs:string"/>
+						<xs:element name="PaymentAmt" type="xs:string"/>
+						<xs:element name="TransType" type="xs:string"/>
+						<xs:element name="PaymentMethod" type="xs:string"/>
+						<xs:element name="PaidBy" type="xs:string"/>
+						<xs:element name="Donor" type="xs:string"/>
+						<xs:element name="AdjustmentCd" type="xs:string"/>
+						<xs:element name="CreateDt" type="xs:string"/>
+						<xs:element name="PaidDt" type="xs:string"/>
+						<xs:element name="Reason" type="xs:string"/>
+						<xs:element name="PostDt" type="xs:string"/>
+						<xs:element name="CcType" type="xs:string"/>
+						<xs:element name="CcNumber" type="xs:string"/>
+						<xs:element name="CcExpDt" type="xs:string"/>
+						<xs:element name="CcAuthNbr" type="xs:string"/>
+						<xs:element name="AchBank" type="xs:string"/>
+						<xs:element name="AchRouting" type="xs:string"/>
+						<xs:element name="AchAcctType" type="xs:string"/>
+						<xs:element name="AchAccount" type="xs:string"/>
+						<xs:element name="TransDt" type="xs:string"/>
+						<xs:element minOccurs="0" name="PaymentDetails">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" minOccurs="0" name="PaymentDetail" type="AAA_Membership_PaymentDetail"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+
+				<xs:complexType name="AAA_Membership_PayableComponentType">
+					<xs:annotation><xs:documentation>Payable Memebrship Component such as a rider, fee, or donation history</xs:documentation></xs:annotation>
+					<xs:sequence>
+						<xs:element name="Description" type="xs:string"/>
+						<xs:element name="AmountDue" type="xs:decimal"/>
+						<xs:element name="OriginalCostAmount" type="xs:decimal"/>
+						<xs:element name="DuesCostAmount" type="xs:decimal"/>
+						<xs:element name="DuesAdjustmentAmount" type="xs:decimal"/>
+						<xs:element name="FutureCancelCreditAmount" type="xs:decimal"/>
+						<xs:element name="PaymentAmount" type="xs:decimal"/>
+						<xs:element name="Status" type="xs:string"/>
+						<xs:element minOccurs="0" name="EffectiveDate" type="xs:string"/>
+						<xs:element name="CostEffectiveDate" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_RiderType">
+					<xs:annotation><xs:documentation>Rider on a membership member</xs:documentation></xs:annotation>
+					<xs:complexContent>
+						<xs:extension base="AAA_Membership_PayableComponentType">
+							<xs:sequence>
+								<xs:element name="Type" type="xs:string"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_FeeType">
+					<xs:annotation><xs:documentation>Fee on a membership member</xs:documentation></xs:annotation>
+					<xs:complexContent>
+						<xs:extension base="AAA_Membership_PayableComponentType">
+							<xs:sequence>
+								<xs:element name="Type" type="xs:string"/>
+								<xs:element name="FeeAmount" type="xs:decimal"/>
+								<xs:element name="FeeAppliedAmount" type="xs:decimal"/>
+								<xs:element name="Waived" type="xs:boolean"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_DonationType">
+					<xs:annotation><xs:documentation>Donation on a membership member</xs:documentation></xs:annotation>
+					<xs:complexContent>
+						<xs:extension base="AAA_Membership_PayableComponentType"/>
+					</xs:complexContent>
+				</xs:complexType>
+				<xs:complexType name="AAA_Membership_MemberComponentDuesType">
+					<xs:annotation><xs:documentation>ember information and rider, fees, and donation dues information</xs:documentation></xs:annotation>
+					<xs:sequence>
+						<xs:element name="Member" type="AAA_Membership_MemberType"/>
+						<xs:element minOccurs="0" name="Riders">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Rider" type="AAA_Membership_RiderType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="Fees">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Fee" type="AAA_Membership_FeeType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element minOccurs="0" name="Donations">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element maxOccurs="unbounded" name="Donation" type="AAA_Membership_DonationType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TotalAmountDue" type="xs:decimal"/>
+					</xs:sequence>
+				</xs:complexType>
+				<!--End Membership Types-->
+				<xs:complexType name="AAA_BrandCards_Type">
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="BrandCard" type="AAA_BrandCard_Type"/>
+					</xs:sequence>
+				</xs:complexType>
+	
+			
+				<xs:complexType name="AAA_BrandCard_Type">
+					<xs:sequence>
+						<xs:element name="CredentialKy" type="xs:int"/>
+						<xs:element name="CredentialCd" type="xs:string"/>
+						<xs:element name="Description" type="xs:string"/>
+						<xs:element name="RegionCd" type="xs:string"/>
+						<xs:element name="DivisionKy" type="xs:int"/>
+						<xs:element name="DivisionCd" type="xs:string"/>
+						<xs:element name="DeleteFlag" type="xs:string"/>
+						<xs:element name="VendorCredentialCd" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_CWPDuplicateProfile_Type">
+					<xs:sequence>
+						<xs:element name="ProfileID" type="xs:string"/>
+						<xs:element name="ProfileDescription" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<!--Begin Common Types-->
+				<xs:complexType name="AAA_RequestorType">
+					<xs:annotation>
+						<xs:documentation>Generic AAA request structure included in every service request</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="ConsumerID" type="xs:string"/>
+						<xs:element name="ConsumerToken" type="xs:string"/>
+						<xs:element name="UserID" type="xs:string"/>
+						<xs:element name="TransactionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AAA_CommonResponseInfoType">
+					<xs:annotation>
+						<xs:documentation>Generic AAA response structure included in every service response</xs:documentation>
+					</xs:annotation>
+					<xs:sequence>
+						<xs:element name="ReturnCode" type="xs:string"/>
+						<xs:element minOccurs="0" name="ReturnMessage" type="xs:string"/>
+						<xs:element minOccurs="0" name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+				<!--End Common Types-->
+				<!--Begin Membership Enrollment Request/Response-->
+				<xs:element name="AAA_MembershipEnroll_RQ">
+					<xs:annotation>
+						<xs:documentation>Membership enrollment request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MembershipEnrollRequest" type="AAA_MembershipEnrollmentRequestInfo"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_MembershipEnroll_AR_RQ">
+					<xs:annotation>
+						<xs:documentation>Membership enrollment request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MembershipEnrollRequest" type="AAA_MembershipEnrollmentRequestInfo_AR"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_MembershipEnroll_RS">
+					<xs:annotation>
+						<xs:documentation>Membership enrollment response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element name="Membership" type="AAA_MembershipType"/>
+							<xs:element name="Donor" type="AAA_DonorType" minOccurs="0" />
+							<xs:element name="CWPDuplicateProfile" type="AAA_CWPDuplicateProfile_Type" minOccurs="0" /> 
+							<xs:element name="TransactionID" type="xs:string" minOccurs="0" />
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="DuplicateMemberships">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="DuplicateMembership" type="AAA_MembershipType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_MembershipEnroll_AR_RS">
+					<xs:annotation>
+						<xs:documentation>Membership enrollment response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element name="Membership" type="AAA_MembershipType"/>
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="DuplicateMemberships">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="DuplicateMembership" type="AAA_MembershipType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Membership Enroll Request/Response-->
+				<!--Begin Update Membership Request/Response-->
+				<xs:element name="AAA_UpdateMember_RQ">
+					<xs:annotation>
+						<xs:documentation>Update Member request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="Member" type="AAA_UpdateMemberRequestInfo"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element minOccurs="0" name="DeleteWhenValuesAreEmpty" type="xs:boolean"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_UpdateMember_RS">
+					<xs:annotation>
+						<xs:documentation>Update Member response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Update Membership Request/Response-->
+				<!--Begin Get Duplicate Card Reason Request/Response-->
+				<xs:element name="AAA_GetDuplicateCardRequestReasons_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Duplicate Card Reason (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetDuplicateCardRequestReasons_RS">
+					<xs:annotation>
+						<xs:documentation>Get Duplicate Card Reason response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element maxOccurs="1" minOccurs="0" name="Reasons" type="AAA_Codes"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Get Duplicate Card Reason Request/Response-->
+				<!--Begin Get Memberhsip Duplicate Card History Request/Response-->
+				<xs:element name="AAA_GetDuplicateCardRequestHistory_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Duplicate Card Reason (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MembershipNumber" type="AAA_Membership_MembershipNumber_NumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetDuplicateCardRequestHistory_RS">
+					<xs:annotation>
+						<xs:documentation>Get Duplicate Card Reason response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element maxOccurs="1" minOccurs="0" name="CredentialHistorys" type="AAA_CredentialHistorys"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Get Memberhsip Duplicate Card History  Request/Response-->
+				<!--Begin Request Duplicate Card Request/Response-->
+				<xs:element name="AAA_RequestDuplicateCard_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Duplicate Card Reason (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MembershipNumber" type="AAA_Membership_MembershipNumber_NumberType"/>
+							<xs:element name="CredentialHistory" type="AAA_CredentialHistory_Type"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_RequestDuplicateCard_RS">
+					<xs:annotation>
+						<xs:documentation>Get Duplicate Card Reason response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="CredentialHistorys" type="AAA_CredentialHistorys"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Request Duplicate Card Request/Response-->
+				<!--Begin Add Associate Request/Response-->
+				<xs:element name="AAA_AddAssociate_RQ">
+					<xs:annotation>
+						<xs:documentation>Add Associate request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AddAssociateRequest" type="AAA_MembershipAddAssociateRequestInfo"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_AddAssociate_RS">
+					<xs:annotation>
+						<xs:documentation>Add Associate response</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Associates">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Associate" type="AAA_Membership_AssociateMemberType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Add Associate Request/Response-->
+				<!--Begin Cancel Associate Request/Response-->
+				<xs:element name="AAA_CancelAssociate_RQ">
+					<xs:annotation>
+						<xs:documentation>Cancel Associate request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="CancelAssociateRequest" type="AAA_MembershipCancelAssociateRequestInfo"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_CancelAssociate_RS">
+					<xs:annotation>
+						<xs:documentation>Cancel Associate response</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Associates">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Associate" type="AAA_Membership_AssociateMemberType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Cancel Associate Request/Response-->
+				<!--Begin Change Coverage Request/Response-->
+				<xs:element name="AAA_ChangeCoverage_RQ">
+					<xs:annotation>
+						<xs:documentation>Change Coverage request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="CoverageLevel" type="xs:string"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+							<xs:element minOccurs="0" name="MarketCode" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_ChangeCoverage_RS">
+					<xs:annotation>
+						<xs:documentation>Change Coverage response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element name="Membership" type="AAA_MembershipType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="LastPaymentAmount" type="xs:decimal"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--Begin Change Coverage Request/Response-->
+				<!--Begin Get Balance Request/Response-->
+				<xs:element name="AAA_GetBalance_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Balance request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetBalance_RS">
+					<xs:annotation>
+						<xs:documentation>Get Balance response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--Begin Get Balance Request/Response-->
+				<!--Begin Get Membership Overview Request/Response-->
+				<xs:element name="AAA_GetMembershipOverview_RQ">
+					<xs:annotation>
+						<xs:documentation>Membership overview request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetMembershipOverview_RS">
+					<xs:annotation>
+						<xs:documentation>Membership overview response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Membership" type="AAA_MembershipType"/>
+							<xs:element minOccurs="0" name="CreditCard" type="CardType"/>
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="LastPaymentAmount" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="PaymentHistory">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="PaymentSummary" type="AAA_Membership_PaymentSummary"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--Begin Get Membership Overview Request/Response-->
+				<!--Begin Update Billing Request/Response-->
+				<xs:element name="AAA_UpdateBilling_RQ">
+					<xs:annotation>
+						<xs:documentation>Update Billing request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_UpdateBilling_RS">
+					<xs:annotation>
+						<xs:documentation>Update Billing response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--Begin Update BillingRequest/Response-->
+				<!--Begin Update Make Payment Request/Response-->
+				<xs:element name="AAA_MakePayment_RQ">
+					<xs:annotation>
+						<xs:documentation>Make Payment request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="Payment" type="AAA_Membership_PaymentType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_MakePayment_RS">
+					<xs:annotation>
+						<xs:documentation>Make Payment response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element name="Membership" type="AAA_MembershipType"/>
+							<xs:element minOccurs="0" name="CreditCard" type="CardType"/>
+							<xs:element minOccurs="0" name="CurrentBalance" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="LastPaymentAmount" type="xs:decimal"/>
+							<xs:element minOccurs="0" name="PaymentHistory">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="PaymentSummary" type="AAA_Membership_PaymentSummary"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Update Make Payment Request/Response-->
+				<!--Begin Update Membership Home Address Request/Response-->
+				<xs:element name="AAA_UpdateMembershipHomeAddress_RQ">
+					<xs:annotation>
+						<xs:documentation>Update Membership Home Address request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="Address" type="AAA_AddressType"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_UpdateMembershipHomeAddress_RS">
+					<xs:annotation>
+						<xs:documentation>Update Membership Home Address response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Update Membership Home Address Request/Response-->
+				<!--Begin Update Member Name Request/Response-->
+				<xs:element name="AAA_UpdateMemberName_RQ">
+					<xs:annotation>
+						<xs:documentation>Update Member Name request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="Name" type="AAA_NameType"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_UpdateMemberName_RS">
+					<xs:annotation>
+						<xs:documentation>Update Member Name response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Update Member Name Request/Response-->
+				<!--Begin Update Membership Primary Phone Request/Response-->
+				<xs:element name="AAA_UpdateMembershipPrimaryPhone_RQ">
+					<xs:annotation>
+						<xs:documentation>Update Membership Primary Phone request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="PrimaryPhone" type="xs:string"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_UpdateMembershipPrimaryPhone_RS">
+					<xs:annotation>
+						<xs:documentation>Update Membership Primary Phone response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Update Membership Primary Phone Request/Response-->
+				<!--Begin Update Member Email Request/Response-->
+				<xs:element name="AAA_UpdateMemberEmail_RQ">
+					<xs:annotation>
+						<xs:documentation>Update Member Email request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="EmailAddress" type="AAA_EmailType"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_UpdateMemberEmail_RS">
+					<xs:annotation>
+						<xs:documentation>Update Member Email response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Update Member Email Request/Response-->
+				<!--Begin Register Pos Sale Request/Response-->
+				<xs:element name="AAA_RegisterPosSale_RQ">
+					<xs:annotation>
+						<xs:documentation>Register Pos Sale request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="PosSaleID" type="xs:string"/>
+							<xs:element name="PosCustomerID" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_RegisterPosSale_RS">
+					<xs:annotation>
+						<xs:documentation>Register Pos Sale response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Register Pos Sale Request/Response-->
+				<!--Begin Apply Payment Request/Response-->
+				<xs:element name="AAA_ApplyPayment_RQ">
+					<xs:annotation>
+						<xs:documentation>Apply Payment request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MarketCode" minOccurs="0" type="xs:string"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="Payment" type="AAA_Membership_PaymentType"/>
+							<xs:element name="SendEmailConfirmation" type="xs:boolean"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+							<xs:element name="PaymentPlanKy" minOccurs="0" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_ApplyPayment_RS">
+					<xs:annotation>
+						<xs:documentation>Apply Payment response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_ApplyPaymentWithCapture_RQ">
+					<xs:annotation>
+						<xs:documentation>Apply Payment request with capture (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MarketCode" minOccurs="0" type="xs:string"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="Payment" type="AAA_Membership_PaymentType"/>
+							<xs:element name="SendEmailConfirmation" type="xs:boolean"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+							<xs:element name="PaymentPlanKy" minOccurs="0" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_ApplyPaymentWithCapture_RS">
+					<xs:annotation>
+						<xs:documentation>Apply Payment with capture response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End ApplyPayment Request/Response-->
+				<!--Start IsDuplicateEmail request/response-->
+				<xs:element name="AAA_IsDuplicateEmail_RQ">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Email request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="Email" type="AAA_EmailType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_IsDuplicateEmail_RS">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Email response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="CheckResult" type="AAA_BooleanType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End IsDuplicateEmail  request/response-->
+				<!--Start IsDuplicateEmailExcludeMembership request/response-->
+				<xs:element name="AAA_IsDuplicateEmailExcludeMembership_RQ">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Email request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="Email" type="AAA_EmailType"/>
+							<xs:element name="MembershipID" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_IsDuplicateEmailExcludeMembership_RS">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Email Exclude Membership response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="CheckResult" type="AAA_BooleanType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End IsDuplicateEmailExcludeMembership  request/response-->			
+				<!--Start GetBlowFishEncryptedCookieValues request/response-->
+				<xs:element name="AAA_GetBlowFishEncryptedCookieValues_RQ">
+					<xs:annotation>
+						<xs:documentation>Get BlowFish Encrypted Cookie Values request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MembershipID" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetBlowFishEncryptedCookieValues_RS">
+					<xs:annotation>
+						<xs:documentation>Get BlowFish Encrypted Cookie Values response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CookieName" type="xs:string"/>
+							<xs:element name="Email" type="xs:string"/>
+							<xs:element name="MemberID" type="xs:string"/>
+							<xs:element name="MemberIDMA" type="xs:string"/>
+							<xs:element name="MembershipKy" type="xs:string"/>
+							<xs:element name="UserName" type="xs:string"/>
+							<xs:element name="ZipCode" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End GetBlowFishEncryptedCookieValues  request/response-->			
+				<!--Begin Get Membership Component Dues Request/Response-->
+				<xs:element name="AAA_GetMembershipComponentDues_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Membership Component Dues request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetMembershipComponentDues_RS">
+					<xs:annotation>
+						<xs:documentation>Get Membership Component Dues response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="MembershipComponentDues">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" minOccurs="0" name="MemberComponentDues" type="AAA_Membership_MemberComponentDuesType"/>
+										<xs:element name="SubTotalAmountDue" type="xs:decimal"/>
+										<xs:element name="UnappliedAmount" type="xs:decimal"/>
+										<xs:element name="PendingCreditAmount" type="xs:decimal"/>
+										<xs:element name="TotalAmountDue" type="xs:decimal"/>
+										<xs:element name="TotalCost" minOccurs="0" type="xs:decimal"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="MembershipCoverageLevel" type="xs:string"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Get Membership Component Dues Request/Response-->
+				<!--Begin Reset Member Web Password Request/Response-->
+				<xs:element name="AAA_ResetMemberWebPassword_RQ">
+					<xs:annotation>
+						<xs:documentation>Reset Member Web Password request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="EmailAddress" type="AAA_EmailType"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_ResetMemberWebPassword_RS">
+					<xs:annotation>
+						<xs:documentation>Reset Member Web Password response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Reset Member Web PasswordRequest/Response-->
+				<!--Begin Enroll Membership In E Billing Request/Response-->
+				<xs:element name="AAA_EnrollMembershipInEBilling_RQ">
+					<xs:annotation>
+						<xs:documentation>Enroll Membership In E Billing request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="EmailAddress" type="AAA_EmailType"/>
+							<xs:element minOccurs="0" name="MarketCode" type="xs:string"/>
+							<xs:element name="SendEmailConfirmation" type="xs:boolean"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_EnrollMembershipInEBilling_RS">
+					<xs:annotation>
+						<xs:documentation>Enroll Membership In E Billing response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Enroll Membership In E Billing Request/Response-->
+				<!--Begin Remove Membership From E Billing Request/Response-->
+				<xs:element name="AAA_RemoveMembershipFromEBilling_RQ">
+					<xs:annotation>
+						<xs:documentation>Remove Membership From E Billing request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element minOccurs="0" name="Source" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_RemoveMembershipFromEBilling_RS">
+					<xs:annotation>
+						<xs:documentation>Remove Membership From E Billing response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Remove Membership From E Billing Request/Response-->
+				<!--Begin Is Membership Enrolled In E Billing Request/Response-->
+				<xs:element name="AAA_IsMembershipEnrolledInEBilling_RQ">
+					<xs:annotation>
+						<xs:documentation>Is Membership Enrolled In E Billing request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_IsMembershipEnrolledInEBilling_RS">
+					<xs:annotation>
+						<xs:documentation>Is Membership Enrolled In E Billing response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element name="IsEnrolledInEBilling" type="xs:boolean"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Is Membership Enrolled In E Billing Request/Response-->
+				<!--Begin Apply Donor Payment Request/Response-->
+				<xs:element name="AAA_ApplyDonorPayment_RQ">
+					<xs:annotation>
+						<xs:documentation>Apply Donor Payment Request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="Source" type="xs:string"/>
+							<xs:element name="Payment" type="AAA_Membership_PaymentType"/>
+							<xs:element name="SendEmailConfirmation" type="xs:boolean"/>
+							<xs:element name="DonorNumber" type="xs:string"/>
+							<xs:element name="DonorPaymentItems">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="DonorPaymentItem" type="AAA_Donor_PaymentItemType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_ApplyDonorPayment_RS">
+					<xs:annotation>
+						<xs:documentation>Apply Donor Payment response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Apply Donor Payment Request/Response-->
+				<!--Begin Enroll Donor Membership In Automatic Renewal Billing Request/Response-->
+				<xs:element name="AAA_EnrollDonorMembershipInAutomaticRenewalBilling_RQ">
+					<xs:annotation>
+						<xs:documentation>Enroll Donor Membership In Automatic Renewal Billing Request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="Source" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="DonorNumber" type="xs:string"/>
+							<xs:element name="Payment" type="AAA_Membership_PaymentType"/>
+							<xs:element name="SendEmailConfirmation" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_EnrollDonorMembershipInAutomaticRenewalBilling_RS">
+					<xs:annotation>
+						<xs:documentation>Enroll Donor Membership In Automatic Renewal Billing response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Enroll Donor Membership In Automatic Renewal Billing Request/Response-->
+				<!--Begin Remove Donor From Membership Request/Response-->
+				<xs:element name="AAA_RemoveDonorFromMembership_RQ">
+					<xs:annotation>
+						<xs:documentation>Remove Donor From Membership Request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="Source" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_RemoveDonorFromMembership_RS">
+					<xs:annotation>
+						<xs:documentation>Remove Donor From Membership response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Remove Donor From Membership Request/Response-->
+				<!--Is Out of Territory Request/Response-->
+				<xs:element name="AAA_IsOutOfTerritoryRequestMessage_RQ">
+					<xs:annotation>
+						<xs:documentation>Remove Donor From Membership Request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="ZipCode" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_IsOutOfTerritoryRequestMessage_RS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="IsOutOfTerritory" type="AAA_BooleanType"/>
+							<xs:element minOccurs="0" name="ClubCode" type="xs:string"/>
+							<xs:element minOccurs="0" name="ClubName" type="xs:string"/>
+							<xs:element minOccurs="0" name="BranchKy" type="xs:string"/>
+							<xs:element minOccurs="0" name="City" type="xs:string"/>
+							<xs:element minOccurs="0" name="StateInitial" type="xs:string"/>
+							<xs:element minOccurs="0" name="BranchCity" type="xs:string"/>
+							<xs:element minOccurs="0" name="BranchState" type="xs:string"/>
+							<xs:element minOccurs="0" name="RegionCd" type="xs:string"/>
+							<xs:element minOccurs="0" name="ClubRegionCd" type="xs:string"/>
+							<xs:element minOccurs="0" name="DivisionKy" type="xs:string"/>
+							<xs:element minOccurs="0" name="DivisionCd" type="xs:string"/>
+							<xs:element minOccurs="0" name="StateFullName" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Is Out Of Territory Request/Response-->
+				<!--Begin Add Membership Sale To POS Request/Response-->
+				<xs:element name="AAA_AddMembershipSaleToPOS_RQ">
+					<xs:annotation>
+						<xs:documentation>Add a Membership Sale to the POS system and tell MzP to look for any payments made against it</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="Source" type="xs:string"/>
+							<xs:element name="PosAgentId" type="xs:string"/>
+							<xs:element name="PosOfficeId" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="TotalSaleAmount" type="AAA_AmountType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_AddMembershipSaleToPOS_RS">
+					<xs:annotation>
+						<xs:documentation>Add a Membership Sale to the POS system and tell MzP to look for any payments made against it</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Add Membership Sale To POS Request/Response-->
+				<!--Begin Get Foundation Donation Request/Response-->
+				<xs:element name="AAA_GetFoundationDonation_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Foundation Donation</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="Code" type="xs:string" minOccurs="0"/>
+							<xs:element name="ZipCode" type="AAA_ZipCodeType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetFoundationDonation_RS">
+					<xs:annotation>
+						<xs:documentation>Get Foundation Donation</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="FoundationDonation" type="AAA_FoundationDonationType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Get Foundation Donation Request/Response-->
+				<!--Begin Update Membership Foundation Donation Request/Response-->
+				<xs:element name="AAA_UpdateMembershipFoundationDonation_RQ">
+					<xs:annotation>
+						<xs:documentation>Update Membership Foundation Donation</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="MembershipNumber" type="AAA_Membership_MembershipNumber_NumberType"/>
+							<xs:element name="MembershipFoundationDonation" type="AAA_Membership_FoundationDonationType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_UpdateMembershipFoundationDonation_RS">
+					<xs:annotation>
+						<xs:documentation>Update Membership Foundation Donation</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Update Membership Foundation Donation Request/Response-->
+				
+				<!--Begin Membership Enrollment Request/Response-->
+				<xs:element name="AAA_IsDuplicateMembership_RQ">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Membership request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="IsDuplicateMembershipRequest" >
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="AgentID" type="xs:string"/>
+										<xs:element name="Membership" type="AAA_MembershipType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_IsDuplicateMembership_RS">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Membership response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element name="HasDuplicateFlag" type="AAA_BooleanType"/>
+							<xs:element name="Membership" type="AAA_MembershipType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="DuplicateMemberships">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="DuplicateMembership" type="AAA_MembershipType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				
+				<!--Begin Request Temp Card Request/Response-->
+				<xs:element name="AAA_RequestTempCard_RQ">
+					<xs:annotation>
+						<xs:documentation>Request Temp Card Request Element</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="Email" type="AAA_EmailType"/>
+							<xs:element name="Subject" type="xs:string"/>
+							<xs:element name="Message" type="xs:string" minOccurs="0"/>
+							<xs:element name="MembershipIDs" >
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MembershipID" type="AAA_Membership_MembershipNumber_FullNumberType" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_RequestTempCard_RS">
+					<xs:annotation>
+						<xs:documentation>Request Temp Card Request Element</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Request Temp Card Request/Response-->
+				
+				<xs:element name="AAA_GetBrandCard_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Brand Cards request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="ZipCode" type="AAA_ZipCodeType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	
+				<xs:element name="AAA_GetBrandCard_RS">
+					<xs:annotation>
+						<xs:documentation>Get Brand Cards response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="BrandCards" type="AAA_BrandCards_Type"/>
+							<xs:element name="DivisionKy" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				
+				<xs:element name="AAA_IsDuplicateDonor_RQ">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Donor check request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="Donor" type="AAA_DonorType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	
+				<xs:element name="AAA_IsDuplicateDonor_RS">
+					<xs:annotation>
+						<xs:documentation>Is Duplicate Donor check response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Donor" type="AAA_DonorType" minOccurs="0" />
+							<xs:element name="CheckResult" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="AAA_SaveMembership_RQ">
+					<xs:annotation>
+						<xs:documentation>Membership Save request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="SaveMembershipRequest" type="AAA_SaveMembershipmentRequestInfo"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_SaveMembership_RS">
+					<xs:annotation>
+						<xs:documentation>Membership Save response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetPaymentDetails_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Payment Details request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="PaymentSummaryKy" type="xs:string" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	
+				<xs:element name="AAA_GetPaymentDetails_RS">
+					<xs:annotation>
+						<xs:documentation>Get Brand Cards response (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="PaymentSummaryDetail" type="AAA_Membership_PaymentSummaryDetail"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetEmailPaymentConfirmation_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Payment Details Email confirmation request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<xs:element name="PaymentSummaryKy" type="xs:string" />
+							<xs:element name="Email" type="AAA_EmailType"/>
+							<xs:element name="ClubCode" minOccurs="0"  type="xs:string" />
+							<xs:element minOccurs="0" name="Message" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	
+				<xs:element name="AAA_GetEmailPaymentConfirmation_RS">
+					<xs:annotation>
+						<xs:documentation>Get Payment Details Email confirmation response(service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="Message" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!--End Get Payment Details email confirmation Request/Response-->
+				<xs:element name="AAA_GetDonorDetail_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Donor Detail request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="DonorNumber" type="xs:string"/>
+							<xs:element name="DonorTypeCD" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	
+				<xs:element name="AAA_GetDonorDetail_RS">
+					<xs:annotation>
+						<xs:documentation>Get Donor Detail request(service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Donor" type="AAA_DonorType" minOccurs="0" />
+							<xs:element minOccurs="0" name="Payment" type="AAA_Membership_PaymentType"/>
+							<xs:element name="HasDonorMembership" type="xs:boolean" minOccurs="0" />
+							<xs:element minOccurs="0" name="DonorMemberships">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="DonorMembership" type="AAA_MembershipType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="AAA_GetBillHistory_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Bill History request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="Source" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	
+				<xs:element name="AAA_GetBillHistory_RS">
+					<xs:annotation>
+						<xs:documentation>Get Bill History response(service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="BillHistory">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="BillSummary" type="AAA_BillSummaryType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_GetRegionInfoByZip_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Region Info request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="ZipCode" type="AAA_ZipCodeType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+	
+				<xs:element name="AAA_GetRegionInfoByZip_RS">
+					<xs:annotation>
+						<xs:documentation>Get Region Info response(service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element minOccurs="0" name="Errors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Error" type="AAA_Membership_ErrorType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="InfoMessages">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="Message" type="AAA_Membership_InfoType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="DivisionKy" type="xs:string"/>
+							<xs:element minOccurs="0" name="DivisionCd" type="xs:string"/>
+							<xs:element minOccurs="0" name="RegionCd" type="xs:string"/>
+							<xs:element minOccurs="0" name="BranchCd" type="xs:string"/>
+							<xs:element minOccurs="0" name="BranchKy" type="xs:string"/>
+							<xs:element minOccurs="0" name="ClubRegionCd" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_Membership_PaymentPlanDetails_RQ">
+					<xs:annotation>
+						<xs:documentation>Get Region Info request (service specific)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Requestor" type="AAA_RequestorType"/>
+							<xs:element name="AgentID" type="xs:string"/>
+							<xs:element name="Source" type="xs:string"/>
+							<xs:element name="FullMembershipNumber" type="AAA_Membership_MembershipNumber_FullNumberType"/>
+							<!--<xs:element minOccurs="0" name="PaymentPlanKy" type="xs:string"/>-->
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AAA_Membership_PaymentPlanDetails_RS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Response" type="AAA_CommonResponseInfoType"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="InstallmentPlan" type="AAA_InstallPlanType"/>
+							<xs:element minOccurs="0" name="MembershipBalance" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+			</xs:schema>
+		</wsdl:types>
+		<wsdl:message name="AddAssociateResponseMessage">
+			<wsdl:documentation>Add Associate response message</wsdl:documentation>
+			<wsdl:part name="AAA_AddAssociate_RS" element="AAA_AddAssociate_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="RegisterPosSaleRequestMessage">
+			<wsdl:documentation>Register POS Sale request message</wsdl:documentation>
+			<wsdl:part name="AAA_RegisterPosSale_RQ" element="AAA_RegisterPosSale_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateBillingRequestMessage">
+			<wsdl:documentation>Update Billing request message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateBilling_RQ" element="AAA_UpdateBilling_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetMembershipOverviewRequestMessage">
+			<wsdl:documentation>Get Membership Overview request message</wsdl:documentation>
+			<wsdl:part name="AAA_GetMembershipOverview_RQ" element="AAA_GetMembershipOverview_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMemberEmailRequestMessage">
+			<wsdl:documentation>Update Member Email request message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMemberEmail_RQ" element="AAA_UpdateMemberEmail_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="RemoveMembershipFromEBillingResponseMessage">
+			<wsdl:documentation>Remove Membership From E Billing response message</wsdl:documentation>
+			<wsdl:part name="AAA_RemoveMembershipFromEBilling_RS" element="AAA_RemoveMembershipFromEBilling_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipRequestDuplicateCardRequestMessage">
+			<wsdl:documentation>Membership request new duplicate card request message</wsdl:documentation>
+			<wsdl:part name="AAA_RequestDuplicateCard_RQ" element="AAA_RequestDuplicateCard_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetMembershipComponentDuesRequestMessage">
+			<wsdl:documentation>Get Membership Component Dues request message</wsdl:documentation>
+			<wsdl:part name="AAA_GetMembershipComponentDues_RQ" element="AAA_GetMembershipComponentDues_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="RegisterPosSaleResponseMessage">
+			<wsdl:documentation>Register POS Sale response message</wsdl:documentation>
+			<wsdl:part name="AAA_RegisterPosSale_RS" element="AAA_RegisterPosSale_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipUpdateMemberRequestMessage">
+			<wsdl:documentation>Membership enrollment request message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMember_RQ" element="AAA_UpdateMember_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsMembershipEnrolledInEBillingRequestMessage">
+			<wsdl:documentation>Is Membership Enrolled In E Billing request message</wsdl:documentation>
+			<wsdl:part name="AAA_IsMembershipEnrolledInEBilling_RQ" element="AAA_IsMembershipEnrolledInEBilling_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipUpdateMemberResponseMessage">
+			<wsdl:documentation>Membership update membership response message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMember_RS" element="AAA_UpdateMember_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsMembershipEnrolledInEBillingResponseMessage">
+			<wsdl:documentation>Is Membership Enrolled In E Billing response message</wsdl:documentation>
+			<wsdl:part name="AAA_IsMembershipEnrolledInEBilling_RS" element="AAA_IsMembershipEnrolledInEBilling_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipGetDuplicateCardRequestHistoryRequestMessage">
+			<wsdl:documentation>Get membership duplicate card history request message</wsdl:documentation>
+			<wsdl:part name="AAA_GetDuplicateCardRequestHistory_RQ" element="AAA_GetDuplicateCardRequestHistory_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ResetMemberWebPasswordResponseMessage">
+			<wsdl:documentation>Reset Member Web Password response message</wsdl:documentation>
+			<wsdl:part name="AAA_ResetMemberWebPassword_RS" element="AAA_ResetMemberWebPassword_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipGetDuplicateCardRequestReasonsResponseMessage">
+			<wsdl:documentation>get duplicate card reason response message</wsdl:documentation>
+			<wsdl:part name="AAA_GetDuplicateCardRequestReasons_RS" element="AAA_GetDuplicateCardRequestReasons_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateBillingResponseMessage">
+			<wsdl:documentation>Update Billing response message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateBilling_RS" element="AAA_UpdateBilling_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MakePaymentResponseMessage">
+			<wsdl:documentation>Make Payment response message</wsdl:documentation>
+			<wsdl:part name="AAA_MakePayment_RS" element="AAA_MakePayment_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetMembershipOverviewResponseMessage">
+			<wsdl:documentation>Get Membership Overview response message</wsdl:documentation>
+			<wsdl:part name="AAA_GetMembershipOverview_RS" element="AAA_GetMembershipOverview_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsDuplicateEmailRequestMessage">
+			<wsdl:documentation>IsDuplicateEmail request message</wsdl:documentation>
+			<wsdl:part name="AAA_IsDuplicateEmail_RQ" element="AAA_IsDuplicateEmail_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsDuplicateEmailExcludeMembershipRequestMessage">
+			<wsdl:documentation>IsDuplicateEmailExcludeMembership request message</wsdl:documentation>
+			<wsdl:part name="AAA_IsDuplicateEmailExcludeMembership_RQ" element="AAA_IsDuplicateEmailExcludeMembership_RQ">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetBlowFishEncryptedCookieValuesRequestMessage">
+			<wsdl:documentation>GetBlowFishEncryptedCookieValues request message</wsdl:documentation>
+			<wsdl:part name="AAA_GetBlowFishEncryptedCookieValues_RQ" element="AAA_GetBlowFishEncryptedCookieValues_RQ">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ApplyDonorPaymentResponseMessage">
+			<wsdl:documentation>Apply Donor Payment response message</wsdl:documentation>
+			<wsdl:part name="AAA_ApplyDonorPayment_RS" element="AAA_ApplyDonorPayment_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="AddAssociateRequestMessage">
+			<wsdl:documentation>Add Associate request message</wsdl:documentation>
+			<wsdl:part name="AAA_AddAssociate_RQ" element="AAA_AddAssociate_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipGetDuplicateCardRequestHistoryResponseMessage">
+			<wsdl:documentation>Get membership duplicate card history response message</wsdl:documentation>
+			<wsdl:part name="AAA_GetDuplicateCardRequestHistory_RS" element="AAA_GetDuplicateCardRequestHistory_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMembershipPrimaryPhoneRequestMessage">
+			<wsdl:documentation>Update Membership Primary Phone request message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMembershipPrimaryPhone_RQ" element="AAA_UpdateMembershipPrimaryPhone_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipEnrollmentResponseMessage">
+			<wsdl:documentation>Membership enrollment response message</wsdl:documentation>
+			<wsdl:part name="AAA_MembershipEnroll_RS" element="AAA_MembershipEnroll_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipEnrollmentAutoRenewalResponseMessage">
+			<wsdl:documentation>Membership enrollment response message</wsdl:documentation>
+			<wsdl:part name="AAA_MembershipEnroll_AR_RS" element="AAA_MembershipEnroll_AR_RS">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="RemoveMembershipFromEBillingRequestMessage">
+			<wsdl:documentation>Remove Membership From E Billing request message</wsdl:documentation>
+			<wsdl:part name="AAA_RemoveMembershipFromEBilling_RQ" element="AAA_RemoveMembershipFromEBilling_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipEnrollmentRequestMessage">
+			<wsdl:documentation>Membership enrollment request message</wsdl:documentation>
+			<wsdl:part name="AAA_MembershipEnroll_RQ" element="AAA_MembershipEnroll_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipEnrollmentAutoRenewalRequestMessage">
+			<wsdl:documentation>Membership enrollment AR request message</wsdl:documentation>
+			<wsdl:part name="AAA_MembershipEnroll_AR_RQ" element="AAA_MembershipEnroll_AR_RQ">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ChangeCoverageRequestMessage">
+			<wsdl:documentation>Change Coverage request message</wsdl:documentation>
+			<wsdl:part name="AAA_ChangeCoverage_RQ" element="AAA_ChangeCoverage_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsOutOfTerritoryRequestMessage">
+			<wsdl:documentation>Is out of Territory request message</wsdl:documentation>
+			<wsdl:part name="AAA_IsOutOfTerritoryRequestMessage_RQ" element="AAA_IsOutOfTerritoryRequestMessage_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="RemoveDonorFromMembershipResponseMessage">
+			<wsdl:documentation>Remove Donor From Membership response message</wsdl:documentation>
+			<wsdl:part name="AAA_RemoveDonorFromMembership_RS" element="AAA_RemoveDonorFromMembership_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="EnrollDonorMembershipInAutomaticRenewalBillingResponseMessage">
+			<wsdl:documentation>Enroll Donor Membership In Automatic Renewal Billing response message</wsdl:documentation>
+			<wsdl:part name="AAA_EnrollDonorMembershipInAutomaticRenewalBilling_RS" element="AAA_EnrollDonorMembershipInAutomaticRenewalBilling_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ApplyPaymentRequestMessage">
+			<wsdl:documentation>Apply Payment request message</wsdl:documentation>
+			<wsdl:part name="AAA_ApplyPayment_RQ" element="AAA_ApplyPayment_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ApplyPaymentResponseMessage">
+			<wsdl:documentation>Apply Payment response message</wsdl:documentation>
+			<wsdl:part name="AAA_ApplyPayment_RS" element="AAA_ApplyPayment_RS">
+    </wsdl:part>
+		</wsdl:message>
+		
+		<wsdl:message name="ApplyPaymentWithCaptureRequestMessage">
+			<wsdl:documentation>Apply Payment with capture request message</wsdl:documentation>
+			<wsdl:part name="AAA_ApplyPaymentWithCapture_RQ" element="AAA_ApplyPaymentWithCapture_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ApplyPaymentWithCaptureResponseMessage">
+			<wsdl:documentation>Apply Payment with capture response message</wsdl:documentation>
+			<wsdl:part name="AAA_ApplyPaymentWithCapture_RS" element="AAA_ApplyPaymentWithCapture_RS">
+    </wsdl:part>
+		</wsdl:message>
+		
+		<wsdl:message name="UpdateMembershipHomeAddressRequestMessage">
+			<wsdl:documentation>Update Membership Home Address request message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMembershipHomeAddress_RQ" element="AAA_UpdateMembershipHomeAddress_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="RemoveDonorFromMembershipRequestMessage">
+			<wsdl:documentation>Remove Donor From Membership request message</wsdl:documentation>
+			<wsdl:part name="AAA_RemoveDonorFromMembership_RQ" element="AAA_RemoveDonorFromMembership_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetMembershipComponentDuesResponseMessage">
+			<wsdl:documentation>Get Membership Component Dues response message</wsdl:documentation>
+			<wsdl:part name="AAA_GetMembershipComponentDues_RS" element="AAA_GetMembershipComponentDues_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsDuplicateEmailResponseMessage">
+			<wsdl:documentation>IsDuplicateEmail response message</wsdl:documentation>
+			<wsdl:part name="AAA_IsDuplicateEmail_RS" element="AAA_IsDuplicateEmail_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsDuplicateEmailExcludeMembershipResponseMessage">
+			<wsdl:documentation>IsDuplicateEmailExcludeMembership response message</wsdl:documentation>
+			<wsdl:part name="AAA_IsDuplicateEmailExcludeMembership_RS" element="AAA_IsDuplicateEmailExcludeMembership_RS">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetBlowFishEncryptedCookieValuesResponseMessage">
+			<wsdl:documentation>GetBlowFishEncryptedCookieValues response message</wsdl:documentation>
+			<wsdl:part name="AAA_GetBlowFishEncryptedCookieValues_RS" element="AAA_GetBlowFishEncryptedCookieValues_RS">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ApplyDonorPaymentRequestMessage">
+			<wsdl:documentation>Apply Donor Payment request message</wsdl:documentation>
+			<wsdl:part name="AAA_ApplyDonorPayment_RQ" element="AAA_ApplyDonorPayment_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMemberNameRequestMessage">
+			<wsdl:documentation>Update MemberName request message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMemberName_RQ" element="AAA_UpdateMemberName_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetBalanceResponseMessage">
+			<wsdl:documentation>Get Balance response message</wsdl:documentation>
+			<wsdl:part name="AAA_GetBalance_RS" element="AAA_GetBalance_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMemberEmailResponseMessage">
+			<wsdl:documentation>Update Member Email response message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMemberEmail_RS" element="AAA_UpdateMemberEmail_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="EnrollDonorMembershipInAutomaticRenewalBillingRequestMessage">
+			<wsdl:documentation>Enroll Donor Membership In Automatic Renewal Billing request message</wsdl:documentation>
+			<wsdl:part name="AAA_EnrollDonorMembershipInAutomaticRenewalBilling_RQ" element="AAA_EnrollDonorMembershipInAutomaticRenewalBilling_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMemberNameResponseMessage">
+			<wsdl:documentation>Update Member Name response message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMemberName_RS" element="AAA_UpdateMemberName_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipGetDuplicateCardRequestReasonsRequestMessage">
+			<wsdl:documentation>get duplicate card reason request message</wsdl:documentation>
+			<wsdl:part name="AAA_GetDuplicateCardRequestReasons_RQ" element="AAA_GetDuplicateCardRequestReasons_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsOutOfTerritoryResponseMessage">
+			<wsdl:documentation>Is out of Territory response message</wsdl:documentation>
+			<wsdl:part name="AAA_IsOutOfTerritoryRequestMessage_RS" element="AAA_IsOutOfTerritoryRequestMessage_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MembershipRequestDuplicateCardResponseMessage">
+			<wsdl:documentation>Membership request new duplicate card response message</wsdl:documentation>
+			<wsdl:part name="AAA_RequestDuplicateCard_RS" element="AAA_RequestDuplicateCard_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="EnrollMembershipInEBillingResponseMessage">
+			<wsdl:documentation>Enroll Membership In E Billing response message</wsdl:documentation>
+			<wsdl:part name="AAA_EnrollMembershipInEBilling_RS" element="AAA_EnrollMembershipInEBilling_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="CancelAssociateRequestMessage">
+			<wsdl:documentation>Cancel Associate request message</wsdl:documentation>
+			<wsdl:part name="AAA_CancelAssociate_RQ" element="AAA_CancelAssociate_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="EnrollMembershipInEBillingRequestMessage">
+			<wsdl:documentation>Enroll Membership In E Billing request message</wsdl:documentation>
+			<wsdl:part name="AAA_EnrollMembershipInEBilling_RQ" element="AAA_EnrollMembershipInEBilling_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMembershipHomeAddressResponseMessage">
+			<wsdl:documentation>Update Membership Home Address response message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMembershipHomeAddress_RS" element="AAA_UpdateMembershipHomeAddress_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="MakePaymentRequestMessage">
+			<wsdl:documentation>Make Payment request message</wsdl:documentation>
+			<wsdl:part name="AAA_MakePayment_RQ" element="AAA_MakePayment_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="CancelAssociateResponseMessage">
+			<wsdl:documentation>Cancel Associate response message</wsdl:documentation>
+			<wsdl:part name="AAA_CancelAssociate_RS" element="AAA_CancelAssociate_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ChangeCoverageResponseMessage">
+			<wsdl:documentation>Change Coverage response message</wsdl:documentation>
+			<wsdl:part name="AAA_ChangeCoverage_RS" element="AAA_ChangeCoverage_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMembershipPrimaryPhoneResponseMessage">
+			<wsdl:documentation>Update Membership Primary Phone response message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMembershipPrimaryPhone_RS" element="AAA_UpdateMembershipPrimaryPhone_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetBalanceRequestMessage">
+			<wsdl:documentation>Get Balance request message</wsdl:documentation>
+			<wsdl:part name="AAA_GetBalance_RQ" element="AAA_GetBalance_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="ResetMemberWebPasswordRequestMessage">
+			<wsdl:documentation>Reset Member Web Password request message</wsdl:documentation>
+			<wsdl:part name="AAA_ResetMemberWebPassword_RQ" element="AAA_ResetMemberWebPassword_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="AddMembershipSaleToPOSRequestMessage">
+			<wsdl:documentation>Add Membership Sale To Pos request message</wsdl:documentation>
+			<wsdl:part name="AAA_AddMembershipSaleToPOS_RQ" element="AAA_AddMembershipSaleToPOS_RQ">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="AddMembershipSaleToPOSResponseMessage">
+			<wsdl:documentation>Add Membership Sale To Pos response message</wsdl:documentation>
+			<wsdl:part name="AAA_AddMembershipSaleToPOS_RS" element="AAA_AddMembershipSaleToPOS_RS">
+    </wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetFoundationDonationRequestMessage">
+			<wsdl:documentation>Get Foundation Donation request message</wsdl:documentation>
+			<wsdl:part name="AAA_GetFoundationDonation_RQ" element="AAA_GetFoundationDonation_RQ">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="GetFoundationDonationResponseMessage">
+			<wsdl:documentation>Get Foundation Donation response message</wsdl:documentation>
+			<wsdl:part name="AAA_GetFoundationDonation_RS" element="AAA_GetFoundationDonation_RS">
+		</wsdl:part>
+		</wsdl:message>	
+		
+		<wsdl:message name="UpdateMembershipFoundationDonationRequestMessage">
+			<wsdl:documentation>Update Membership Foundation Donation request message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMembershipFoundationDonation_RQ" element="AAA_UpdateMembershipFoundationDonation_RQ">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="UpdateMembershipFoundationDonationResponseMessage">
+			<wsdl:documentation>Update Membership Foundation Donation response message</wsdl:documentation>
+			<wsdl:part name="AAA_UpdateMembershipFoundationDonation_RS" element="AAA_UpdateMembershipFoundationDonation_RS">
+		</wsdl:part>
+		</wsdl:message>	
+		
+		<wsdl:message name="IsDuplicateMembershipRequestMessage">
+			<wsdl:documentation>to check is duplicate membership request message</wsdl:documentation>
+			<wsdl:part name="AAA_IsDuplicateMembership_RQ" element="AAA_IsDuplicateMembership_RQ">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="IsDuplicateMembershipResponseMessage">
+			<wsdl:documentation>to check is duplicate membership response message</wsdl:documentation>
+			<wsdl:part name="AAA_IsDuplicateMembership_RS" element="AAA_IsDuplicateMembership_RS">
+		</wsdl:part>
+		</wsdl:message>	
+
+	<wsdl:message name="RequestTempCardRequestMessage">
+			<wsdl:documentation>request temp card request message</wsdl:documentation>
+			<wsdl:part name="AAA_RequestTempCard_RQ" element="AAA_RequestTempCard_RQ">
+		</wsdl:part>
+		</wsdl:message>
+		<wsdl:message name="RequestTempCardResponseMessage">
+			<wsdl:documentation>request temp card request message</wsdl:documentation>
+			<wsdl:part name="AAA_RequestTempCard_RS" element="AAA_RequestTempCard_RS">
+		</wsdl:part>
+		</wsdl:message>	
+
+	<wsdl:message name="GetBrandCardsRequestMessage">
+		<wsdl:part name="AAA_GetBrandCard_RQ" element="AAA_GetBrandCard_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetBrandCardsResponseMessage">
+		<wsdl:part name="AAA_GetBrandCard_RS" element="AAA_GetBrandCard_RS">
+		</wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="IsDuplicateDonorRequestMessage">
+		<wsdl:part name="AAA_IsDuplicateDonor_RQ" element="AAA_IsDuplicateDonor_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="IsDuplicateDonorResponseMessage">
+		<wsdl:part name="AAA_IsDuplicateDonor_RS" element="AAA_IsDuplicateDonor_RS">
+		</wsdl:part>
+	</wsdl:message>
+	
+				
+	<wsdl:message name="SaveMembershipRequestMessage">
+		<wsdl:part name="AAA_SaveMembership_RQ" element="AAA_SaveMembership_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="SaveMembershipResponseMessage">
+		<wsdl:part name="AAA_SaveMembership_RS" element="AAA_SaveMembership_RS">
+		</wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="GetPaymentDetailsRequestMessage">
+		<wsdl:part name="AAA_GetPaymentDetails_RQ" element="AAA_GetPaymentDetails_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetPaymentDetailsResponseMessage">
+		<wsdl:part name="AAA_GetPaymentDetails_RS" element="AAA_GetPaymentDetails_RS">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetEmailPaymentConfirmationRequestMessage">
+		<wsdl:part name="AAA_GetEmailPaymentConfirmation_RQ" element="AAA_GetEmailPaymentConfirmation_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetEmailPaymentConfirmationResponseMessage">
+		<wsdl:part name="AAA_GetEmailPaymentConfirmation_RS" element="AAA_GetEmailPaymentConfirmation_RS">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetRegionInfoByZipRequestMessage">
+		<wsdl:part name="AAA_GetRegionInfoByZip_RQ" element="AAA_GetRegionInfoByZip_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetRegionInfoByZipResponseMessage">
+		<wsdl:part name="AAA_GetRegionInfoByZip_RS" element="AAA_GetRegionInfoByZip_RS">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetDonorDetailRequestMessage">
+		<wsdl:part name="AAA_GetDonorDetail_RQ" element="AAA_GetDonorDetail_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetDonorDetailResponseMessage">
+		<wsdl:part name="AAA_GetDonorDetail_RS" element="AAA_GetDonorDetail_RS">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetBillHistoryRequestMessage">
+		<wsdl:part name="AAA_GetBillHistory_RQ" element="AAA_GetBillHistory_RQ">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetBillHistoryResponseMessage">
+		<wsdl:part name="AAA_GetBillHistory_RS" element="AAA_GetBillHistory_RS">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetMembershipPaymentPlanResponseMessage">
+		<wsdl:part name="AAA_Membership_PaymentPlanDetails_RS" element="AAA_Membership_PaymentPlanDetails_RS"> </wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetMembershipPaymentPlanRequestMessage">
+		<wsdl:part name="AAA_Membership_PaymentPlanDetails_RQ" element="AAA_Membership_PaymentPlanDetails_RQ"> </wsdl:part>
+	</wsdl:message>
+
+		<wsdl:portType name="MembershipManagementPortType">
+			<wsdl:operation name="Enroll">
+				<wsdl:input message="MembershipEnrollmentRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="MembershipEnrollmentResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="EnrollAutoRenewal">
+				<wsdl:input message="MembershipEnrollmentAutoRenewalRequestMessage">
+		</wsdl:input>
+				<wsdl:output message="MembershipEnrollmentAutoRenewalResponseMessage">
+		</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMember">
+				<wsdl:input message="MembershipUpdateMemberRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="MembershipUpdateMemberResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetDuplicateCardRequestReasons">
+				<wsdl:input message="MembershipGetDuplicateCardRequestReasonsRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="MembershipGetDuplicateCardRequestReasonsResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetDuplicateCardRequestHistory">
+				<wsdl:input message="MembershipGetDuplicateCardRequestHistoryRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="MembershipGetDuplicateCardRequestHistoryResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RequestDuplicateCard">
+				<wsdl:input message="MembershipRequestDuplicateCardRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="MembershipRequestDuplicateCardResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="AddAssociates">
+				<wsdl:input message="AddAssociateRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="AddAssociateResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="CancelAssociates">
+				<wsdl:input message="CancelAssociateRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="CancelAssociateResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ChangeCoverage">
+				<wsdl:input message="ChangeCoverageRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="ChangeCoverageResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetBalance">
+				<wsdl:input message="GetBalanceRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="GetBalanceResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetMembershipOverview">
+				<wsdl:input message="GetMembershipOverviewRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="GetMembershipOverviewResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateBilling">
+				<wsdl:input message="UpdateBillingRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="UpdateBillingResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="MakePayment">
+				<wsdl:input message="MakePaymentRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="MakePaymentResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMembershipHomeAddress">
+				<wsdl:input message="UpdateMembershipHomeAddressRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="UpdateMembershipHomeAddressResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMembershipPrimaryPhone">
+				<wsdl:input message="UpdateMembershipPrimaryPhoneRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="UpdateMembershipPrimaryPhoneResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMemberName">
+				<wsdl:input message="UpdateMemberNameRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="UpdateMemberNameResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMemberEmail">
+				<wsdl:input message="UpdateMemberEmailRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="UpdateMemberEmailResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RegisterPosSale">
+				<wsdl:input message="RegisterPosSaleRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="RegisterPosSaleResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ApplyPayment">
+				<wsdl:input message="ApplyPaymentRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="ApplyPaymentResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ApplyPaymentWithCapture">
+				<wsdl:input message="ApplyPaymentWithCaptureRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="ApplyPaymentWithCaptureResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsDuplicateEmail">
+				<wsdl:input message="IsDuplicateEmailRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="IsDuplicateEmailResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsDuplicateEmailExcludeMembership">
+				<wsdl:input message="IsDuplicateEmailExcludeMembershipRequestMessage">
+		</wsdl:input>
+				<wsdl:output message="IsDuplicateEmailExcludeMembershipResponseMessage">
+		</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetBlowFishEncryptedCookieValues">
+				<wsdl:input message="GetBlowFishEncryptedCookieValuesRequestMessage">
+		</wsdl:input>
+				<wsdl:output message="GetBlowFishEncryptedCookieValuesResponseMessage">
+		</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetMembershipComponentDues">
+				<wsdl:input message="GetMembershipComponentDuesRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="GetMembershipComponentDuesResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ResetMemberWebPassword">
+				<wsdl:input message="ResetMemberWebPasswordRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="ResetMemberWebPasswordResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="EnrollMembershipInEBilling">
+				<wsdl:documentation>The email address provided during this operation will update the primary member's email address.</wsdl:documentation>
+				<wsdl:input message="EnrollMembershipInEBillingRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="EnrollMembershipInEBillingResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RemoveMembershipFromEBilling">
+				<wsdl:input message="RemoveMembershipFromEBillingRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="RemoveMembershipFromEBillingResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsMembershipEnrolledInEBilling">
+				<wsdl:input message="IsMembershipEnrolledInEBillingRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="IsMembershipEnrolledInEBillingResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ApplyDonorPayment">
+				<wsdl:input message="ApplyDonorPaymentRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="ApplyDonorPaymentResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="EnrollDonorMembershipInAutomaticRenewalBilling">
+				<wsdl:input message="EnrollDonorMembershipInAutomaticRenewalBillingRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="EnrollDonorMembershipInAutomaticRenewalBillingResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RemoveDonorFromMembership">
+				<wsdl:input message="RemoveDonorFromMembershipRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="RemoveDonorFromMembershipResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsOutOfTerritory">
+				<wsdl:input message="IsOutOfTerritoryRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="IsOutOfTerritoryResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="AddMembershipSaleToPOS">
+				<wsdl:input message="AddMembershipSaleToPOSRequestMessage">
+    </wsdl:input>
+				<wsdl:output message="AddMembershipSaleToPOSResponseMessage">
+    </wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetFoundationDonation">
+				<wsdl:input message="GetFoundationDonationRequestMessage">
+		</wsdl:input>
+				<wsdl:output message="GetFoundationDonationResponseMessage">
+		</wsdl:output>
+			</wsdl:operation>
+			
+			<wsdl:operation name="UpdateMembershipFoundationDonation">
+				<wsdl:input message="UpdateMembershipFoundationDonationRequestMessage">
+		</wsdl:input>
+				<wsdl:output message="UpdateMembershipFoundationDonationResponseMessage">
+		</wsdl:output>
+			</wsdl:operation>
+		
+		<wsdl:operation name="IsDuplicateMembership">
+				<wsdl:input message="IsDuplicateMembershipRequestMessage">
+		</wsdl:input>
+				<wsdl:output message="IsDuplicateMembershipResponseMessage">
+		</wsdl:output>
+			</wsdl:operation>
+		<wsdl:operation name="RequestTempCard">
+				<wsdl:input message="RequestTempCardRequestMessage">
+		</wsdl:input>
+				<wsdl:output message="RequestTempCardResponseMessage">
+		</wsdl:output>
+			</wsdl:operation>
+		<wsdl:operation name="GetBrandCards">
+			<wsdl:input message="GetBrandCardsRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="GetBrandCardsResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsDuplicateDonor">
+			<wsdl:input message="IsDuplicateDonorRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="IsDuplicateDonorResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SaveMembership">
+			<wsdl:input message="SaveMembershipRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="SaveMembershipResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetPaymentDetails">
+			<wsdl:input message="GetPaymentDetailsRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="GetPaymentDetailsResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEmailPaymentConfirmation">
+			<wsdl:input message="GetEmailPaymentConfirmationRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="GetEmailPaymentConfirmationResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetRegionInfoByZip">
+			<wsdl:input message="GetRegionInfoByZipRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="GetRegionInfoByZipResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDonorDetail">
+			<wsdl:input message="GetDonorDetailRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="GetDonorDetailResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetBillHistory">
+			<wsdl:input message="GetBillHistoryRequestMessage">
+			</wsdl:input>
+			<wsdl:output message="GetBillHistoryResponseMessage">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMembershipPaymentPlan">
+			<wsdl:input message="GetMembershipPaymentPlanRequestMessage"> </wsdl:input>
+			<wsdl:output message="GetMembershipPaymentPlanResponseMessage"> </wsdl:output>
+		</wsdl:operation>
+		</wsdl:portType>
+		<wsdl:binding name="MembershipManagementSOAPBinding" type="MembershipManagementPortType">
+			<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+			<wsdl:operation name="Enroll">
+				<soap:operation soapAction="Enroll"/>
+				<wsdl:input>
+					<wsdl:documentation>MembershipEnrollmentRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>MembershipEnrollmentResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="EnrollAutoRenewal">
+				<soap:operation soapAction="EnrollAutoRenewal"/>
+				<wsdl:input>
+					<wsdl:documentation>MembershipEnrollmentAutoRenewalRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>MembershipEnrollmentAutoRenewalResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMember">
+				<soap:operation soapAction="UpdateMember"/>
+				<wsdl:input>
+					<wsdl:documentation>MembershipUpdateMemberRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>MembershipUpdateMemberResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetDuplicateCardRequestReasons">
+				<soap:operation soapAction="GetDuplicateCardRequestReasons"/>
+				<wsdl:input>
+					<wsdl:documentation>MembershipGetDuplicateCardRequestReasonsRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>MembershipGetDuplicateCardRequestReasonsResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetDuplicateCardRequestHistory">
+				<soap:operation soapAction="GetDuplicateCardRequestHistory"/>
+				<wsdl:input>
+					<wsdl:documentation>MembershipGetDuplicateCardRequestHistoryRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>MembershipGetDuplicateCardRequestHistoryResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RequestDuplicateCard">
+				<soap:operation soapAction="RequestDuplicateCard"/>
+				<wsdl:input>
+					<wsdl:documentation>MembershipRequestDuplicateCardRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>MembershipRequestDuplicateCardResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="AddAssociates">
+				<soap:operation soapAction="AddAssociates"/>
+				<wsdl:input>
+					<wsdl:documentation>AddAssociateRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>AddAssociateResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="CancelAssociates">
+				<soap:operation soapAction="CancelAssociates"/>
+				<wsdl:input>
+					<wsdl:documentation>CancelAssociateRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>CancelAssociateResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ChangeCoverage">
+				<soap:operation soapAction="ChangeCoverage"/>
+				<wsdl:input>
+					<wsdl:documentation>ChangeCoverageRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>ChangeCoverageResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetBalance">
+				<soap:operation soapAction="GetBalance"/>
+				<wsdl:input>
+					<wsdl:documentation>GetBalanceRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetBalanceResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetMembershipOverview">
+				<soap:operation soapAction="GetMembershipOverview"/>
+				<wsdl:input>
+					<wsdl:documentation>GetMembershipOverviewRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetMembershipOverviewResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateBilling">
+				<soap:operation soapAction="UpdateBilling"/>
+				<wsdl:input>
+					<wsdl:documentation>UpdateBillingRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>UpdateBillingResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="MakePayment">
+				<soap:operation soapAction="MakePayment"/>
+				<wsdl:input>
+					<wsdl:documentation>MakePaymentRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>MakePaymentResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMembershipHomeAddress">
+				<soap:operation soapAction="UpdateMembershipHomeAddress"/>
+				<wsdl:input>
+					<wsdl:documentation>UpdateMembershipHomeAddressRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>UpdateMembershipHomeAddressResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMembershipPrimaryPhone">
+				<soap:operation soapAction="UpdateMembershipPrimaryPhone"/>
+				<wsdl:input>
+					<wsdl:documentation>UpdateMembershipPrimaryPhoneRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>UpdateMembershipPrimaryPhoneResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMemberEmail">
+				<soap:operation soapAction="UpdateMemberEmail"/>
+				<wsdl:input>
+					<wsdl:documentation>UpdateMemberEmailRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>UpdateMemberEmailResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMemberName">
+				<soap:operation soapAction="UpdateMemberName"/>
+				<wsdl:input>
+					<wsdl:documentation>UpdateMemberNameRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>UpdateMemberNameResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RegisterPosSale">
+				<soap:operation soapAction="RegisterPosSale"/>
+				<wsdl:input>
+					<wsdl:documentation>RegisterPosSaleRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>RegisterPosSaleResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ApplyPayment">
+				<soap:operation soapAction="ApplyPayment"/>
+				<wsdl:input>
+					<wsdl:documentation>ApplyPaymentRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>ApplyPaymentResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ApplyPaymentWithCapture">
+				<soap:operation soapAction="ApplyPaymentWithCapture"/>
+				<wsdl:input>
+					<wsdl:documentation>ApplyPaymentWithCaptureRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>ApplyPaymentWithCaptureResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetMembershipComponentDues">
+				<soap:operation soapAction="GetMembershipComponentDues"/>
+				<wsdl:input>
+					<wsdl:documentation>GetMembershipComponentDuesRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetMembershipComponentDuesResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ResetMemberWebPassword">
+				<soap:operation soapAction="ResetMemberWebPassword"/>
+				<wsdl:input>
+					<wsdl:documentation>ResetMemberWebPasswordRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>ResetMemberWebPasswordResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsDuplicateEmail">
+				<soap:operation soapAction="IsDuplicateEmail"/>
+				<wsdl:input>
+					<wsdl:documentation>IsDuplicateEmailRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>IsDuplicateEmailResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsDuplicateEmailExcludeMembership">
+				<soap:operation soapAction="IsDuplicateEmailExcludeMembership"/>
+				<wsdl:input>
+					<wsdl:documentation>IsDuplicateEmailExcludeMembershipRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>IsDuplicateEmailExcludeMembershipResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetBlowFishEncryptedCookieValues">
+				<soap:operation soapAction="GetBlowFishEncryptedCookieValues"/>
+				<wsdl:input>
+					<wsdl:documentation>GetBlowFishEncryptedCookieValuesRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetBlowFishEncryptedCookieValuesResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="EnrollMembershipInEBilling">
+				<soap:operation soapAction="EnrollMembershipInEBilling"/>
+				<wsdl:input>
+					<wsdl:documentation>EnrollMembershipInEBillingRequestMessage.  The email address in this message will update the primary member's email address.</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>EnrollMembershipInEBillingResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RemoveMembershipFromEBilling">
+				<soap:operation soapAction="RemoveMembershipFromEBilling"/>
+				<wsdl:input>
+					<wsdl:documentation>RemoveMembershipFromEBillingRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>RemoveMembershipFromEBillingResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsMembershipEnrolledInEBilling">
+				<soap:operation soapAction="IsMembershipEnrolledInEBilling"/>
+				<wsdl:input>
+					<wsdl:documentation>IsMembershipEnrolledInEBillingRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>IsMembershipEnrolledInEBillingResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="ApplyDonorPayment">
+				<soap:operation soapAction="ApplyDonorPayment"/>
+				<wsdl:input>
+					<wsdl:documentation>ApplyDonorPaymentRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>ApplyDonorPaymentResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="EnrollDonorMembershipInAutomaticRenewalBilling">
+				<soap:operation soapAction="EnrollDonorMembershipInAutomaticRenewalBilling"/>
+				<wsdl:input>
+					<wsdl:documentation>EnrollDonorMembershipInAutomaticRenewalBillingRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>EnrollDonorMembershipInAutomaticRenewalBillingResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RemoveDonorFromMembership">
+				<soap:operation soapAction="RemoveDonorFromMembership"/>
+				<wsdl:input>
+					<wsdl:documentation>RemoveDonorFromMembershipRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>EnrollDonorMembershipInAutomaticRenewalBillingResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsOutOfTerritory">
+				<soap:operation soapAction="IsOutOfTerritory"/>
+				<wsdl:input>
+					<wsdl:documentation>IsOutOfTerritoryRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>IsOutOfTerritoryResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="AddMembershipSaleToPOS">
+				<soap:operation soapAction="AddMembershipSaleToPOS"/>
+				<wsdl:input>
+					<wsdl:documentation>AddMembershipSaleToPOSRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>AddMembershipSaleToPOSResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetFoundationDonation">
+				<soap:operation soapAction="GetFoundationDonation"/>
+				<wsdl:input>
+					<wsdl:documentation>GetFoundationDonationRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetFoundationDonationResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="UpdateMembershipFoundationDonation">
+				<soap:operation soapAction="UpdateMembershipFoundationDonation"/>
+				<wsdl:input>
+					<wsdl:documentation>UpdateMembershipFoundationDonationRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>UpdateMembershipFoundationDonationResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsDuplicateMembership">
+				<soap:operation soapAction="IsDuplicateMembership"/>
+				<wsdl:input>
+					<wsdl:documentation>IsDuplicateMembershipRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>IsDuplicateMembershipResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="RequestTempCard">
+				<soap:operation soapAction="RequestTempCard"/>
+				<wsdl:input>
+					<wsdl:documentation>RequestTempCardRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>RequestTempCardResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetBrandCards">
+				<soap:operation soapAction="GetBrandCards"/>
+				<wsdl:input>
+					<wsdl:documentation>GetBrandCardsRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetBrandCardsResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="IsDuplicateDonor">
+				<soap:operation soapAction="IsDuplicateDonor"/>
+				<wsdl:input>
+					<wsdl:documentation>IsDuplicateDonorRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>IsDuplicateDonorResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="SaveMembership">
+				<soap:operation soapAction="SaveMembership"/>
+				<wsdl:input>
+					<wsdl:documentation>SaveMembershipRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>SaveMembershipResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetPaymentDetails">
+				<soap:operation soapAction="GetPaymentDetails"/>
+				<wsdl:input>
+					<wsdl:documentation>GetPaymentDetailsRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetPaymentDetailsResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetEmailPaymentConfirmation">
+				<soap:operation soapAction="GetEmailPaymentConfirmation"/>
+				<wsdl:input>
+					<wsdl:documentation>GetEmailPaymentConfirmationRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetEmailPaymentConfirmationResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetRegionInfoByZip">
+				<soap:operation soapAction="GetRegionInfoByZip"/>
+				<wsdl:input>
+					<wsdl:documentation>GetEmailPaymentConfirmationRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetEmailPaymentConfirmationResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetDonorDetail">
+				<soap:operation soapAction="GetDonorDetail"/>
+				<wsdl:input>
+					<wsdl:documentation>GetDonorDetailRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetDonorDetailResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetBillHistory">
+				<soap:operation soapAction="GetBillHistory"/>
+				<wsdl:input>
+					<wsdl:documentation>GetBillHistoryRequestMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<wsdl:documentation>GetBillHistoryResponseMessage</wsdl:documentation>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+			<wsdl:operation name="GetMembershipPaymentPlan">
+				<soap:operation soapAction="GetMembershipPaymentPlan"/>
+				<wsdl:input>
+					<soap:body use="literal"/>
+				</wsdl:input>
+				<wsdl:output>
+					<soap:body use="literal"/>
+				</wsdl:output>
+			</wsdl:operation>
+		</wsdl:binding>
+		<wsdl:service name="MembershipManagementInterface">
+			<wsdl:documentation>Invalid address location will be replaced in WSO2 proxy</wsdl:documentation>
+			<wsdl:port name="MembershipManagementPort" binding="MembershipManagementSOAPBinding">
+				<soap:address location="http://localhost:8080/"/>
+			</wsdl:port>
+		</wsdl:service>
+	</wsdl:definitions>
+</localEntry>

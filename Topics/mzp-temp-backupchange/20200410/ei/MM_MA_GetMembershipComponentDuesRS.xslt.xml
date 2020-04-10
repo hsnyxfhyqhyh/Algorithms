@@ -1,0 +1,278 @@
+<localEntry xmlns="http://ws.apache.org/ns/synapse" key="MM_MA_GetMembershipComponentDuesRS.xslt">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://aaa/midatlantic/membership/services/membershipmanagement/2013/02/25" xmlns:aaa="http://aaa.midatlantic.membership.services.membershipmanagement" xmlns:aaa1="http://aaa.midatlantic.membership.services">
+	<xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+	<xsl:param name="ReturnCode"/>
+	<xsl:param name="ReturnMessage"/>
+	<xsl:template match="/aaa:GetMembershipComponentDuesResponse">
+			<ns:AAA_GetMembershipComponentDues_RS>
+				<ns:Response>
+				<xsl:choose>
+					<xsl:when test="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:result != '' ">
+						<ns:ReturnCode>
+							<xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:result"/>
+						</ns:ReturnCode>
+						<ns:ReturnMessage>
+							<xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:message"/>
+						</ns:ReturnMessage>
+						<ns:MessageID/>
+					</xsl:when>
+					<xsl:otherwise>
+						<ns:ReturnCode>
+							<xsl:value-of select="$ReturnCode"/>
+						</ns:ReturnCode>
+						<ns:ReturnMessage>
+							<xsl:value-of select="$ReturnMessage"/>
+						</ns:ReturnMessage>
+						<ns:MessageID/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</ns:Response>
+			<xsl:if test="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues != '' ">
+				<ns:MembershipComponentDues>
+					<xsl:if test="count(/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:MemberComponentDues) > 0">
+						<xsl:for-each select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:MemberComponentDues">
+							<ns:MemberComponentDues>
+								<ns:Member>
+										<xsl:if test="aaa1:Member/aaa1:customerId and aaa1:Member/aaa1:customerId != '' ">
+											<ns:CustomerID>
+												<xsl:value-of select="aaa1:Member/aaa1:customerId"/>
+											</ns:CustomerID>
+										</xsl:if>
+										<xsl:if test="aaa1:Member/aaa1:number and  aaa1:Member/aaa1:number != '' ">
+											<ns:MembershipNumber>
+												<xsl:if test="aaa1:Member/aaa1:number/aaa1:isoCode and  aaa1:Member/aaa1:number/aaa1:isoCode != '' ">
+													<ns:ISOCode>
+														<xsl:value-of select="aaa1:Member/aaa1:number/aaa1:isoCode"/>
+													</ns:ISOCode>
+												</xsl:if>
+												<xsl:if test="aaa1:Member/aaa1:number/aaa1:clubCode and aaa1:Member/aaa1:number/aaa1:clubCode != '' ">
+													<ns:ClubCode>
+														<xsl:value-of select="aaa1:Member/aaa1:number/aaa1:clubCode"/>
+													</ns:ClubCode>
+												</xsl:if>
+												<ns:Number>
+													<xsl:choose>
+														<xsl:when test="aaa1:Member/aaa1:number/aaa1:number and  aaa1:Member/aaa1:number/aaa1:number != '' ">
+															<xsl:value-of select="aaa1:Member/aaa1:number/aaa1:number"/>
+														</xsl:when>
+														<xsl:otherwise>0000000</xsl:otherwise>
+													</xsl:choose>
+												</ns:Number>
+												<xsl:if test="aaa1:Member/aaa1:number/aaa1:associateId and  aaa1:Member/aaa1:number/aaa1:associateId != '' ">
+													<ns:AssociateId>
+														<xsl:value-of select="aaa1:Member/aaa1:number/aaa1:associateId"/>
+													</ns:AssociateId>
+												</xsl:if>
+												<xsl:if test="aaa1:Member/aaa1:number/aaa1:checkDigit and  aaa1:Member/aaa1:number/aaa1:checkDigit != '' ">
+													<ns:CheckDigit>
+														<xsl:value-of select="aaa1:Member/aaa1:number/aaa1:checkDigit"/>
+													</ns:CheckDigit>
+												</xsl:if>
+												<xsl:if test="aaa1:Member/aaa1:number/aaa1:fullNumber and aaa1:Member/aaa1:number/aaa1:fullNumber != '' ">
+													<ns:FullNumber>
+														<xsl:value-of select="aaa1:Member/aaa1:number/aaa1:fullNumber"/>
+													</ns:FullNumber>
+												</xsl:if>
+											</ns:MembershipNumber>
+										</xsl:if>
+										<ns:AssociateType>
+											<xsl:value-of select="aaa1:Member/aaa1:associateType"/>
+										</ns:AssociateType>
+										<ns:Name>
+											<xsl:if test="aaa1:Member/aaa1:name/aaa1:title and aaa1:Member/aaa1:name/aaa1:title != '' ">
+												<ns:Title>
+													<xsl:value-of select="aaa1:Member/aaa1:name/aaa1:title"/>
+												</ns:Title>
+											</xsl:if>
+											<ns:FirstName>
+												<xsl:value-of select="aaa1:Member/aaa1:name/aaa1:firstName"/>
+											</ns:FirstName>
+											<xsl:if test="aaa1:Member/aaa1:name/aaa1:middleName and  aaa1:Member/aaa1:name/aaa1:middleName != '' ">
+												<ns:MiddleName>
+													<xsl:value-of select="aaa1:Member/aaa1:name/aaa1:middleName"/>
+												</ns:MiddleName>
+											</xsl:if>
+											<ns:LastName>
+												<xsl:value-of select="aaa1:Member/aaa1:name/aaa1:lastName"/>
+											</ns:LastName>
+											<xsl:if test="aaa1:Member/aaa1:name/aaa1:suffix and aaa1:Member/aaa1:name/aaa1:suffix != '' ">
+												<ns:Suffix>
+													<xsl:value-of select="aaa1:Member/aaa1:name/aaa1:suffix"/>
+												</ns:Suffix>
+											</xsl:if>
+										</ns:Name>
+										<xsl:if test="aaa1:Member/aaa1:dateOfBirth and aaa1:Member/aaa1:dateOfBirth != '' ">
+											<ns:DateOfBirth>
+												<xsl:value-of select="aaa1:Member/aaa1:dateOfBirth"/>
+											</ns:DateOfBirth>
+										</xsl:if>
+										<xsl:if test="aaa1:Member/aaa1:joinAAADate and aaa1:Member/aaa1:joinAAADate != '' ">
+											<ns:JoinAAADate>
+												<xsl:value-of select="aaa1:Member/aaa1:joinAAADate"/>
+											</ns:JoinAAADate>
+										</xsl:if>
+										<ns:Gender>
+											<xsl:choose>
+												<xsl:when test="aaa1:Member/aaa1:gender and aaa1:Member/aaa1:gender != '' ">
+													<xsl:value-of select="aaa1:Member/aaa1:gender"/>
+												</xsl:when>
+												<xsl:otherwise>Unknown</xsl:otherwise>
+											</xsl:choose>
+										</ns:Gender>
+										<xsl:if test="aaa1:Member/aaa1:graduationYear and aaa1:Member/aaa1:graduationYear != '' ">
+											<ns:GraduationYear>
+												<xsl:value-of select="aaa1:Member/aaa1:graduationYear"/>
+											</ns:GraduationYear>
+										</xsl:if>
+										<xsl:if test="aaa1:Member/aaa1:email and aaa1:Member/aaa1:email != '' ">
+											<ns:Email>
+												<xsl:value-of select="aaa1:Member/aaa1:email"/>
+											</ns:Email>
+										</xsl:if>
+										<ns:Relation>
+											<xsl:choose>
+												<xsl:when test="aaa1:Member/aaa1:relation and aaa1:Member/aaa1:relation != '' ">
+													<xsl:value-of select="aaa1:Member/aaa1:relation"/>
+												</xsl:when>
+												<xsl:otherwise>Unknown</xsl:otherwise>
+											</xsl:choose>
+										</ns:Relation>
+										<xsl:if test="aaa1:Member/aaa1:status and aaa1:Member/aaa1:status != '' ">
+											<ns:Status>
+												<xsl:value-of select="aaa1:Member/aaa1:status"/>
+											</ns:Status>
+										</xsl:if>
+										<xsl:if test="(aaa1:Member/aaa1:doNotAskForEmail = 'true') or (aaa1:Member/aaa1:doNotCall = 'true') 
+										or (aaa1:Member/aaa1:doNotEmail = 'true') or (aaa1:Member/aaa1:doNotMail = 'true')">
+											<ns:MemberOptions>
+												<xsl:if test="aaa1:Member/aaa1:doNotAskForEmail = 'true' ">
+													<ns:Option>Do Not Ask for E-Mail</ns:Option>
+												</xsl:if>
+												<xsl:if test="aaa1:Member/aaa1:doNotCall = 'true' ">
+													<ns:Option>Do Not Call</ns:Option>
+												</xsl:if>
+												<xsl:if test="aaa1:Member/aaa1:doNotEmail = 'true' ">
+													<ns:Option>Do Not Email</ns:Option>
+												</xsl:if>
+												<xsl:if test="aaa1:Member/aaa1:doNotMail = 'true' ">
+													<ns:Option>Do Not Mail</ns:Option>
+												</xsl:if>
+											</ns:MemberOptions>
+										</xsl:if>
+									</ns:Member>
+								<xsl:if test="count(aaa1:Riders/aaa1:Rider) > 0">
+								<ns:Riders>
+										<xsl:for-each select="aaa1:Riders/aaa1:Rider">
+											<ns:Rider>
+												<ns:Description><xsl:value-of select="aaa1:Description"/></ns:Description>
+												<ns:AmountDue><xsl:value-of select="aaa1:AmountDue"/></ns:AmountDue>
+												<ns:OriginalCostAmount><xsl:value-of select="aaa1:OriginalCostAmount"/></ns:OriginalCostAmount>
+												<ns:DuesCostAmount><xsl:value-of select="aaa1:DuesCostAmount"/></ns:DuesCostAmount>
+												<ns:DuesAdjustmentAmount><xsl:value-of select="aaa1:DuesAdjustmentAmount"/></ns:DuesAdjustmentAmount>
+												<ns:FutureCancelCreditAmount><xsl:value-of select="aaa1:FutureCancelCreditAmount"/></ns:FutureCancelCreditAmount>
+												<ns:PaymentAmount><xsl:value-of select="aaa1:PaymentAmount"/></ns:PaymentAmount>
+												<ns:Status><xsl:value-of select="aaa1:Status"/></ns:Status>
+												<xsl:if test="aaa1:EffectiveDate != '' ">
+													<ns:EffectiveDate><xsl:value-of select="aaa1:EffectiveDate"/></ns:EffectiveDate>
+												</xsl:if>
+												<ns:CostEffectiveDate><xsl:value-of select="aaa1:CostEffectiveDate"/></ns:CostEffectiveDate>
+												<ns:Type><xsl:value-of select="aaa1:Type"/></ns:Type>
+											</ns:Rider>
+										</xsl:for-each>
+								</ns:Riders>
+								</xsl:if>
+								<xsl:if test="count(aaa1:Fees/aaa1:Fee) > 0">
+										<ns:Fees>
+											<xsl:for-each select="aaa1:Fees/aaa1:Fee">
+												<ns:Fee>
+													<ns:Description><xsl:value-of select="aaa1:Description"/></ns:Description>
+													<ns:AmountDue><xsl:value-of select="aaa1:AmountDue"/></ns:AmountDue>
+													<ns:OriginalCostAmount><xsl:value-of select="aaa1:OriginalCostAmount"/></ns:OriginalCostAmount>
+													<ns:DuesCostAmount><xsl:value-of select="aaa1:DuesCostAmount"/></ns:DuesCostAmount>
+													<ns:DuesAdjustmentAmount><xsl:value-of select="aaa1:DuesAdjustmentAmount"/></ns:DuesAdjustmentAmount>
+													<ns:FutureCancelCreditAmount><xsl:value-of select="aaa1:FutureCancelCreditAmount"/></ns:FutureCancelCreditAmount>
+													<ns:PaymentAmount><xsl:value-of select="aaa1:PaymentAmount"/></ns:PaymentAmount>
+													<ns:Status><xsl:value-of select="aaa1:Status"/></ns:Status>
+													<xsl:if test="aaa1:EffectiveDate != '' ">
+														<ns:EffectiveDate><xsl:value-of select="aaa1:EffectiveDate"/></ns:EffectiveDate>
+													</xsl:if>
+													<ns:CostEffectiveDate><xsl:value-of select="aaa1:CostEffectiveDate"/></ns:CostEffectiveDate>
+													<ns:Type><xsl:value-of select="aaa1:Type"/></ns:Type>
+													<ns:FeeAmount><xsl:value-of select="aaa1:FeeAmount"/></ns:FeeAmount>
+													<ns:FeeAppliedAmount><xsl:value-of select="aaa1:FeeAppliedAmount"/></ns:FeeAppliedAmount>
+													<ns:Waived><xsl:value-of select="aaa1:Waived"/></ns:Waived>
+												</ns:Fee>
+											</xsl:for-each>
+										</ns:Fees>
+									</xsl:if>
+								<xsl:if test="count(aaa1:Donations/aaa1:Donation) > 0">
+										<ns:Donations>
+											<xsl:for-each select="aaa1:Donations/aaa1:Donation">
+												<ns:Donation>
+													<ns:Description><xsl:value-of select="aaa1:Description"/></ns:Description>
+													<ns:AmountDue><xsl:value-of select="aaa1:AmountDue"/></ns:AmountDue>
+													<ns:OriginalCostAmount><xsl:value-of select="aaa1:OriginalCostAmount"/></ns:OriginalCostAmount>
+													<ns:DuesCostAmount><xsl:value-of select="aaa1:DuesCostAmount"/></ns:DuesCostAmount>
+													<ns:DuesAdjustmentAmount><xsl:value-of select="aaa1:DuesAdjustmentAmount"/></ns:DuesAdjustmentAmount>
+													<ns:FutureCancelCreditAmount><xsl:value-of select="aaa1:FutureCancelCreditAmount"/></ns:FutureCancelCreditAmount>
+													<ns:PaymentAmount><xsl:value-of select="aaa1:PaymentAmount"/></ns:PaymentAmount>
+													<ns:Status><xsl:value-of select="aaa1:Status"/></ns:Status>
+													<xsl:if test="aaa1:EffectiveDate != '' ">
+														<ns:EffectiveDate><xsl:value-of select="aaa1:EffectiveDate"/></ns:EffectiveDate>
+													</xsl:if>
+													<ns:CostEffectiveDate><xsl:value-of select="aaa1:CostEffectiveDate"/></ns:CostEffectiveDate>
+												</ns:Donation>
+											</xsl:for-each>
+										</ns:Donations>
+									</xsl:if>
+								<ns:TotalAmountDue><xsl:value-of select="aaa1:TotalAmountDue"/></ns:TotalAmountDue>
+							</ns:MemberComponentDues>
+						</xsl:for-each>
+					</xsl:if>
+					<ns:SubTotalAmountDue><xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:SubTotalAmountDue"/></ns:SubTotalAmountDue>
+					<ns:UnappliedAmount><xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:UnappliedAmount"/></ns:UnappliedAmount>
+					<ns:PendingCreditAmount><xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:PendingCreditAmount"/></ns:PendingCreditAmount>
+					<ns:TotalAmountDue><xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:TotalAmountDue"/></ns:TotalAmountDue>
+					<xsl:if test="normalize-space(string(/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:TotalCost)) != ''">
+						<ns:TotalCost><xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipComponentDues/aaa1:TotalCost"/></ns:TotalCost>
+					</xsl:if>
+				</ns:MembershipComponentDues>
+			</xsl:if>
+			<xsl:if test="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipCoverageLevel != '' ">
+				<ns:MembershipCoverageLevel><xsl:value-of select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:MembershipCoverageLevel"/></ns:MembershipCoverageLevel>
+			</xsl:if>
+			<xsl:if test="count(/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:errors/aaa:item) > 0">
+					<ns:Errors>
+						<xsl:for-each select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:errors/aaa:item">
+							<ns:Error>
+								<ns:ReferenceIdentifier>
+									<xsl:value-of select="aaa:referenceIdentifier"/>
+								</ns:ReferenceIdentifier>
+								<ns:Entity>
+									<xsl:value-of select="aaa:entity"/>
+								</ns:Entity>
+								<ns:OriginalValue>
+									<xsl:value-of select="aaa:originalValue"/>
+								</ns:OriginalValue>
+								<ns:Message>
+									<xsl:value-of select="aaa:message"/>
+								</ns:Message>
+							</ns:Error>
+						</xsl:for-each>
+					</ns:Errors>
+				</xsl:if>
+			<xsl:if test="count(/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:infoList/aaa1:message) > 0">
+					<ns:InfoMessages>
+						<xsl:for-each select="/aaa:GetMembershipComponentDuesResponse/aaa:GetMembershipComponentDuesReturn/aaa1:infoList/aaa1:message">
+							<ns:Message>
+								<ns:Text>
+									<xsl:value-of select="."/>
+								</ns:Text>
+							</ns:Message>
+						</xsl:for-each>
+					</ns:InfoMessages>
+				</xsl:if>
+			</ns:AAA_GetMembershipComponentDues_RS>
+	</xsl:template>
+</xsl:stylesheet>
+</localEntry>
