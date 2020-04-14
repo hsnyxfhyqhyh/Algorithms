@@ -98,9 +98,9 @@ namespace GM
         public static int Add(GroupPackage p)
         {
             string sSQL = @"INSERT INTO dbo.grp_Package (GroupID, PackageCd, PackageName, SingleRate, DoubleRate, TripleRate, 
-                    QuadRate, SingleComm , DoubleComm, Quantity, Allocated, PortCharges, PackageType)
+                    QuadRate, SingleComm , DoubleComm, TripleComm, QuadComm, Quantity, Allocated, PortCharges, PackageType)
                 VALUES (@GroupID, @PackageCd, @PackageName, @SingleRate, @DoubleRate, @TripleRate, 
-                    @QuadRate, @SingleComm , @DoubleComm, @Quantity, @Allocated, @PortCharges, @PackageType);
+                    @QuadRate, @SingleComm , @DoubleComm,@TripleComm, @QuadComm, @Quantity, @Allocated, @PortCharges, @PackageType);
                 SELECT @@IDENTITY;";
             using (SqlConnection cn = new SqlConnection(Config.ConnectionString))
             {
@@ -115,6 +115,8 @@ namespace GM
                 cmd.Parameters.Add("@QuadRate", SqlDbType.Decimal).Value = p.quadRate;
                 cmd.Parameters.Add("@SingleComm", SqlDbType.Decimal).Value = p.singleComm;
                 cmd.Parameters.Add("@DoubleComm", SqlDbType.Decimal).Value = p.doubleComm;
+                cmd.Parameters.Add("@TripleComm", SqlDbType.Decimal).Value = p.tripleComm;
+                cmd.Parameters.Add("@QuadComm", SqlDbType.Decimal).Value = p.quadComm;
                 cmd.Parameters.Add("@Quantity", SqlDbType.Int).Value = p.quantity;
                 cmd.Parameters.Add("@Allocated", SqlDbType.Int).Value = p.allocated;
                 cmd.Parameters.Add("@PortCharges", SqlDbType.Decimal).Value = p.portCharges;
@@ -127,7 +129,7 @@ namespace GM
         public static void Update(GroupPackage p)
         {
             string sSQL = @"UPDATE dbo.grp_Package SET PackageCd = @PackageCd, PackageName = @PackageName, SingleRate = @SingleRate, 
-                DoubleRate = @DoubleRate, TripleRate = @TripleRate, QuadRate = @QuadRate, SingleComm = @SingleComm, DoubleComm = @DoubleComm, 
+                DoubleRate = @DoubleRate, TripleRate = @TripleRate, QuadRate = @QuadRate, SingleComm = @SingleComm, DoubleComm = @DoubleComm, TripleComm = @TripleComm, QuadComm= @QuadComm,
                 Quantity = @Quantity, Allocated = @Allocated, PortCharges=@PortCharges, PackageType=@PackageType 
                 WHERE GroupID = @GroupID AND PackageID = @packageID"; 
             using (SqlConnection cn = new SqlConnection(Config.ConnectionString))
@@ -144,6 +146,8 @@ namespace GM
                 cmd.Parameters.Add("@QuadRate", SqlDbType.Decimal).Value = p.quadRate;
                 cmd.Parameters.Add("@SingleComm", SqlDbType.Decimal).Value = p.singleComm;
                 cmd.Parameters.Add("@DoubleComm", SqlDbType.Decimal).Value = p.doubleComm;
+                cmd.Parameters.Add("@TripleComm", SqlDbType.Decimal).Value = p.tripleComm;
+                cmd.Parameters.Add("@QuadComm", SqlDbType.Decimal).Value = p.quadComm;
                 cmd.Parameters.Add("@Quantity", SqlDbType.Int).Value = p.quantity;
                 cmd.Parameters.Add("@Allocated", SqlDbType.Int).Value = p.allocated;
                 cmd.Parameters.Add("@PortCharges", SqlDbType.Decimal).Value = p.portCharges;
