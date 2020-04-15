@@ -1,0 +1,63 @@
+<%@ Page Language="c#" MasterPageFile="Setup.master" %>
+<%@ Import Namespace="GM" %>
+
+<script language="C#" runat="server">
+
+	void Page_Load(object sender, System.EventArgs e)
+	{
+		if (!IsPostBack) 
+			message.InnerHtml  = Request.QueryString ["msg"];
+	}
+    
+    protected void Grid_RowDeleted(object sender, GridViewDeletedEventArgs e)
+    {
+        if (e.Exception == null)
+            message.InnerHtml = "User was successfully deleted.";
+        else
+        {
+            message.InnerHtml = e.Exception.InnerException.Message;
+            e.ExceptionHandled = true;
+        }
+    }
+    
+</script>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="setupContent" runat="server">
+    <table cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <td class="hdr" valign="bottom">Users</td>
+            <td align="right">
+                &nbsp;&nbsp;<input type="button" onclick="javascript:window.location.href='UserEdit.aspx?ntlogon=';return false;" value="Add User" />
+             </td>
+        </tr>
+        <tr>
+            <td width="100%" class="line" colspan="2" height="1"></td>
+        </tr>
+        <tr>
+            <td>
+                <span id="message" class="message" runat="server" enableviewstate="false"></span>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <asp:GridView ID="Grid" runat="server" Width="100%" CssClass="list" CellPadding="3" PageSize="20" GridLines="Horizontal" AllowPaging="true" AllowSorting="true" DataSourceID="gridSource"
+        AutoGenerateColumns="False" DataKeyNames="ntlogon" onrowdeleted="Grid_RowDeleted">
+        <HeaderStyle CssClass="listhdr" />
+        <Columns>
+	        <asp:HyperLinkField DataTextField="ntlogon" HeaderText="NT Logon" HeaderStyle-HorizontalAlign="Left" SortExpression="ntlogon" DataNavigateUrlFormatString="UserEdit.aspx?ntlogon={0}" DataNavigateUrlFields="ntlogon" />  
+            <asp:BoundField DataField="agentname" HeaderText="Agent Name" HeaderStyle-HorizontalAlign="Left"  SortExpression="agentname" />
+            <asp:BoundField DataField="secleveldesc" HeaderText="Sec. Level" HeaderStyle-HorizontalAlign="Left"  SortExpression="secleveldesc" />
+            <asp:BoundField DataField="GroupID_Allow" HeaderText="Group ID" HeaderStyle-HorizontalAlign="Left"  SortExpression="GroupID_Allow" />
+            <asp:TemplateField HeaderText="Delete" HeaderStyle-Width="25px"  ItemStyle-Width="25px" >
+                <ItemTemplate>
+                    <asp:LinkButton ID="LnkDelete" runat="server" CausesValidation="False" CommandName="Delete" OnClientClick="return confirm('Are you sure you wish to delete?');" Text="Delete" />
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+        <EmptyDataTemplate>
+            <p class="message">
+                No records found....</p>
+        </EmptyDataTemplate>
+    </asp:GridView>
+    <asp:ObjectDataSource ID="gridSource" runat="server" SelectMethod="GetList" DeleteMethod="Delete" TypeName="GM.Security" />
+</asp:Content>

@@ -1,0 +1,108 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MasterPage.Master" %>
+<%@ Import Namespace="GM" %>
+
+
+<script runat="server">
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //string printUrl = "";
+        //printUrl = Config.BIPortalUrl;
+        //Session["URL"] = printUrl;
+        //orderFormUrl = Config.SSRSUrlTemplate;
+        //orderFormUrl = orderFormUrl.Replace("[REPORTNAME]", "OrderForm") + "&rc:Parameters=Collapsed&rs:Format=EXCEL&rs:ClearSession=true&rc:emissionTime=" + DateTime.Now.Ticks.ToString();
+    }
+
+
+</script>
+
+<%--<script type="text/javascript">
+    function onClicking(sender, eventArgs) {
+    var navigateUrl = '<%=System.Configuration.ConfigurationManager.AppSettings("BIPortalUrl").ToString() %>';
+}
+</script>--%>
+<asp:Content ID="Content1" ContentPlaceHolderID="mainContent" Runat="Server">
+    <%--<telerik:RadScriptManager runat="server" ID="RadScriptManager3" />
+    <telerik:RadSkinManager ID="RadSkinManager3" runat="server" ShowChooser="true" />--%>
+    <%--<style type="text/css">
+        #left {
+          position: fixed;
+          left: 5;
+          z-index: 2;
+          height: 80%;
+          width: 180px;
+          overflow: auto;
+          border-right-width: thin;
+          border-right-style: dotted;
+          border-right-color: Gray;
+          
+          /* for IE7 */
+          _position:absolute; 
+          _top:expression(eval(document.body.scrollTop)) 
+        }
+    </style>--%>
+
+<table cellpadding="0" cellspacing="0" width="100%">
+
+    <tr valign="top">
+        <td width="180">
+            <div id="left">Navigate
+                 <div class="demo-container no-bg">
+                <img src="Images/Logo_128.jpg" class="headerHome" alt="Home" width="80" height="80" />
+                <telerik:RadMenu RenderMode="Lightweight" ID="RadMenu1" CssClass="mainMenu" runat="server" ShowToggleHandle="true" Flow="Vertical" OnLoad="Page_Load">
+                    <Items>
+                       <%-- <telerik:RadMenuItem Text="Reports" Target="_blank" NavigateUrl=Config.BIPortalUrl></telerik:RadMenuItem>--%>
+                        <telerik:RadMenuItem Text="Reports" Target="_blank" NavigateUrl="https://biportal.aaacorp.com/reports/browse/Group%20Atlas" ></telerik:RadMenuItem>
+                        <%--<telerik:RadMenuItem Text="Reports" NavigateUrl="ViewReport.aspx?" ></telerik:RadMenuItem>--%>
+                       <%-- <telerik:RadMenuItem Text="All Groups For Year" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_All Groups For Year&title=All Groups For Year" ></telerik:RadMenuItem>--%>
+                        <%--<telerik:RadMenuItem Text="All Groups for Year - Affinity" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_All Groups for Year - Affinity&title=All Groups for Year - Affinity" ></telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="All Groups for Year - Vendor" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_All Groups for Year by Vendor&title=All Groups for Year by Vendor" ></telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="Closed Groups" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Closed Groups&title=Closed Groups"></telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="Closed Groups by Vendor" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Closed groups by Vendor&title=Closed groups by Vendor" ></telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="Travelled and Closed" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Travelled and Closed Groups&title=Travelled and Closed Groups" ></telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="Travelled and Not Closed" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Travelled and Not Closed Groups&title=Travelled and Not Closed Groups" ></telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="Bookings">
+                            <GroupSettings Width="175px" />
+                            <Items>
+                                <telerik:RadMenuItem Text="Badges" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Badges&title=Badges" ></telerik:RadMenuItem>
+
+                                <telerik:RadMenuItem Text="Baggage Tag Labels" NavigateUrl="mtDescriptionList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Balance Due" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Balance Due&title=Balance Due"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Bookings" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Bookings&title=Bookings" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Flyer Banners" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Baggage Tag Labels&title=Baggage Tag Labels" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Master List" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Master List&title=Master List" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Payments by Date" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Payments by Date&title=Payments by Date" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Payments by Event" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Payments by Event&title=Payments by Event" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="PIF" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_PIF&title=PIF"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Rooming List" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Rooming List&title=Rooming List" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Special Requests" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Special Requests&title=Special Requests" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Specality Report" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Specality Report&title=Specality Report" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Upcoming Events" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Upcoming Events&title=Upcoming Events" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Waiting List" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Waiting List&title=Waiting List"></telerik:RadMenuItem>
+                            </Items>
+                        </telerik:RadMenuItem>
+                        <telerik:RadMenuItem Text="Miscellaneous">
+                            <GroupSettings Width="175px" />
+                            <Items>
+                                <telerik:RadMenuItem Text="Group Mail Merge" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_Group Mail Merge&title=Group Mail Merge" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="HOLLAND America" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_HOLLAND America&title=HOLLAND America" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="RCI Feedback" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas_RCI Feedback&title=RCI Feedback" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="TEST" NavigateUrl="ViewReport.aspx?reportname=GrpAtlas All Groups for Year" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="TEST1" NavigateUrl="ViewReport.aspx"></telerik:RadMenuItem>
+                            </Items>
+                        </telerik:RadMenuItem>--%>
+                    </Items>
+                </telerik:RadMenu>
+                <asp:PlaceHolder runat="server" ID="Content" />
+            </div>
+        </div>
+        </td>
+        <td width="10">&nbsp;</td>
+        <td>
+            <asp:ContentPlaceHolder runat="server" ID="reportContent" />
+        </td>
+    </tr>
+
+</table>
+
+</asp:Content>
+

@@ -1,0 +1,159 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MasterPage.Master" %>
+<%@ Import Namespace="GM" %>
+
+<script runat="server">
+    void Page_Load(object sender, System.EventArgs e)
+    {
+        //if (!Security.IsAdmin())
+        //    Response.Redirect("Default.aspx?msg=Access denied...");
+        // Check current Security level
+        if (Session["Security"] != null)
+        {
+            int s = Convert.ToInt32(Session["Security"].ToString());
+            if (s > 1)
+            {
+                var items = RadMenu1.GetAllItems();
+                int total_items = items.Count;
+                for (int i=0; i < total_items; i++)
+                {
+                    if (items[i].Text == "Maintenance")
+                    {
+                        items[i].Enabled = false;
+                        items[i].NavigateUrl = "";
+                        RadMenu1.FindItemByText("Maintenance").Remove();
+                    }
+                }
+                //RadMenu1.FindItemByText("User Security").Remove();
+                //RadMenu1.FindItemByText("Maintenance").Remove();
+            }
+        }
+        else
+        {
+            Response.Redirect("default.aspx");
+        }
+    }
+</script>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="mainContent" Runat="Server">
+    <%--<telerik:RadScriptManager runat="server" ID="RadScriptManager2" />
+    <telerik:RadSkinManager ID="RadSkinManager2" runat="server" ShowChooser="true" />--%>
+   <%-- <style type="text/css">
+        #left {
+          position: fixed;
+          left: 5;
+          z-index: 2;
+          height: 80%;
+          width: 175px;
+          overflow: auto;
+          border-right-width: thin;
+          border-right-style: dotted;
+          border-right-color: Gray;
+          
+          /* for IE7 */
+          _position:absolute; 
+          _top:expression(eval(document.body.scrollTop)) 
+        }
+    </style>--%>
+
+<table cellpadding="0" cellspacing="0" width="100%">
+
+    <tr valign="top">
+        <td width="175">
+            <div id="left">
+             <%--  <br />--%>
+                <%--<a class="lnav" href="ShipList.aspx">Cruise Ships</a><br /><br />
+                <a class="lnav" href="ProviderEdit.aspx">Provider Groups</a><br /><br />
+                <a class="lnav" href="CxlPolicyList.aspx">Cancellation Policies</a><br /><br />
+                <a class="lnav" href="UserList.aspx">User Security</a><br /><br />
+                <a class="lnav" href="QuestionList.aspx">Passenger Questions</a><br /><br />
+                <a class="lnav" href="CoordinatorList.aspx">Group Coordinators</a><br /><br />
+                <b><i><span style="font-family: arial; font-size: 10px">Flyer Options:</span></i></b> 
+                <ul style="margin-top: 0px; padding-top: 0px;">
+                   <li><a class="lnav" href="mtShipList.aspx">Ships</a><br /></li>
+                   <li><a class="lnav" href="mtRegionList.aspx">Regions</a><br /></li>
+                   <li><a class="lnav" href="mtDeparturePointList.aspx">Departure Points</a><br /></li>
+                   <li><a class="lnav" href="mtVendorGroupList.aspx">Vendor Group Codes</a><br /></li>
+                   <li><a class="lnav" href="mtVendorList.aspx">Vendors</a><br /></li>
+                   <li><a class="lnav" href="mtDescriptionList.aspx">Descriptions</a><br /></li>
+                   <li><a class="lnav" href="mtBannerList.aspx">Flyer Banners</a><br /></li>
+                </ul>
+                <b><i><span style="font-family: arial; font-size: 10px">Task Options:</span></i></b> 
+                <ul style="margin-top: 0px; padding-top: 0px;">
+                   <li><a class="lnav" href="">Task Types</a><br /></li>
+                   <li><a class="lnav" href="">Task</a><br /></li>
+                   <li><a class="lnav" href="">Task Types and Tasks</a><br /></li>
+                </ul>
+                <p>&nbsp;</p>--%>
+            <%-- </div>--%>
+
+            <div class="demo-container no-bg">
+                <img src="Images/Logo_128.jpg" class="headerHome" alt="Home" width="80" height="80" />
+                <telerik:RadMenu RenderMode="Lightweight" ID="RadMenu1" CssClass="mainMenu" runat="server" ShowToggleHandle="true" Flow="Vertical">
+                    <Items>
+                        <telerik:RadMenuItem Text="Group Details">
+                            <GroupSettings Width="175px" />
+                            <Items>
+                                <telerik:RadMenuItem Text="Cancellation Policies" NavigateUrl="CxlPolicyList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Cruise Ships" NavigateUrl="ShipList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Departure Points" NavigateUrl="mtDeparturePointList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Descriptions" NavigateUrl="mtDescriptionList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Flyer Banners" NavigateUrl="mtBannerList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Flyer Instructions" NavigateUrl="mtInstructions.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Group Description List" NavigateUrl="GroupDescription.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Group Download" NavigateUrl="mtDownloadGroup.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Passenger Questions" NavigateUrl="QuestionList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Regions" NavigateUrl="mtRegionList.aspx"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Theme List" NavigateUrl="ThemeMaintenance.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Vendors" NavigateUrl="mtVendorList.aspx" ></telerik:RadMenuItem>
+                                <%--<telerik:RadMenuItem Text="Ships" NavigateUrl="mtShipList.aspx" ></telerik:RadMenuItem>--%>
+                                <%--<telerik:RadMenuItem Text="Vendor Group Codes" NavigateUrl="mtVendorGroupList.aspx" ></telerik:RadMenuItem>--%>
+                                
+                            </Items>
+                        </telerik:RadMenuItem>
+
+                        <telerik:RadMenuItem Text="Maintenance">
+                            <GroupSettings Width="175px" />
+                            <Items>
+                                <telerik:RadMenuItem Text="Agents Options">
+                                <GroupSettings Width="175px" />
+                                    <Items>
+                                        <telerik:RadMenuItem Text="Agents List" NavigateUrl="Agents.aspx" ></telerik:RadMenuItem>
+                                        <telerik:RadMenuItem Text="IATA List" NavigateUrl="IataList.aspx" ></telerik:RadMenuItem>
+                                    </Items>
+                                </telerik:RadMenuItem>
+                                <%--<telerik:RadMenuItem Text="Cancellation Policies" NavigateUrl="CxlPolicyList.aspx" ></telerik:RadMenuItem>--%>
+                                
+                                <telerik:RadMenuItem Text="Group Coordinators" NavigateUrl="CoordinatorList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Group Type List" NavigateUrl="GroupTypeList.aspx" ></telerik:RadMenuItem>
+                                
+                                <telerik:RadMenuItem Text="Task Options">
+                                <GroupSettings Width="175px" />
+                                    <Items>
+                                        <telerik:RadMenuItem Text="Task List" NavigateUrl="TaskList.aspx" ></telerik:RadMenuItem>
+                                        <telerik:RadMenuItem Text="Type List" NavigateUrl="TypeList.aspx" ></telerik:RadMenuItem>
+                                        <telerik:RadMenuItem Text="Types, Groups and Tasks" NavigateUrl="TypesReportsTask.aspx" ></telerik:RadMenuItem>
+                                    </Items>
+                                </telerik:RadMenuItem>
+                                <%--<telerik:RadMenuItem Text="Theme List" NavigateUrl="ThemeMaintenance.aspx" ></telerik:RadMenuItem>--%>
+                                
+                                <%--<telerik:RadMenuItem Text="Provider Groups" NavigateUrl="ProviderEdit.aspx" ></telerik:RadMenuItem>--%>
+                                <telerik:RadMenuItem Text="User Security" NavigateUrl="UserList.aspx" ></telerik:RadMenuItem>
+                                <telerik:RadMenuItem Text="Vendor Group Code" NavigateUrl="VGroupCode.aspx" ></telerik:RadMenuItem>
+                            </Items>
+                        </telerik:RadMenuItem>
+                    </Items>
+                </telerik:RadMenu>
+                <asp:PlaceHolder runat="server" ID="Content" />
+            </div>
+        </div>
+        </td>
+        <td width="10">&nbsp;</td>
+        <td>
+            <asp:ContentPlaceHolder runat="server" ID="setupContent" />
+        </td>
+    </tr>
+
+</table>
+
+</asp:Content>
+

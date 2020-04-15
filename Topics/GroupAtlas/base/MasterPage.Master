@@ -1,0 +1,143 @@
+﻿<%@ Master Language="C#" %>
+<%@ Import Namespace="GM" %>
+
+
+<script runat="server">
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //if (!IsPostBack)
+        //{
+        //    Session["FirstTime"] = "0";
+        //}
+        //else
+        //{
+        //    Session["FirstTime"] = "1";
+        //}
+
+        string pg = Util.CurrentPage().ToLower();
+        if (this.Page.MasterPageFile.ToLower().IndexOf("setup.master") > -1)
+            topMenu.Items[3].Selected = true;
+        else
+        if (pg.StartsWith("group"))
+            topMenu.Items[0].Selected = true;
+        else if (pg.StartsWith("mtgroup"))
+            topMenu.Items[1].Selected = true;
+        else if (pg.StartsWith("booking"))
+            topMenu.Items[2].Selected = true;
+        else if (this.Page.MasterPageFile.ToLower().IndexOf("reports.master") > -1)
+            topMenu.Items[4].Selected = true;
+
+        username.InnerHtml = Util.CurrentUser();
+        // Get Security Level
+        SecurityDet s = new SecurityDet();
+        s = Security.Get(username.InnerHtml);
+        Session["Security"] = s.secLevel;
+
+        Session["GroupID1"] = s.groupID_allow;
+        Session["GroupID2"] = s.groupID_allow2;
+        Session["GroupID3"] = s.groupID_allow3;
+        Session["GroupID4"] = s.groupID_allow4;
+        Session["GroupID5"] = s.groupID_allow5;
+
+        if (s.secLevel == 3) //Reports
+        {
+            MenuItemCollection menuItems = topMenu.Items;
+            MenuItem item = topMenu.FindItem("Groups");
+            topMenu.Items.Remove(item);
+            topMenu.Items.Remove(topMenu.FindItem("Flyers"));
+            topMenu.Items.Remove(topMenu.FindItem("Bookings"));
+            topMenu.Items.Remove(topMenu.FindItem("Setup"));
+        }
+        if (s.secLevel == 4) //Agent Booking
+        {
+            MenuItemCollection menuItems = topMenu.Items;
+            //MenuItem item = topMenu.FindItem("Groups");
+            //topMenu.Items.Remove(item);
+            topMenu.Items.Remove(topMenu.FindItem("Flyers"));
+            topMenu.Items.Remove(topMenu.FindItem("Reports"));
+            topMenu.Items.Remove(topMenu.FindItem("Setup"));
+        }
+    }
+
+
+</script>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head id="Head1" runat="server">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>Group Atlas</title>	
+    <script language="JavaScript" type="text/javascript" src="include/scripts.js"></script>
+	<script language="JavaScript" type="text/javascript" src="include/tooltip.js"></script>
+    <link type="text/css" rel="Stylesheet" href="include/styles.css" />
+    <script for="document" event="onkeydown">
+         if (window.event.keyCode == 8) {
+            if (!(document.activeElement.type.toLowerCase() == "text" || document.activeElement.tagName.toLowerCase() == "textarea"))
+                window.event.returnValue = false;
+         }
+    </script>
+</head>
+<body>
+
+	<form id="mainForm" runat="server" defaultbutton="Button2" >
+        <asp:Button ID="Button2" runat="server" Text="" style="display: none;" OnClientClick="return false;" />
+        <telerik:RadScriptManager runat="server" ID="RadScriptManager1" />
+        <telerik:RadSkinManager ID="RadSkinManager1" runat="server" ShowChooser="true" />
+	    <div id="top">
+            <table width="100%" bgcolor="#4F7D9D" cellpadding="1" cellspacing="0">
+            <tr>
+                <td width="36"><img width="32" height="32" src="images/logo_32.jpg" /></td>    
+                <td class="title" valign="middle">Group Atlas</td>    
+                <td align="center" class="hdrcomment"><%=Config.HdrComment%></td>    
+                <td align="right" valign="top">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td class="hnav"><span id="username" runat="server" /></td>
+                        <td class="hnav">&nbsp;&nbsp;|&nbsp;&nbsp;</td>
+                        <td><a class="hnav" href="javascript:printpage();">Print</a>&nbsp;</td>
+                    </tr>
+                    </table>
+                </td>
+            </tr>
+            </table>
+            <div id="topNav">
+                <asp:Menu ID="topMenu" runat="server" Orientation="Horizontal" RenderingMode="Table" EnableViewState="false">
+                    <StaticMenuItemStyle CssClass="staticMenuItemStyle" />
+                    <StaticSelectedStyle CssClass="staticSelectedStyle" />
+                    <StaticHoverStyle CssClass="staticHoverStyle" />
+                    <Items>
+                        <asp:MenuItem NavigateUrl="GroupList.aspx?clear=Y" Text="Groups" ToolTip="Manage Groups"/>
+                        <asp:MenuItem NavigateUrl="mtGroupList.aspx?clear=Y" Text="Flyers" ToolTip="Setup group information to build flyers)"/>
+                        <asp:MenuItem NavigateUrl="BookingList.aspx?clear=Y" Text="Bookings" ToolTip="Group bookings"/>
+                        <asp:MenuItem NavigateUrl="Setup.aspx" Text="Setup" ToolTip="Setup and maintenance"/>
+                        <asp:MenuItem NavigateUrl="Reports.aspx" Text="Reports" ToolTip="Reports" />
+                    </Items> 
+                </asp:Menu>
+            </div>
+        </div>
+        <div id="content">
+	        <table cellpadding="5" cellspacing="0" width="100%">
+                <tr valign="top">
+			        <td>
+                        <div id="pagecontent">
+    				        <asp:ContentPlaceHolder runat="server" ID="mainContent" />
+    				    </div> 
+				    </td>
+			    </tr>
+			    <tr><td>&nbsp;</td></tr>
+	        </table>
+	    </div>
+	    <div id="bottom">
+	        <table cellpadding="5" cellspacing="0" width="100%">
+                <tr>
+			        <td class="remark" style="color:white">
+			            &copy; <%=DateTime.Today.Year%> AAA Club Alliance
+				    </td>
+			    </tr>
+	        </table>  
+	    </div>
+	</form>
+</body>
+</html>
