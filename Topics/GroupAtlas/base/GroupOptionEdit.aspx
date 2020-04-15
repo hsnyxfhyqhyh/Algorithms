@@ -38,7 +38,8 @@
             string sRateType = ((DropDownList)itm.FindControl("ratetype")).SelectedValue;
             decimal dRate = ConvDec(((TextBox)itm.FindControl("rate")).Text);
             bool bIsRequired = ((CheckBox)itm.FindControl("isrequired")).Checked;
-            list.Add(new GroupOption(iOptionID, sOptionName, sRateType, dRate, bIsRequired, "OTH"));
+            bool bInventoryControl = ((CheckBox)itm.FindControl("inventoryControl")).Checked;
+            list.Add(new GroupOption(iOptionID, sOptionName, sRateType, dRate, bIsRequired,bInventoryControl, "OTH"));
             cnt++;
         }
         try
@@ -113,6 +114,7 @@
                                 <td class="tdlabel" width="150">&nbsp;&nbsp;Rate</td>
                                 <td class="tdlabel" width="125">Rate Type</td>
                                 <td class="tdlabel" align="center" width="100">Is Required</td>
+                                <td class="tdlabel" align="center" width="100">Inventory Control</td>
                             </tr>
                     </HeaderTemplate>
                     <ItemTemplate>
@@ -131,6 +133,9 @@
                             <td align="center">
                                 <asp:CheckBox ID="isrequired" runat="server" Checked='<%# Bind("isrequired") %>' />
                             </td>                
+                            <td align="center">
+                                <asp:CheckBox ID="inventoryControl" runat="server" Checked='<%# Bind("inventoryControl") %>' />
+                            </td> 
                         </tr>
                     </ItemTemplate>
                     <FooterTemplate>
