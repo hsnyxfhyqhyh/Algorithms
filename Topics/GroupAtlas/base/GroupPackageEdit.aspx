@@ -38,6 +38,8 @@
                 quadrate.Text = p.quadRate.ToString("#0.00");
                 singlecomm.Text = p.singleComm.ToString("#0.00");
                 doublecomm.Text = p.doubleComm.ToString("#0.00");
+                triplecomm.Text = p.tripleComm.ToString("#0.00");
+                quadcomm.Text = p.quadComm.ToString("#0.00");
                 quantity.Text = p.quantity.ToString();
                 allocated.Text = p.allocated.ToString();
                 sPackageType = p.packageType;
@@ -183,6 +185,18 @@
             <td class="tdlabel">Double Commission:</td>
             <td><asp:TextBox ID="doublecomm" runat="server" Width="100px"></asp:TextBox>
                 <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="doublecomm" CssClass="error" Display="Dynamic" Operator="DataTypeCheck" ErrorMessage="Double comm is invalid" Type="Currency">*</asp:CompareValidator>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdlabel">Triple Commission:</td>
+            <td><asp:TextBox ID="triplecomm" runat="server" Width="100px"></asp:TextBox>
+                <asp:CompareValidator ID="CompareValidator4" runat="server" ControlToValidate="triplecomm" CssClass="error" Display="Dynamic" Operator="DataTypeCheck" ErrorMessage="Triple comm is invalid" Type="Currency">*</asp:CompareValidator>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdlabel">Quad Commission:</td>
+            <td><asp:TextBox ID="quadcomm" runat="server" Width="100px"></asp:TextBox>
+                <asp:CompareValidator ID="CompareValidator5" runat="server" ControlToValidate="quadcomm" CssClass="error" Display="Dynamic" Operator="DataTypeCheck" ErrorMessage="Quad comm is invalid" Type="Currency">*</asp:CompareValidator>
             </td>
         </tr>
         <tr><td>&nbsp;</td></tr>

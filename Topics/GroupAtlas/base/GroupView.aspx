@@ -1211,6 +1211,8 @@
             						                <asp:BoundField DataField="quadrate" HeaderText="Quad" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" />
             						                <asp:BoundField DataField="singlecomm" HeaderText="Sng<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
             						                <asp:BoundField DataField="doublecomm" HeaderText="Dbl<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
+                                                    <asp:BoundField DataField="triplecomm" HeaderText="Tri<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
+                                                    <asp:BoundField DataField="quadcomm" HeaderText="Quad<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
             						                <asp:BoundField DataField="quantity" HeaderText="Qty" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
             						                <asp:BoundField DataField="allocated" HeaderText="Allocated" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
             						                <asp:BoundField DataField="sold" HeaderText="Sold" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
