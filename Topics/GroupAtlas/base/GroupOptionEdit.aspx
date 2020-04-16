@@ -115,6 +115,7 @@
                                 <td class="tdlabel" width="125">Rate Type</td>
                                 <td class="tdlabel" align="center" width="100">Is Required</td>
                                 <td class="tdlabel" align="center" width="100">Inventory Control</td>
+                                <td class="tdlabel" align="center" width="100">&nbsp;</td>
                             </tr>
                     </HeaderTemplate>
                     <ItemTemplate>
@@ -135,7 +136,15 @@
                             </td>                
                             <td align="center">
                                 <asp:CheckBox ID="inventoryControl" runat="server" Checked='<%# Bind("inventoryControl") %>' />
-                            </td> 
+                            </td>
+                            <td align="center">
+                                <!--<asp:TextBox ID="TextBox1" runat="server" Width="80px" Text='<%# Bind("inventoryControl") %>' MaxLength="8" />-->
+                                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# "GroupOptionInvControl.aspx?optionid=" +Eval("optionid") + "&groupid=" + Request.QueryString["groupid"]%>'  
+                                    Visible='<%# DataBinder.Eval(Container.DataItem,"inventoryControl").ToString() != "False" %>' Text='Edit'  />
+
+                                
+
+                            </td>
                         </tr>
                     </ItemTemplate>
                     <FooterTemplate>
