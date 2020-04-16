@@ -138,12 +138,8 @@
                                 <asp:CheckBox ID="inventoryControl" runat="server" Checked='<%# Bind("inventoryControl") %>' />
                             </td>
                             <td align="center">
-                                <!--<asp:TextBox ID="TextBox1" runat="server" Width="80px" Text='<%# Bind("inventoryControl") %>' MaxLength="8" />-->
                                 <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# "GroupOptionInvControl.aspx?optionid=" +Eval("optionid") + "&groupid=" + Request.QueryString["groupid"]%>'  
                                     Visible='<%# DataBinder.Eval(Container.DataItem,"inventoryControl").ToString() != "False" %>' Text='Edit'  />
-
-                                
-
                             </td>
                         </tr>
                     </ItemTemplate>
