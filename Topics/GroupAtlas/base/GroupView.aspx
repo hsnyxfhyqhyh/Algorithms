@@ -63,7 +63,7 @@
             //Define Hyperlinks
             aGroupInvEdit.NavigateUrl = "~/GroupInvEdit.aspx?groupid=" + groupid;
             aGroupPackageEdit.NavigateUrl = "~/GroupPackageEdit.aspx?groupid=" + groupid;
-            aGroupOptionEdit.NavigateUrl = "~/GroupOptionEdit.aspx?groupid=" + groupid;
+            aGroupOptionEdit.NavigateUrl = "~/GroupOptionInvControl.aspx?groupid=" + groupid;
 
             GroupMaster g = GroupMaster.GetGroupMaster(groupid);
             if (g == null)
@@ -1239,27 +1239,34 @@
                                     <tr valign="top">
                                          <td width="55%">
                                                 <%--<b>Options</b>&nbsp;&nbsp;<a href="GroupOptionEdit.aspx?groupid=<%=groupid%>">[ Edit ]</a><br />--%>
-                                              <b>Options</b>&nbsp;&nbsp;<asp:HyperLink id="aGroupOptionEdit" runat="server" Text="[ Edit ]"/><br />
+                                              <b>Options</b>&nbsp;&nbsp;<asp:HyperLink id="aGroupOptionEdit" runat="server" Text="[ Add ]"/><br />
                                                 <asp:GridView ID="OptionList" DataKeyNames="GroupID, OptionID" Width="500px" CssClass="list" runat="server" AutoGenerateColumns="False" CellPadding="3" PageSize="100" GridLines="Horizontal" ShowFooter="False" 
                                                     DataSourceID="OptionDS" AllowSorting="false" AllowPaging="false" ShowHeader="true">
                                                     <HeaderStyle CssClass="listhdr" /> 
                                                     <Columns>
+                                                        <asp:HyperLinkField Text="Edit" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="25px" DataNavigateUrlFormatString="GroupOptionInvControl.aspx?optionid={0}&groupid={1}" DataNavigateUrlFields="optionid,groupid" />  
                                                         <asp:TemplateField ShowHeader="False" HeaderStyle-Width="25px" >
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="LnkDelete" runat="server" CausesValidation="False" CommandName="Delete" OnClientClick="return confirm('Are you sure you would like to delete this row?');" Text="Del" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-            						                    <asp:BoundField DataField="optionname" HeaderText="Description" HeaderStyle-HorizontalAlign="Left" />
-            						                    <asp:BoundField DataField="rate" HeaderText="Rate" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" />
-                                                        <asp:TemplateField HeaderText="" HeaderStyle-HorizontalAlign="Left" SortExpression="type">
-                                                            <ItemTemplate>
-                                                                <%# GM.PickList.GetRateTypeDesc(Eval("ratetype").ToString()) %>
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
+            						                    <asp:BoundField DataField="optionname" HeaderText="Option Name" HeaderStyle-HorizontalAlign="Left" />
+                                                        <asp:BoundField DataField="optioncode" HeaderText="Code" HeaderStyle-HorizontalAlign="Left" />
+                                                        <asp:BoundField DataField="optiontype" HeaderText="Type" HeaderStyle-HorizontalAlign="Left" />
+                                                        <asp:BoundField DataField="singlerate" HeaderText="Single" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" />
+            						                    <asp:BoundField DataField="doublerate" HeaderText="Double" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" />
+            						                    <asp:BoundField DataField="triplerate" HeaderText="Triple" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" />
+            						                    <asp:BoundField DataField="quadrate" HeaderText="Quad" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" />
+            						                    <asp:BoundField DataField="singlecomm" HeaderText="Sng<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
+            						                    <asp:BoundField DataField="doublecomm" HeaderText="Dbl<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
+                                                        <asp:BoundField DataField="triplecomm" HeaderText="Tri<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
+                                                        <asp:BoundField DataField="quadcomm" HeaderText="Quad<br>Comm" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" DataFormatString="{0:c}" HtmlEncode="false" />
+                                                        <asp:BoundField DataField="quantity" HeaderText="Qty" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
+            						                    <asp:BoundField DataField="allocated" HeaderText="Allocated" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right" />
             						                    <asp:CheckBoxField DataField="isrequired" HeaderText="Required?" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" />
                                                     </Columns>
                                                     <EmptyDataTemplate>
-                                                        Click "Edit" above to add options
+                                                        Click "Add" above to add options
                                                     </EmptyDataTemplate>
                                                 </asp:GridView>
                                                 <asp:ObjectDataSource ID="OptionDS" runat="server" TypeName="GM.GroupOption" 

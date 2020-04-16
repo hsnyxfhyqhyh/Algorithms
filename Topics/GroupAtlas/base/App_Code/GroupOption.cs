@@ -276,7 +276,7 @@ namespace GM
 
         public static void Update(string groupID, GroupOption c)
         {
-            string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, optioncode=@optioncode, ratetype=@ratetype, rate=@rate, isrequired=@isrequired , inventoryControl= @inventoryControl, 
+            string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, optioncode=@optioncode, optiontype=@optionType, ratetype=@ratetype, rate=@rate, isrequired=@isrequired , inventoryControl= @inventoryControl, 
                                  SingleRate=@SingleRate, DoubleRate=@DoubleRate, TripleRate=@TripleRate, QuadRate=@QuadRate, 
                                  SingleComm=@SingleComm, DoubleComm=@DoubleComm, TripleComm=@TripleComm, QuadComm=@QuadComm, Quantity=@Quantity, Allocated=@Allocated
                 WHERE optionid=@optionid AND groupid=@groupid";
@@ -293,6 +293,7 @@ namespace GM
                     cmd.Parameters.Add("@groupid", SqlDbType.VarChar).Value = groupID;
                     cmd.Parameters.Add("@optionid", SqlDbType.Int).Value = c.optionID;
                     cmd.Parameters.Add("@optionname", SqlDbType.VarChar, 100).Value = c.optionName;
+                    cmd.Parameters.Add("@optionType", SqlDbType.VarChar, 100).Value = c.optionType;
                     cmd.Parameters.Add("@ratetype", SqlDbType.VarChar, 1).Value = c.rateType;
                     cmd.Parameters.Add("@rate", SqlDbType.Decimal).Value = c.rate;
                     cmd.Parameters.Add("@isrequired", SqlDbType.Bit).Value = c.isRequired;
