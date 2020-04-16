@@ -38,8 +38,8 @@
             string sRateType = ((DropDownList)itm.FindControl("ratetype")).SelectedValue;
             decimal dRate = ConvDec(((TextBox)itm.FindControl("rate")).Text);
             bool bIsRequired = ((CheckBox)itm.FindControl("isrequired")).Checked;
-            bool bInventoryControl = ((CheckBox)itm.FindControl("inventoryControl")).Checked;
-            list.Add(new GroupOption(iOptionID, sOptionName, sRateType, dRate, bIsRequired,bInventoryControl, "OTH"));
+            
+            list.Add(new GroupOption(iOptionID, sOptionName, sRateType, dRate, bIsRequired,  "OTH"));
             cnt++;
         }
         try

@@ -15,7 +15,7 @@ namespace GM
         private string _rateType;
         private decimal _rate;
         private bool _isRequired;
-        private bool _inventoryControl;
+        
         private string _optionType;
         private int _quantity;
         private int _allocated;
@@ -45,7 +45,7 @@ namespace GM
         public string rateType { get { return _rateType; } }
         public decimal rate { get { return _rate; } }
         public bool isRequired { get { return _isRequired; } }
-        public bool inventoryControl { get { return _inventoryControl; } }
+        
         public string optionType {
             get { return _optionType; }
             set { _optionType = value.ToString(); }
@@ -98,19 +98,19 @@ namespace GM
         }
 
 
-        public GroupOption(int optionID, string optionName, string rateType, decimal rate, bool isRequired, bool inventoryControl, string optionType)
+        public GroupOption(int optionID, string optionName, string rateType, decimal rate, bool isRequired, string optionType)
         {
             this._optionID = optionID;
             this._optionName = optionName;
             this._rateType = rateType;
             this._rate = rate;
             this._isRequired = isRequired;
-            this._inventoryControl = inventoryControl;
+            
             this._optionType = optionType;
 
         }
 
-        public GroupOption(int optionID, string optionName, string rateType, decimal rate, bool isRequired, bool inventoryControl, string optionType, string sOptionCode,
+        public GroupOption(int optionID, string optionName, string rateType, decimal rate, bool isRequired,  string optionType, string sOptionCode,
                             decimal singleRate, decimal doubleRate, decimal tripleRate, decimal quadRate,
                             decimal singleComm, decimal doubleComm, decimal tripleComm, decimal quadComm, int iQuantity, int iAllocated)
         {
@@ -119,7 +119,7 @@ namespace GM
             this._rateType = rateType;
             this._rate = rate;
             this._isRequired = isRequired;
-            this._inventoryControl = inventoryControl;
+            
             this._optionType = optionType;
 
             this._optionCode = sOptionCode;
@@ -175,7 +175,7 @@ namespace GM
             {
                 int cnt = (list.Count == 0) ? 10 : 5;
                 for (int i = 0; i < cnt; i++)
-                    list.Add(new GroupOption(0, "", "", 0, false, false,  "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+                    list.Add(new GroupOption(0, "", "", 0, false,  "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
             }
             return list;
         }
@@ -185,9 +185,9 @@ namespace GM
             int optionid = Convert.ToInt32(rs["optionid"]);
             string optionname = rs["optionname"] + "";
             string ratetype = rs["ratetype"] + "";
-            decimal rate = Util.parseDec(rs["rate"]);
+            decimal rate = 0;
             bool isrequired = (bool)rs["isrequired"];
-            bool inventoryControl = (bool)rs["inventoryControl"];
+            
             string optiontype = rs["optiontype"] + "";
 
             string sOptionCode = rs["OptionCode"] + "";
@@ -205,16 +205,16 @@ namespace GM
             int iAllocated = Convert.ToInt32(rs["Allocated"]);
            
 
-            GroupOption o = new GroupOption(optionid, optionname, ratetype, rate, isrequired, inventoryControl, optiontype, sOptionCode,
+            GroupOption o = new GroupOption(optionid, optionname, ratetype, rate, isrequired, optiontype, sOptionCode,
                                         singleRate, doubleRate, tripleRate, quadRate, singleComm, doubleComm, tripleComm, quadComm, iQuantity, iAllocated);
             return o;
         }
 
         public static void Update(string groupID, List<GroupOption> list)
         {
-            string SQL_INSERT = @"INSERT INTO dbo.grp_Option(groupid, optionname, ratetype, rate, isrequired, inventoryControl) 
-                VALUES(@GroupID, @optionname, @ratetype, @rate, @isrequired, @inventoryControl)";
-            string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, ratetype=@ratetype, rate=@rate, isrequired=@isrequired , inventoryControl= @inventoryControl
+            string SQL_INSERT = @"INSERT INTO dbo.grp_Option(groupid, optionname, isrequired) 
+                VALUES(@GroupID, @optionname, @isrequired)";
+            string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, isrequired=@isrequired
                 WHERE optionid=@optionid AND groupid=@groupid";
             string SQL_DELETE = @"DELETE FROM dbo.grp_Option WHERE optionid=@optionid AND groupid=@groupid";
             using (SqlConnection cn = new SqlConnection(Config.ConnectionString))
@@ -232,10 +232,9 @@ namespace GM
                                 SqlCommand cmd = new SqlCommand(SQL_INSERT, cn, trn);
                                 cmd.Parameters.Add("@groupid", SqlDbType.VarChar).Value = groupID;
                                 cmd.Parameters.Add("@optionname", SqlDbType.VarChar, 100).Value = c.optionName;
-                                cmd.Parameters.Add("@ratetype", SqlDbType.VarChar, 1).Value = (c.rateType=="") ? "P" : c.rateType;
-                                cmd.Parameters.Add("@rate", SqlDbType.Decimal).Value = c.rate;
+                                
                                 cmd.Parameters.Add("@isrequired", SqlDbType.Bit).Value = c.isRequired;
-                                cmd.Parameters.Add("@inventoryControl", SqlDbType.Bit).Value = c.inventoryControl;
+                                
                                 cmd.ExecuteNonQuery();
                             }
                         }
@@ -254,10 +253,7 @@ namespace GM
                                 cmd.Parameters.Add("@groupid", SqlDbType.VarChar).Value = groupID;
                                 cmd.Parameters.Add("@optionid", SqlDbType.Int).Value = c.optionID;
                                 cmd.Parameters.Add("@optionname", SqlDbType.VarChar, 100).Value = c.optionName;
-                                cmd.Parameters.Add("@ratetype", SqlDbType.VarChar, 1).Value = c.rateType;
-                                cmd.Parameters.Add("@rate", SqlDbType.Decimal).Value = c.rate;
                                 cmd.Parameters.Add("@isrequired", SqlDbType.Bit).Value = c.isRequired;
-                                cmd.Parameters.Add("@inventoryControl", SqlDbType.Bit).Value = c.inventoryControl;
                                 cmd.ExecuteNonQuery();
                             }
                         }
@@ -276,11 +272,26 @@ namespace GM
 
         public static void Update(string groupID, GroupOption c)
         {
-            string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, optioncode=@optioncode, optiontype=@optionType, ratetype=@ratetype, rate=@rate, isrequired=@isrequired , inventoryControl= @inventoryControl, 
+            string SQL_INSERT = @"INSERT INTO dbo.grp_Option(groupid, optionname, optioncode, optiontype, isrequired, 
+                                                SingleRate,  DoubleRate, TripleRate, QuadRate,
+                                                SingleComm, DoubleComm, TripleComm, QuadComm, Quantity, Allocated) 
+                                  VALUES(@GroupID, @optionname, @optioncode, @optiontype, @isrequired, 
+                                                @SingleRate,  @DoubleRate, @TripleRate, @QuadRate,
+                                                @SingleComm, @DoubleComm, @TripleComm, @QuadComm, @Quantity, @Allocated)";
+
+            string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, optioncode=@optioncode, optiontype=@optionType, isrequired=@isrequired , 
                                  SingleRate=@SingleRate, DoubleRate=@DoubleRate, TripleRate=@TripleRate, QuadRate=@QuadRate, 
                                  SingleComm=@SingleComm, DoubleComm=@DoubleComm, TripleComm=@TripleComm, QuadComm=@QuadComm, Quantity=@Quantity, Allocated=@Allocated
                 WHERE optionid=@optionid AND groupid=@groupid";
-            
+
+            string sql = "";
+            if (c.optionID ==0)
+            {
+                sql = SQL_INSERT;
+            } else
+            {
+                sql = SQL_UPDATE;
+            }
             using (SqlConnection cn = new SqlConnection(Config.ConnectionString))
             {
                 cn.Open();
@@ -288,17 +299,21 @@ namespace GM
                 try
                 {
                     
-                    SqlCommand cmd = new SqlCommand(SQL_UPDATE, cn, trn);
+                    SqlCommand cmd = new SqlCommand(sql, cn, trn);
 
                     cmd.Parameters.Add("@groupid", SqlDbType.VarChar).Value = groupID;
-                    cmd.Parameters.Add("@optionid", SqlDbType.Int).Value = c.optionID;
+
+                    if (c.optionID!=0)
+                    {
+                        cmd.Parameters.Add("@optionid", SqlDbType.Int).Value = c.optionID;
+                    }
+                    
                     cmd.Parameters.Add("@optionname", SqlDbType.VarChar, 100).Value = c.optionName;
                     cmd.Parameters.Add("@optionType", SqlDbType.VarChar, 100).Value = c.optionType;
                     cmd.Parameters.Add("@ratetype", SqlDbType.VarChar, 1).Value = c.rateType;
                     cmd.Parameters.Add("@rate", SqlDbType.Decimal).Value = c.rate;
                     cmd.Parameters.Add("@isrequired", SqlDbType.Bit).Value = c.isRequired;
-                    cmd.Parameters.Add("@inventoryControl", SqlDbType.Bit).Value = c.inventoryControl;
-
+                    
                     cmd.Parameters.Add("@optioncode", SqlDbType.VarChar).Value = c.optionCode;
                     cmd.Parameters.Add("@SingleRate", SqlDbType.Decimal).Value = c.singlerate;
                     cmd.Parameters.Add("@DoubleRate", SqlDbType.Decimal).Value = c.doublerate;

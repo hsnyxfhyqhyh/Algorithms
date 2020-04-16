@@ -70,6 +70,8 @@
         p.quadRate = ConvDec(quadrate.Text);
         p.singleComm = ConvDec(singlecomm.Text);
         p.doubleComm = ConvDec(doublecomm.Text);
+        p.tripleComm = ConvDec(triplecomm.Text);
+        p.quadComm = ConvDec(quadcomm.Text);
         p.quantity = ConvInt(quantity.Text);
         p.allocated = ConvInt(allocated.Text);
         p.packageType = packagetype.SelectedValue;
