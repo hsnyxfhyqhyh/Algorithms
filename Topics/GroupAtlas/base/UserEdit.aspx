@@ -121,7 +121,7 @@
 	<table cellspacing="1" cellpadding="3" border="0">
 		<tr>
 			<td class="tdlabel" width="150">NT Logon:</td>
-			<td><asp:textbox id="ntlogon" runat="server" Width="100"  MaxLength="10"></asp:textbox>
+			<td><asp:textbox id="ntlogon" runat="server" Width="100"  MaxLength="20"></asp:textbox>
                 <asp:requiredfieldvalidator id="Requiredfieldvalidator2" runat="server" Display="Dynamic" CssClass="error" ControlToValidate="ntlogon" ErrorMessage="NT Logon is required">*</asp:requiredfieldvalidator>
             </td>
 		</tr>
