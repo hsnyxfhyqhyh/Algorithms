@@ -99,6 +99,7 @@
                     if (sGroupID1 == b.groupID || sGroupID2 == b.groupID || sGroupID3 == b.groupID || sGroupID4 == b.groupID || sGroupID5 == b.groupID)
                     {
                         agentbookingview.Enabled = true;
+                        agentbookingview.Visible = true;
                         postpmt.Enabled = true;
                         edit.Enabled = true;
                         updatestatus.Enabled = true;
@@ -165,7 +166,7 @@
 		<tr>
 			<td class="hdr" id="hdr" runat="server" valign="top">View Booking</td>
 			<td align="right" id="printexclude">
-                <asp:button id="agentbookingview" runat="server" Text="Agent Invoice" Width="85px" CssClass="button" TabIndex="-1" CausesValidation="False"></asp:button>&nbsp;
+                <asp:button id="agentbookingview" runat="server" Text="Agent Invoice" Width="85px" CssClass="button" TabIndex="-1" CausesValidation="False" Visible="true" Enabled="true"></asp:button>&nbsp;
                 <asp:button id="postpmt" runat="server" Text="Post Payment" Width="100px" CssClass="button" TabIndex="-1" ToolTip="Post payment for booking" CausesValidation="False"></asp:button>&nbsp;
                 <asp:button id="edit" runat="server" Text="Edit" Width="75px" CssClass="button" TabIndex="-1" CausesValidation="False"></asp:button>&nbsp;
                 <asp:button id="updatestatus" runat="server" Text="Update Status" Width="100px" CssClass="button" TabIndex="-1" CausesValidation="False"></asp:button>&nbsp;
