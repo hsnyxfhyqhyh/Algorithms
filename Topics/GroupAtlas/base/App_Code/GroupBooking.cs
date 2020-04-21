@@ -16,6 +16,7 @@ namespace GM
         private int _qty;
         private int _packageid;
         private int _optionid;
+        private decimal _commission; 
 
         public int billID { get { return _billID; } }
         public int bookingID { get { return _bookingID; } }
@@ -29,6 +30,11 @@ namespace GM
             get { return rate * qty; } 
         }
 
+        public decimal commission
+        {
+            get { return _commission * qty; }
+        }
+
         public Bill(int billID, int bookingID, string description, decimal rate, int qty, int packageid, int optionid)
         {
             this._billID = billID;
@@ -38,6 +44,19 @@ namespace GM
             this._qty = qty;
             this._packageid = packageid;
             this._optionid = optionid;
+            
+        }
+
+        public Bill(int billID, int bookingID, string description, decimal rate, int qty, int packageid, int optionid, decimal commission)
+        {
+            this._billID = billID;
+            this._bookingID = bookingID;
+            this._description = description;
+            this._rate = rate;
+            this._qty = qty;
+            this._packageid = packageid;
+            this._optionid = optionid;
+            this._commission = commission;
         }
     }
 
@@ -195,6 +214,18 @@ namespace GM
                 return tot;
             }
         }
+
+        public decimal billCommission
+        {
+            get
+            {
+                decimal tot = 0;
+                foreach (Bill b in billList)
+                    tot += b.commission;
+                return tot;
+            }
+        }
+
         public decimal pmtAmt
         {
             get
@@ -258,7 +289,8 @@ namespace GM
                     decimal rate = Convert.ToDecimal(rs["rate"]);
                     int packageid = Util.parseInt(rs["packageid"]);
                     int optionid = Util.parseInt(rs["optionid"]);
-                    list.Add(new Bill(billid, bookingid, description, rate, qty, packageid, optionid));
+                    decimal commission = Convert.ToDecimal(rs["commission"]);
+                    list.Add(new Bill(billid, bookingid, description, rate, qty, packageid, optionid, commission));
                 }
             }
             return list;

@@ -18,11 +18,18 @@
         set { ViewState["totdue"] = value; }
     }
 
+    string commissionshow
+    {
+        get { return Convert.ToString(ViewState["commissionshow"]); }
+        set { ViewState["commissionshow"] = value; }
+    }
+
     void Page_Load(object sender, System.EventArgs e)
     {
         if (!IsPostBack)
         {
             bookingid = Util.parseInt(Request.QueryString["bookingid"]);
+
             message.InnerHtml = Request.QueryString["msg"];
             b = GroupBooking.GetBooking(bookingid);
             if (b == null)
@@ -42,14 +49,21 @@
             bookingdate.Text = b.bookingDate.ToShortDateString();
             finaldue2.Text = g.FinalDue2;
 
+            billlist.Visible = true;
             billlist.DataSource = b.billList;
             billlist.DataBind();
+
+            billlistcommission.Visible = false;
+            billlistcommission.DataSource = b.billList;
+            billlistcommission.DataBind();
+
             pmtlist.DataSource = b.pmtList;
             pmtlist.DataBind();
             paxlist.DataSource = b.paxList;
             paxlist.DataBind();
 
             hdr.InnerHtml = string.Format("Booking ID: {0} - {1}", bookingid, g.GroupName);
+            agentbookingview.Attributes["onclick"] = string.Format("javascript:window.location.href='BookingView.aspx?bookingid={0}&commissionshow=Y';return false;", bookingid);
             edit.Attributes["onclick"] = string.Format("javascript:window.location.href='BookingEdit.aspx?bookingid={0}';return false;", bookingid);
             postpmt.Attributes["onclick"] = string.Format("javascript:window.location.href='BookingPmt.aspx?bookingid={0}';return false;", bookingid);
             updatestatus.Attributes["onclick"] = string.Format("javascript:window.location.href='BookingStatus.aspx?bookingid={0}';return false;", bookingid);
@@ -78,22 +92,49 @@
                 string sGroupID3 = Session["GroupID3"].ToString();
                 string sGroupID4 = Session["GroupID4"].ToString();
                 string sGroupID5 = Session["GroupID5"].ToString();
-               
+
                 if (iRole == 4)
                 {
                     // Check for allowed Group
                     if (sGroupID1 == b.groupID || sGroupID2 == b.groupID || sGroupID3 == b.groupID || sGroupID4 == b.groupID || sGroupID5 == b.groupID)
                     {
+                        agentbookingview.Enabled = true;
                         postpmt.Enabled = true;
                         edit.Enabled = true;
                         updatestatus.Enabled = true;
+
+                        
                     }
                     else
                     {
+                        agentbookingview.Enabled = false;
                         postpmt.Enabled = false;
                         edit.Enabled = false;
                         updatestatus.Enabled = false;
                     }
+                }
+
+                if (Request.QueryString["commissionshow"] !=null && Request.QueryString["commissionshow"].ToString().Equals("Y"))
+                {
+                    commissionshow = "Y";
+                } else
+                {
+                    commissionshow = "N";
+                }
+
+                if (commissionshow.Equals("Y"))
+                {
+                    billlistcommission.Visible = true;
+                    billlist.Visible = false;
+                    agentbookingview.Attributes["onclick"] = string.Format("javascript:window.location.href='BookingView.aspx?bookingid={0}&commissionshow=N';return false;", bookingid);
+                    agentbookingview.Text = "Invoice";
+                }
+                else
+                {
+                    billlistcommission.Visible = false;
+                    billlist.Visible = true;
+                    agentbookingview.Attributes["onclick"] = string.Format("javascript:window.location.href='BookingView.aspx?bookingid={0}&commissionshow=Y';return false;", bookingid);
+                    agentbookingview.Text = "Agent Invoice";
                 }
             }
         }
@@ -124,6 +165,7 @@
 		<tr>
 			<td class="hdr" id="hdr" runat="server" valign="top">View Booking</td>
 			<td align="right" id="printexclude">
+                <asp:button id="agentbookingview" runat="server" Text="Agent Invoice" Width="85px" CssClass="button" TabIndex="-1" CausesValidation="False"></asp:button>&nbsp;
                 <asp:button id="postpmt" runat="server" Text="Post Payment" Width="100px" CssClass="button" TabIndex="-1" ToolTip="Post payment for booking" CausesValidation="False"></asp:button>&nbsp;
                 <asp:button id="edit" runat="server" Text="Edit" Width="75px" CssClass="button" TabIndex="-1" CausesValidation="False"></asp:button>&nbsp;
                 <asp:button id="updatestatus" runat="server" Text="Update Status" Width="100px" CssClass="button" TabIndex="-1" CausesValidation="False"></asp:button>&nbsp;
@@ -226,6 +268,7 @@
                 <td align="right"><b>Rate</b></td>
                 <td align="right"><b>Qty</b></td>
                 <td align="right"><b>Amount</b></td>
+                
             </tr>
     </HeaderTemplate>
     <ItemTemplate>
@@ -234,6 +277,7 @@
             <td align="right"><%# Eval("rate","{0:c}") %></td>                                        
             <td align="right"><%# Eval("qty") %></td>                                        
             <td align="right"><%# Eval("amount", "{0:c}")%></td>                                        
+            
         </tr>
     </ItemTemplate>
     <FooterTemplate>
@@ -244,6 +288,41 @@
         <tr>
             <td colspan="3" class="hdr"></td>                                        
             <td align="right" class="hdr"><b><%=b.billAmt.ToString("c")%></b></td>                                        
+            
+        </tr>
+    </table>
+    </FooterTemplate>
+    </asp:Repeater>
+
+    <asp:Repeater ID="billlistcommission" runat="server" Visible="false">
+    <HeaderTemplate>
+        <table cellpadding="2" cellspacing="1" border="0" class="list2" width="900">
+            <tr class="listhdr">
+                <td><b>Description</b></td>
+                <td align="right"><b>Rate</b></td>
+                <td align="right"><b>Qty</b></td>
+                <td align="right"><b>Amount</b></td>
+                <td align="right"><b>Commission</b></td>
+            </tr>
+    </HeaderTemplate>
+    <ItemTemplate>
+        <tr>
+            <td><%# Eval("description") %></td>                                        
+            <td align="right"><%# Eval("rate","{0:c}") %></td>                                        
+            <td align="right"><%# Eval("qty") %></td>                                        
+            <td align="right"><%# Eval("amount", "{0:c}")%></td>                                        
+            <td align="right"><%# Eval("commission", "{0:c}")%></td>    
+        </tr>
+    </ItemTemplate>
+    <FooterTemplate>
+        <tr>
+            <td colspan="3"></td>
+            <td align="right">---------------</td>
+        </tr>
+        <tr>
+            <td colspan="3" class="hdr"></td>                                        
+            <td align="right" class="hdr"><b><%=b.billAmt.ToString("c")%></b></td>                                        
+            <td align="right" class="hdr"><b><%=b.billCommission.ToString("c")%></b></td>
         </tr>
     </table>
     </FooterTemplate>
