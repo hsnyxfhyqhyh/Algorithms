@@ -93,7 +93,9 @@
             optionlist.Items.Clear();
             foreach (GroupOption o in optList)
             {
-                string strOption = string.Format("{0}&nbsp;&nbsp;</td><td align=\"right\">{1}&nbsp;&nbsp;{2}", o.optionName, o.rate.ToString("c"), o.rateTypeDesc.ToLower());
+                decimal rate = GroupPackage.GetOptionRate(o, b.paxCnt);
+                decimal commission = GroupPackage.GetOptionCommission(o, b.paxCnt);
+                string strOption = string.Format("{0}&nbsp;&nbsp;</td><td align=\"right\">{1}&nbsp;&nbsp;per person", o.optionName, rate.ToString("c"));
                 ListItem itm = new ListItem(strOption, o.optionID.ToString());
                 if (o.isRequired)
                 {
@@ -296,6 +298,24 @@
         }
         if (packageid2.Items.FindByValue(strPackageID2) != null)
             packageid2.Items.FindByValue(strPackageID2).Selected = true;
+
+        //reset the option items.
+        List<GroupOption> optList = GroupOption.GetOption(groupid);
+        optionlist.Items.Clear();
+        foreach (GroupOption o in optList)
+        {
+            decimal rate = GroupPackage.GetOptionRate(o, iPaxCnt);
+            decimal commission = GroupPackage.GetOptionCommission(o, iPaxCnt);
+
+            string strOption = string.Format("{0}&nbsp;&nbsp;</td><td align=\"right\">{1}&nbsp;&nbsp;&nbsp;per person", o.optionName, rate.ToString("c"));
+            ListItem itm = new ListItem(strOption, o.optionID.ToString());
+            if (o.isRequired)
+            {
+                itm.Selected = true;
+                itm.Enabled = false;
+            }
+            optionlist.Items.Add(itm);
+        }
     }
 
     protected void BookingWizard_ActiveStepChanged(object sender, EventArgs e)
@@ -366,8 +386,9 @@
         {
             int iPaxNum = i + 1;
             decimal rate = GroupPackage.GetPaxRate(p, iPaxCnt, iPaxNum);
+            decimal commission = GroupPackage.GetCommission(p, iPaxCnt, iPaxNum);
             string sDesc = string.Format("{0} - Individual #{1}", p.packageName, iPaxNum);
-            list.Add(new Bill(0, 0, sDesc, rate, 1, iPackageID, 0));
+            list.Add(new Bill(0, 0, sDesc, rate, 1, iPackageID, 0, commission));
         }
 
         // Package #2
@@ -379,8 +400,9 @@
             {
                 int iPaxNum = i + 1;
                 decimal rate = GroupPackage.GetPaxRate(p, iPaxCnt, iPaxNum);
+                decimal commission = GroupPackage.GetCommission(p, iPaxCnt, iPaxNum);
                 string sDesc = string.Format("{0} - Individual #{1}", p.packageName, iPaxNum);
-                list.Add(new Bill(0, 0, sDesc, rate, 1, iPackageID, 0));
+                list.Add(new Bill(0, 0, sDesc, rate, 1, iPackageID, 0, commission));
             }
         }
 
@@ -391,7 +413,11 @@
             {
                 int optionid = Convert.ToInt32(itm.Value);
                 GroupOption o = GroupOption.GetOption(optionid, groupid);
-                list.Add(new Bill(0, 0, o.optionName, o.rate, iPaxCnt, 0, o.optionID));
+
+                decimal rate = GroupPackage.GetOptionRate(o, iPaxCnt);
+                decimal commission = GroupPackage.GetOptionCommission(o, iPaxCnt);
+
+                list.Add(new Bill(0, 0, o.optionName, rate, iPaxCnt, 0, o.optionID, commission));
             }
         }
         return list;

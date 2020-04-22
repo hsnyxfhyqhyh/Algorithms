@@ -186,6 +186,7 @@ namespace GM
         public static decimal GetTotalRate(GroupPackage p, int paxCnt)
         {
             decimal amt = p.doubleRate * 2;
+            /*
             if (paxCnt == 1)
                 amt = p.singleRate;
             else if (paxCnt == 2)
@@ -194,12 +195,22 @@ namespace GM
                 amt  = (p.doubleRate * 2) + p.tripleRate;
             else if (paxCnt == 4)
                 amt = (p.doubleRate * 2) + p.tripleRate + p.quadRate;
+            */
+
+            if (paxCnt == 1)
+                amt = p.singleRate;
+            else if (paxCnt == 3)
+                amt = p.tripleRate * 3;
+            else if (paxCnt == 4)
+                amt = p.quadRate * 4 ;
+            
             return amt;
         }
 
         public static decimal GetPaxRate(GroupPackage p, int paxCnt, int paxNum)
         {
             decimal amt = p.doubleRate;
+            /*
             if (paxCnt == 1)
                 amt = p.singleRate;
             else if (paxCnt == 2)
@@ -215,6 +226,73 @@ namespace GM
                 else
                     amt = p.doubleRate;
             }
+            */
+            if (paxCnt == 1)
+                amt = p.singleRate;
+            else if (paxCnt == 3)
+                amt = p.tripleRate;
+            else if (paxCnt == 4)
+                amt = p.quadRate;
+
+            return amt;
+        }
+
+        public static decimal GetOptionRate(GroupOption o, int paxCnt)
+        {
+            decimal amt = o.doublerate;
+            
+            if (paxCnt == 1)
+                amt = o.singlerate;
+            else if (paxCnt == 3)
+                amt = o.triplerate;
+            else if (paxCnt == 4)
+                amt = o.quadrate;
+
+            return amt;
+        }
+
+        public static decimal GetOptionCommission(GroupOption o, int paxCnt)
+        {
+            decimal amt = o.doublecommission;
+
+            if (paxCnt == 1)
+                amt = o.singlecommission;
+            else if (paxCnt == 3)
+                amt = o.triplecommission;
+            else if (paxCnt == 4)
+                amt = o.quadcommission;
+
+            return amt;
+        }
+
+
+        public static decimal GetCommission(GroupPackage p, int paxCnt, int paxNum)
+        {
+            decimal amt = p.doubleComm;
+            /*
+            if (paxCnt == 1)
+                amt = p.singleRate;
+            else if (paxCnt == 2)
+                amt = p.doubleRate;
+            else if (paxCnt == 3)
+                amt = (paxNum == 3) ? p.tripleRate : p.doubleRate;
+            else if (paxCnt == 4)
+            {
+                if (paxNum == 4)
+                    amt = p.quadRate;
+                else if (paxNum == 3)
+                    amt = p.tripleRate;
+                else
+                    amt = p.doubleRate;
+            }
+            */
+            if (paxCnt == 1)
+                amt = p.singleComm;
+            else if (paxCnt == 3)
+                amt = p.tripleComm;
+            else if (paxCnt == 4)
+                amt = p.quadComm;
+
             return amt;
         }
 

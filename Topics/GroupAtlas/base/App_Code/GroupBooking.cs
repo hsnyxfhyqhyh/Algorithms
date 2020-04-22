@@ -32,7 +32,7 @@ namespace GM
 
         public decimal commission
         {
-            get { return _commission * qty; }
+            get { return _commission; }
         }
 
         public Bill(int billID, int bookingID, string description, decimal rate, int qty, int packageid, int optionid)
@@ -290,7 +290,7 @@ namespace GM
                     int packageid = Util.parseInt(rs["packageid"]);
                     int optionid = Util.parseInt(rs["optionid"]);
                     decimal commission = Convert.ToDecimal(rs["commission"]);
-                    list.Add(new Bill(billid, bookingid, description, rate, qty, packageid, optionid, commission));
+                    list.Add(new Bill(billid, bookingid, description, rate, qty, packageid, optionid, commission*qty));
                 }
             }
             return list;
@@ -409,8 +409,8 @@ namespace GM
                 VALUES (@BookingID, @FirstName, @MiddleName, @LastName, @BadgeName, @Address, @City, @State, @Zip, @Email, 
                     @HomePhone, @CellPhone, @Gender, @BirthDate, @IsPrimary, @EmerName, @EmerPhone, @EmerRelation);
                 SELECT @@IDENTITY;";
-            string SQL_INSERT_BILL = @"INSERT INTO dbo.grp_Bill (BookingID, Description, Rate, Qty, PackageID, OptionID)   
-                VALUES (@BookingID, @Description, @Rate, @Qty, @PackageID, @OptionID) ";
+            string SQL_INSERT_BILL = @"INSERT INTO dbo.grp_Bill (BookingID, Description, Rate, Qty, PackageID, OptionID, Commission)   
+                VALUES (@BookingID, @Description, @Rate, @Qty, @PackageID, @OptionID, @Commission) ";
             string SQL_INSERT_PAXQUES = @"INSERT INTO dbo.grp_PaxQuestion (PassengerID, QuestionID, Answer)
                 VALUES (@PassengerID, @QuestionID, @Answer);";
             using (SqlConnection cn = new SqlConnection(Config.ConnectionString))
@@ -484,6 +484,8 @@ namespace GM
                         cmd.Parameters.Add("@OptionID", SqlDbType.Int).Value = DBNull.Value;
                         if (l.optionid > 0)
                             cmd.Parameters["@OptionID"].Value = l.optionid;
+
+                        cmd.Parameters.Add("@Commission", SqlDbType.Decimal).Value = l.commission;
                         cmd.ExecuteNonQuery();
                     }
                     trn.Commit();
@@ -516,8 +518,8 @@ namespace GM
                 VALUES (@BookingID, @FirstName, @MiddleName, @LastName, @BadgeName, @Address, @City, @State, @Zip, @Email, 
                     @HomePhone, @CellPhone, @Gender, @BirthDate, @IsPrimary, @EmerName, @EmerPhone, @EmerRelation);
                 SELECT @@IDENTITY;";
-            string SQL_INSERT_BILL = @"INSERT INTO dbo.grp_Bill (BookingID, Description, Rate, Qty, PackageID, OptionID)   
-                VALUES (@BookingID, @Description, @Rate, @Qty, @PackageID, @OptionID) ";
+            string SQL_INSERT_BILL = @"INSERT INTO dbo.grp_Bill (BookingID, Description, Rate, Qty, PackageID, OptionID, Commission)   
+                VALUES (@BookingID, @Description, @Rate, @Qty, @PackageID, @OptionID, @Commission) ";
             string SQL_INSERT_PAXQUES = @"INSERT INTO dbo.grp_PaxQuestion (PassengerID, QuestionID, Answer)
                 VALUES (@PassengerID, @QuestionID, @Answer);";
             using (SqlConnection cn = new SqlConnection(Config.ConnectionString))
@@ -589,6 +591,8 @@ namespace GM
                         cmd.Parameters.Add("@OptionID", SqlDbType.Int).Value = DBNull.Value;
                         if (l.optionid > 0)
                             cmd.Parameters["@OptionID"].Value = l.optionid;
+
+                        cmd.Parameters.Add("@Commission", SqlDbType.Decimal).Value = l.commission;
                         cmd.ExecuteNonQuery();
                     }
                     trn.Commit();
