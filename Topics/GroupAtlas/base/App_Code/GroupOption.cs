@@ -44,7 +44,11 @@ namespace GM
 
         public string rateType { get { return _rateType; } }
         public decimal rate { get { return _rate; } }
-        public bool isRequired { get { return _isRequired; } }
+        public bool isRequired
+        {
+            get { return _isRequired; }
+            set { _isRequired = value; }
+        }
         
         public string optionType {
             get { return _optionType; }

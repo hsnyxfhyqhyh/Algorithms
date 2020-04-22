@@ -4,119 +4,120 @@
 
 <script language="C#" runat="server">
 
-            int optionid
+    int optionid
+    {
+        get { return Convert.ToInt32(ViewState["optionid"]); }
+        set { ViewState["optionid"] = value.ToString(); }
+    }
+
+    string groupid
+    {
+        get { return ViewState["groupid"].ToString(); }
+        set { ViewState["groupid"] = value; }
+    }
+
+    void Page_Load(object sender, System.EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            groupid = Request.QueryString["groupid"] + "";
+            optionid = Util.parseInt(Request.QueryString["optionid"]);
+            message.InnerHtml = Request.QueryString["msg"];
+            string sOptionType = "";
+            GroupMaster g = GroupMaster.GetGroupMaster(groupid);
+            if (optionid > 0)
             {
-                get { return Convert.ToInt32(ViewState["optionid"]); }
-                set { ViewState["optionid"] = value.ToString(); }
-            }
-
-            string groupid
-            {
-                get { return ViewState["groupid"].ToString(); }
-                set { ViewState["groupid"] = value; }
-            }
-
-            void Page_Load(object sender, System.EventArgs e)
-            {
-                if (!IsPostBack)
-                {
-                    groupid = Request.QueryString["groupid"] + "";
-                    optionid = Util.parseInt(Request.QueryString["optionid"]);
-                    message.InnerHtml = Request.QueryString["msg"];
-                    string sOptionType = "";
-                    GroupMaster g = GroupMaster.GetGroupMaster(groupid);
-                    if (optionid > 0)
-                    {
-                        GroupOption o = GroupOption.GetOption(optionid, groupid);
-                        if (o == null)
-                            Response.Redirect(string.Format("GroupView.aspx?groupid={0}&tabindex=6", groupid));
-                        sOptionType = o.optionType;
-                        optioncd.Text = o.optionCode;
-                        optionType.Text = o.optionType;
-                        optionname.Text = o.optionName;
-
-                        singlerate.Text = o.singlerate.ToString("#0.00");
-                        doublerate.Text = o.doublerate.ToString("#0.00");
-                        triplerate.Text = o.triplerate.ToString("#0.00");
-                        quadrate.Text = o.quadrate.ToString("#0.00");
-                        singlecomm.Text = o.singlecommission.ToString("#0.00");
-                        doublecomm.Text = o.doublecommission.ToString("#0.00");
-                        triplecomm.Text = o.triplecommission.ToString("#0.00");
-                        quadcomm.Text = o.quadcommission.ToString("#0.00");
-                        quantity.Text = o.quantity.ToString();
-                        allocated.Text = o.allocated.ToString();
-
-                        hdr.InnerHtml = string.Format("Group # {0} - Edit Option With Inventory Control", groupid);
-                    }
-                    else
-                    {
-                        hdr.InnerHtml = string.Format("Group # {0} - Add Option With Inventory Control", groupid);
-                    }
-
-                    cancel.Attributes["onclick"] = string.Format("javascript:window.location.href='GroupView.aspx?groupid={0}&tabindex=6';return false;", groupid);
-                }
-            }
-
-            void Save_Click(object sender, System.EventArgs e)
-            {
-                if (!Page.IsValid) return;
-                string msg = "";
-                GroupOption o = null;
-
-                if (optionid > 0)
-                {
-                    //existing option
-                    o = GroupOption.GetOption(optionid, groupid);
-                } else
-                {
-                    //new option
-                    o = new GroupOption(0, "", "", 0, false, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-                }
-
+                GroupOption o = GroupOption.GetOption(optionid, groupid);
                 if (o == null)
-                {
                     Response.Redirect(string.Format("GroupView.aspx?groupid={0}&tabindex=6", groupid));
-                }
+                sOptionType = o.optionType;
+                optioncd.Text = o.optionCode;
+                optionType.Text = o.optionType;
+                optionname.Text = o.optionName;
 
-                o.optionCode= optioncd.Text;
-                o.optionName = optionname.Text;
-                o.optionType = optionType.Text;
+                singlerate.Text = o.singlerate.ToString("#0.00");
+                doublerate.Text = o.doublerate.ToString("#0.00");
+                triplerate.Text = o.triplerate.ToString("#0.00");
+                quadrate.Text = o.quadrate.ToString("#0.00");
+                singlecomm.Text = o.singlecommission.ToString("#0.00");
+                doublecomm.Text = o.doublecommission.ToString("#0.00");
+                triplecomm.Text = o.triplecommission.ToString("#0.00");
+                quadcomm.Text = o.quadcommission.ToString("#0.00");
+                quantity.Text = o.quantity.ToString();
+                allocated.Text = o.allocated.ToString();
+                isrequired.Checked = o.isRequired;
 
-                o.singlerate = ConvDec(singlerate.Text);
-                o.doublerate = ConvDec(doublerate.Text);
-                o.triplerate = ConvDec(triplerate.Text);
-                o.quadrate = ConvDec(quadrate.Text);
-                o.singlecommission = ConvDec(singlecomm.Text);
-                o.doublecommission = ConvDec(doublecomm.Text);
-                o.triplecommission = ConvDec(triplecomm.Text);
-                o.quadcommission = ConvDec(quadcomm.Text);
-
-                o.quantity = ConvInt(quantity.Text);
-                o.allocated = ConvInt(allocated.Text);
-            
-
-                try
-                {
-                    GroupOption.Update(groupid, o);
-
-                    msg = HttpUtility.UrlEncode("Group #" + groupid + " was updated.");
-                    Response.Redirect("GroupView.aspx?groupid=" + groupid + "&tabindex=6&msg=" + msg);
-                }
-                catch (Exception ex)
-                {
-                    message.InnerHtml = ex.Message;
-                }
+                hdr.InnerHtml = string.Format("Group # {0} - Edit Option With Inventory Control", groupid);
             }
-
-            decimal ConvDec(string amt)
+            else
             {
-                return (amt.Trim() == "") ? 0 : Convert.ToDecimal(amt);
+                hdr.InnerHtml = string.Format("Group # {0} - Add Option With Inventory Control", groupid);
             }
 
-            int ConvInt(string num)
-            {
-                return (num.Trim() == "") ? 0 : Convert.ToInt32(num);
-            }
+            cancel.Attributes["onclick"] = string.Format("javascript:window.location.href='GroupView.aspx?groupid={0}&tabindex=6';return false;", groupid);
+        }
+    }
+
+    void Save_Click(object sender, System.EventArgs e)
+    {
+        if (!Page.IsValid) return;
+        string msg = "";
+        GroupOption o = null;
+
+        if (optionid > 0)
+        {
+            //existing option
+            o = GroupOption.GetOption(optionid, groupid);
+        } else
+        {
+            //new option
+            o = new GroupOption(0, "", "", 0, false, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+
+        if (o == null)
+        {
+            Response.Redirect(string.Format("GroupView.aspx?groupid={0}&tabindex=6", groupid));
+        }
+
+        o.optionCode= optioncd.Text;
+        o.optionName = optionname.Text;
+        o.optionType = optionType.Text;
+
+        o.singlerate = ConvDec(singlerate.Text);
+        o.doublerate = ConvDec(doublerate.Text);
+        o.triplerate = ConvDec(triplerate.Text);
+        o.quadrate = ConvDec(quadrate.Text);
+        o.singlecommission = ConvDec(singlecomm.Text);
+        o.doublecommission = ConvDec(doublecomm.Text);
+        o.triplecommission = ConvDec(triplecomm.Text);
+        o.quadcommission = ConvDec(quadcomm.Text);
+        o.isRequired = isrequired.Checked;
+        o.quantity = ConvInt(quantity.Text);
+        o.allocated = ConvInt(allocated.Text);
+
+
+        try
+        {
+            GroupOption.Update(groupid, o);
+
+            msg = HttpUtility.UrlEncode("Group #" + groupid + " was updated.");
+            Response.Redirect("GroupView.aspx?groupid=" + groupid + "&tabindex=6&msg=" + msg);
+        }
+        catch (Exception ex)
+        {
+            message.InnerHtml = ex.Message;
+        }
+    }
+
+    decimal ConvDec(string amt)
+    {
+        return (amt.Trim() == "") ? 0 : Convert.ToDecimal(amt);
+    }
+
+    int ConvInt(string num)
+    {
+        return (num.Trim() == "") ? 0 : Convert.ToInt32(num);
+    }
 
 </script>
 <asp:Content ID="Content1" ContentPlaceHolderID="mainContent" runat="server">
@@ -219,6 +220,11 @@
             </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td class="tdlabel">Is Required</td>
+            <td><asp:CheckBox ID="isrequired" runat="server" />
+            </td>
+            </tr>
         <tr>
             <td class="tdlabel">Inventory Quantity:</td>
             <td><asp:TextBox ID="quantity" runat="server" Width="50px" MaxLength="5"></asp:TextBox>
