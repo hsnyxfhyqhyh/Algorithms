@@ -276,18 +276,30 @@ namespace GM
 
         public static void Update(string groupID, GroupOption c)
         {
-            string SQL_INSERT = @"INSERT INTO dbo.grp_Option(groupid, optionname, optioncode, optiontype, isrequired, 
+            string SQL_INSERT = @"INSERT INTO dbo.grp_Option(groupid, optionname, optiontype, isrequired, 
+                                                SingleRate,  DoubleRate, TripleRate, QuadRate,
+                                                SingleComm, DoubleComm, TripleComm, QuadComm, Quantity, Allocated) 
+                                  VALUES(@GroupID, @optionname, @optiontype, @isrequired, 
+                                                @SingleRate,  @DoubleRate, @TripleRate, @QuadRate,
+                                                @SingleComm, @DoubleComm, @TripleComm, @QuadComm, @Quantity, @Allocated)";
+
+            string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, optiontype=@optionType, isrequired=@isrequired , 
+                                 SingleRate=@SingleRate, DoubleRate=@DoubleRate, TripleRate=@TripleRate, QuadRate=@QuadRate, 
+                                 SingleComm=@SingleComm, DoubleComm=@DoubleComm, TripleComm=@TripleComm, QuadComm=@QuadComm, Quantity=@Quantity, Allocated=@Allocated
+                WHERE optionid=@optionid AND groupid=@groupid";
+
+            /*
+             string SQL_INSERT = @"INSERT INTO dbo.grp_Option(groupid, optionname, optioncode, optiontype, isrequired, 
                                                 SingleRate,  DoubleRate, TripleRate, QuadRate,
                                                 SingleComm, DoubleComm, TripleComm, QuadComm, Quantity, Allocated) 
                                   VALUES(@GroupID, @optionname, @optioncode, @optiontype, @isrequired, 
                                                 @SingleRate,  @DoubleRate, @TripleRate, @QuadRate,
                                                 @SingleComm, @DoubleComm, @TripleComm, @QuadComm, @Quantity, @Allocated)";
-
             string SQL_UPDATE = @"UPDATE dbo.grp_Option SET optionname=@optionname, optioncode=@optioncode, optiontype=@optionType, isrequired=@isrequired , 
                                  SingleRate=@SingleRate, DoubleRate=@DoubleRate, TripleRate=@TripleRate, QuadRate=@QuadRate, 
                                  SingleComm=@SingleComm, DoubleComm=@DoubleComm, TripleComm=@TripleComm, QuadComm=@QuadComm, Quantity=@Quantity, Allocated=@Allocated
                 WHERE optionid=@optionid AND groupid=@groupid";
-
+                */
             string sql = "";
             if (c.optionID ==0)
             {
@@ -318,7 +330,7 @@ namespace GM
                     cmd.Parameters.Add("@rate", SqlDbType.Decimal).Value = c.rate;
                     cmd.Parameters.Add("@isrequired", SqlDbType.Bit).Value = c.isRequired;
                     
-                    cmd.Parameters.Add("@optioncode", SqlDbType.VarChar).Value = c.optionCode;
+                    //cmd.Parameters.Add("@optioncode", SqlDbType.VarChar).Value = c.optionCode;
                     cmd.Parameters.Add("@SingleRate", SqlDbType.Decimal).Value = c.singlerate;
                     cmd.Parameters.Add("@DoubleRate", SqlDbType.Decimal).Value = c.doublerate;
                     cmd.Parameters.Add("@TripleRate", SqlDbType.Decimal).Value = c.triplerate;

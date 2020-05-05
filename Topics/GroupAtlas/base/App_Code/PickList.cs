@@ -443,6 +443,19 @@ namespace GM
             return list;
         }
 
+        public static List<PickList> GetOptionType()
+        {
+            List<PickList> list = new List<PickList>();
+            list.Add(new PickList("TAX"));
+            list.Add(new PickList("FEE"));
+            list.Add(new PickList("MSC"));
+            list.Add(new PickList("OTH"));
+            list.Add(new PickList("EXC"));
+
+            return list;
+        }
+
+
         public static List<PickList> GetBookingStatus()
         {
             List<PickList> list = new List<PickList>();

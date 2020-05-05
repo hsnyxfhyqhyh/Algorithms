@@ -32,7 +32,7 @@
                     Response.Redirect(string.Format("GroupView.aspx?groupid={0}&tabindex=6", groupid));
                 sOptionType = o.optionType;
                 optioncd.Text = o.optionCode;
-                optionType.Text = o.optionType;
+                
                 optionname.Text = o.optionName;
 
                 singlerate.Text = o.singlerate.ToString("#0.00");
@@ -53,7 +53,7 @@
             {
                 hdr.InnerHtml = string.Format("Group # {0} - Add Option With Inventory Control", groupid);
             }
-
+            Lookup.FillDropDown(optiontype, PickList.GetOptionType(), sOptionType, " ");
             cancel.Attributes["onclick"] = string.Format("javascript:window.location.href='GroupView.aspx?groupid={0}&tabindex=6';return false;", groupid);
         }
     }
@@ -79,9 +79,9 @@
             Response.Redirect(string.Format("GroupView.aspx?groupid={0}&tabindex=6", groupid));
         }
 
-        o.optionCode= optioncd.Text;
+        o.optionCode = ""; // optioncd.Text;
         o.optionName = optionname.Text;
-        o.optionType = optionType.Text;
+        o.optionType = optiontype.SelectedValue;
 
         o.singlerate = ConvDec(singlerate.Text);
         o.doublerate = ConvDec(doublerate.Text);
@@ -149,23 +149,26 @@
 		</tr>
 	</table>
 	<table cellspacing="0" cellpadding="2" border="0">
-        <tr>
+         <tr>
             <td width="150" class="tdlabel">Option Type:&nbsp;<span class="required">*</span></td>
-            <td><asp:textbox id="optionType" runat="server" Width="50"  MaxLength="5"></asp:textbox>
-                <asp:requiredfieldvalidator id="Requiredfieldvalidator2" runat="server" Display="Dynamic" CssClass="error" ControlToValidate="optionType" ErrorMessage="Option type is required">*</asp:requiredfieldvalidator>
-            </td>              
+            <td>
+				<asp:DropDownList Runat="server" Width="150px" ID="optiontype" />
+                <asp:requiredfieldvalidator id="Requiredfieldvalidator4" runat="server" Display="Dynamic" CssClass="error" ControlToValidate="optiontype" ErrorMessage="Option type is required">*</asp:requiredfieldvalidator>
+            </td>                
             <td class="required">* Required Fields</td>
         </tr>
+        <!--
         <tr>
             <td class="tdlabel">Option Code:&nbsp;<span class="required">*</span></td>
             <td><asp:textbox id="optioncd" runat="server" Width="50"  MaxLength="10"></asp:textbox>
-                <asp:requiredfieldvalidator id="Requiredfieldvalidator6" runat="server" Display="Dynamic" CssClass="error" ControlToValidate="optioncd" ErrorMessage="Package code is required">*</asp:requiredfieldvalidator>
+                
             </td>
         </tr>
+        -->
         <tr>
             <td class="tdlabel">Option Name:&nbsp;<span class="required">*</span></td>
             <td><asp:textbox id="optionname" runat="server" Width="300"  MaxLength="100"></asp:textbox>
-                <asp:requiredfieldvalidator id="Requiredfieldvalidator7" runat="server" Display="Dynamic" CssClass="error" ControlToValidate="optionname" ErrorMessage="Package name is required">*</asp:requiredfieldvalidator>
+                <asp:requiredfieldvalidator id="Requiredfieldvalidator7" runat="server" Display="Dynamic" CssClass="error" ControlToValidate="optionname" ErrorMessage="Option name is required">*</asp:requiredfieldvalidator>
             </td>
         </tr>
         <tr><td>&nbsp;</td></tr>
