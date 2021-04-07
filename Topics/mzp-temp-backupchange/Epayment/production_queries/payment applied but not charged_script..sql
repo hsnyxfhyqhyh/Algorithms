@@ -23,7 +23,25 @@ order by LocationCode , created desc
 
 --step2: 
 --WM Enroll: 
---WM my account
+			-- user: webmbr@014
+			-- save_cc,  no cc tran record
+			-- auth
+					--customerID:	cc token number (1017267569 )
+					--productDesc: 'Web Enroll'
+			-- capture 
+					-- customerID: 7 digit membershipid
+					-- product desc: 7 digit membershipid
+
+--WM my account: 
+			-- auth happened in wm (
+					--customerID:   is 16 digit membership id 4382121085326001 
+					--productDesc : 'WM My Account Payment'
+			-- capture happened mzp
+					-- customerID: 7 digit membershipid
+					-- product desc: 7 digit membershipid
+
+--MZP : 
+
 --Find the customer ID then set to following variable
 DECLARE @CustomerID varchar(25)
 Set @CustomerID = '7869607' -- can get the 16 digit membershipid from mzp 
