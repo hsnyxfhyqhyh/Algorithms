@@ -22,6 +22,7 @@ order by LocationCode , created desc
 --step1: end, do individual membership research , copy the membership id from CustomerID column of above data grid , and set the value to step2 , 
 
 --step2: 
+
 --WM Enroll: 
 			-- user: webmbr@014
 			-- save_cc,  no cc tran record
